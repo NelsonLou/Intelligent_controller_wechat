@@ -1,39 +1,51 @@
 //app.js
 App({
-  onLaunch: function () {
-    // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      }
-    })
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
+    onLaunch: function() {
+        // 获取系统信息
+        wx.getSystemInfo({
+            success: (res) => {
+                if (res.system.indexOf('ios') != -1) {
+                    this.globalData.isIos = true
+                } else {
+                    this.globalData.isIos = false
+                }
+                this.globalData.systemType = res.platform
+                let proportion = 750 / res.windowWidth,
+                    menuButtonObject = wx.getMenuButtonBoundingClientRect() // 获取胶囊按钮信息
+                this.globalData.menuBtnHeight = menuButtonObject.height * proportion // 胶囊按钮高度
+                this.globalData.menuButtonTop = menuButtonObject.top * proportion // 胶囊按钮距离顶部高度
+                this.globalData.windowHeight = res.windowHeight * proportion // 窗口高度
+                this.globalData.hasConnectList = wx.getStorageSync('hasConnectList') || []
+                this.globalData.scanFilters = wx.getStorageSync('scanFilters') || {}
             }
-          })
-        }
-      }
-    })
-  },
-  globalData: {
-    userInfo: null
-  }
+        })
+    },
+
+    globalData: {
+        // 用户信息
+        openId:'',
+        unionId:'',
+        
+        // 系统相关
+		menuBtnHeight: 0,
+		menuButtonTop: 0,
+		windowHeight: 0,
+        systemType: null,
+        netStatus: true, // 网络情况
+        
+        // 设备类
+        deviceMac:'', // 设备MAC
+        productKey:'', // 产品PK
+        hasConnectList:[], // 已连接设备列表
+        connectingDeviceId:'',  // 当前已连接设备
+        wifiInfo:{}, // wifi配置详情
+        deviceInfo:{}, // 当前已连接设备详情
+
+        // 滤芯复位
+        scanFilters:[], // 已扫码滤芯
+        deviceFilters: [], // 设备滤芯列表
+
+        // 用户
+        activePhone:'', // 激活手机号
+    }
 })

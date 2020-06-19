@@ -1,0 +1,147 @@
+.container {
+    background: #F7F9FC;
+}
+
+.BleList {
+    overflow: auto;
+    margin-top: 12rpx;
+    padding-left: 40rpx;
+    padding-right: 40rpx;
+    padding-bottom: 20rpx;
+}
+
+.normalImg{
+    width: 320rpx;
+    height: 320rpx;
+    display: block;
+    margin: 0 auto;
+    margin-top: 40rpx;
+}
+
+.normalBtn{
+    width: 420rpx;
+    height: 96rpx;
+    line-height: 96rpx;
+    background: #FFFFFF;
+    box-shadow: 0 12rpx 24rpx 0 rgba(74,144,251,0.06);
+    border-radius: 48rpx;
+    text-align: center;
+    font-family: PingFangSC-Regular;
+    font-size: 32rpx;
+    color: #1F9AD6;
+    margin-left: 120rpx;
+    margin-top: 16rpx;
+}
+
+.listBox{
+    margin-top: 40rpx;
+}
+
+.listTitle{
+    height: 40rpx;
+    font-family: PingFangSC-Semibold;
+    font-size: 32rpx;
+    color: #333333;
+    line-height: 40rpx;
+    position: relative;
+}
+
+.loadingIcon{
+    position: absolute;
+    width: 40rpx;
+    height: 40rpx;
+    left: 155rpx;
+}
+
+.listCard{
+    width: 590rpx;
+    min-height: 100rpx;
+    padding: 20rpx 40rpx;
+    background: #FFFFFF;
+    box-shadow: 0 12rpx 24rpx 0 rgba(57,104,176,0.08);
+    border-radius: 24rpx;
+    margin-top: 16rpx;
+}
+
+.deviceItem{
+    height: 104rpx;
+    line-height: 104rpx;
+    margin-top: 2rpx;
+}
+
+.arrowLeft{
+    width: 48rpx;
+    height: 48rpx;
+    margin-top: 28rpx;
+}
+
+.tips{
+    font-family: PingFangSC-Regular;
+    font-size: 32rpx;
+    color: #666666;
+    text-align: center;
+    line-height: 40rpx;
+    margin-top: 12rpx;
+}
+
+.tipsBtn{
+    font-family: PingFangSC-Regular;
+    font-size: 24rpx;
+    color: #1F9AD6;
+    text-align: center;
+    line-height: 40rpx;
+    margin-top: 20rpx;
+}
+
+.moreWay{
+    position: fixed;
+    height: 330rpx;
+    width: 670rpx;
+    left: 40rpx;
+    right: 40rpx;
+    bottom: 0rpx;
+}
+
+
+.moreCard{
+    height: 162rpx;
+    margin-top: 17rpx;
+    background: #FFFFFF;
+    box-shadow: 0 12rpx 24rpx 0 rgba(11,51,112,0.10);
+    border-radius: 24rpx;
+}
+
+.moreTips{
+    font-family: PingFangSC-Regular;
+    margin-top: 24rpx;
+    font-size: 24rpx;
+    color: #999999;
+}
+
+.moreCardImg{
+    width: 140rpx;
+    height: 140rpx;
+    margin-top: 11rpx;
+    margin-left: 32rpx;
+}
+
+.moreCardTxt{
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+    margin-left: 24rpx;
+}
+
+.moreCardTitle{
+    font-family: PingFangSC-Semibold;
+    font-size: 32rpx;
+    color: #333333;
+    margin-top: 21rpx;
+}
+
+.moreCardInfo{
+    font-family: PingFangSC-Regular;
+    font-size: 24rpx;
+    margin-top: 26rpx;
+    color: #999;
+}

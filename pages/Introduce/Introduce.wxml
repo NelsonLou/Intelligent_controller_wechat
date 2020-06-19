@@ -1,0 +1,16 @@
+<view class='container'>
+	<navBar title='功能说明' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
+	<view class='Introduce' style="height: {{bodyHeight}}rpx">
+		<view class="part">
+			<view class="title">功能A</view>
+			<view class="main">
+				说明内容说明内容说明内容说明内容说明
+				内容说明内容说明内容说明内容说明内容
+				说明内容说明内容说明内容说明内容说明
+				内容说明内容说明内容说明内容说明内容
+				说明内容说明内容说明内容说明内容说明
+				内容说明内容
+			</view>
+		</view>
+	</view>
+</view>

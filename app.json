@@ -1,14 +1,20 @@
 {
-  "pages":[
-    "pages/index/index",
-    "pages/logs/logs"
-  ],
-  "window":{
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle":"black"
-  },
-  "style": "v2",
-  "sitemapLocation": "sitemap.json"
+	"pages": [
+		"pages/YYOne/YYOne",
+		"pages/Introduce/Introduce",
+		"pages/index/index",
+		"pages/BleList/BleList"
+	],
+	"usingComponents": {
+		"van-dialog":"vant-weapp/dialog",
+		"navBar": "./components/navBar/navBar"
+	},
+	"window": {
+		"backgroundTextStyle": "light",
+		"navigationBarBackgroundColor": "#fff",
+		"navigationBarTitleText": "",
+		"navigationBarTextStyle": "black",
+		"navigationStyle": "custom"
+	},
+	"sitemapLocation": "sitemap.json"
 }

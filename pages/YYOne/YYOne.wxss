@@ -1,0 +1,212 @@
+.container {
+    background-image: linear-gradient(181deg, #af56d5 0%, #050091 100%);
+}
+
+.YYOne {
+    overflow: auto;
+    margin-top: 12rpx;
+}
+
+.instructionsBox {
+    margin-top: 20rpx;
+    margin-right: 36rpx;
+    width: 88rpx;
+}
+
+.instructionsIMG {
+    width: 80rpx;
+    height: 80rpx;
+    margin-left: 4rpx;
+}
+
+.instructionsTxt {
+    width: 88rpx;
+    font-family: PingFang SC;
+    font-size: 22rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0rpx;
+    color: #FFF;
+    text-align: center;
+    vertical-align: top;
+}
+
+.BigRoll {
+    width: 560rpx;
+    height: 560rpx;
+    margin-left: 96rpx;
+    position: relative;
+    overflow: auto;
+}
+
+.BigRoll .numBox {
+    width: 289rpx;
+    height: 289rpx;
+    margin-top: 180rpx;
+    margin-left: 135rpx;
+    position: relative;
+}
+
+.BigRoll .numBox .num {
+    display: inline-block;
+    font-family: SF Pro Display;
+    font-size: 154rpx;
+    line-height: 184rpx;
+    color: #ffffff;
+    margin-left: 48rpx;
+}
+
+.BigRoll .numBox .unit {
+    display: inline-block;
+    font-family: PingFang SC;
+    font-size: 40rpx;
+    color: #7a5a5a;
+    opacity: 0.9;
+    position: absolute;
+    top: 25rpx;
+    right: 10rpx;
+}
+
+.BigRoll .numBox .txt {
+    font-family: PingFang SC;
+    font-size: 28rpx;
+    color: #ffffff;
+    text-align: center;
+    vertical-align: top;
+}
+
+.BigRoll_bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.BigRoll_side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.BigRoll_plus {
+    width: 80rpx;
+    height: 80rpx;
+    margin-left: 200rpx;
+}
+
+.BigRoll_subtract {
+    width: 80rpx;
+    height: 80rpx;
+    margin-right: 200rpx;
+}
+
+.timerBox {
+    margin-top: 60rpx;
+    height: 181rpx;
+    padding: 0 36rpx;
+    position: relative;
+}
+
+.timerBox .title {
+    color: #FFF;
+}
+
+.timerBox .title .big {
+    width: 56rpx;
+    height: 40rpx;
+    font-family: PingFang SC;
+    font-size: 28rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 40rpx;
+    letter-spacing: 0px;
+    color: #ffffff;
+}
+
+.timerBox .title .big {
+    width: 56rpx;
+    height: 40rpx;
+    font-family: PingFang SC;
+    font-size: 28rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 40rpx;
+    letter-spacing: 0px;
+    color: #ffffff;
+}
+
+.timerBox .title .small {
+    width: 59rpx;
+    height: 30rpx;
+    font-family: PingFang SC;
+    font-size: 22rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 30rpx;
+    letter-spacing: 0px;
+    color: #ffffff;
+    opacity: 0.5;
+}
+
+.timerMain {
+    margin-top: 24rpx;
+    position: absolute;
+}
+
+.timerItem {
+    width: 48rpx;
+    height: 117rpx;
+    font-family: SF Pro Display;
+    font-size: 24rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 29rpx;
+    letter-spacing: 0px;
+    color: #ffffff;
+    text-align: center;
+    position: relative;
+}
+
+.timerItem .boll {
+    display: inline-block;
+    background-color: #925ee3;
+    border-radius: 20rpx;
+    height: 39rpx;
+    width: 39rpx;
+    position: absolute;
+    bottom: 5rpx;
+    left: 5rpx;
+    z-index: 999;
+}
+
+.marginleft {
+    margin-left: 73rpx;
+}
+
+.bollTimer {
+    width: 80rpx;
+    height: 80rpx;
+    margin-left: -20rpx;
+    margin-top: -20rpx;
+}
+
+.timerLine {
+    width: 598rpx;
+    height: 24rpx;
+    background-color: #ffffff;
+    position: absolute;
+    opacity: 0.12;
+    left: 40rpx;
+    top: 82rpx;
+}
+
+.power {
+    display: block;
+    width: 120rpx;
+    height: 120rpx;
+    margin: 0 auto;
+    margin-top: 100rpx;
+}
