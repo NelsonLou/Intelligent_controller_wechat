@@ -1,11 +1,14 @@
 const AppData = getApp().globalData;
-import BleReconnect from '../../utils/BLE/bleReconnect'
+const Utils = require('../../utils/util');
+import bleTools from '../../utils/bleTools'
 
 Page({
 	data: {
 		bodyHeight: 0,
 		act: '',
-		filterLevel: 0,
+		deviceMac: '', // 设备Mac
+		productModel: '', // 产品类型
+		timer: null,
 	},
 
 	// 初试流程:  设置高度=>获取code=>获取openId=>获取云备份数据=>查看是否有未完成复位
@@ -15,130 +18,171 @@ Page({
 		})
 	},
 
-	// 前往我的
-	handleGoMine: function () {
-		wx.navigateTo({
-			url: '../BleList/BleList?from=my',
-		})
-	},
-
-	// 获取用户openId
-	getOpenId: function (code) {
-		let that = this,
-			api = ApiList.getOpenIdAndUnionId,
-			para = {
-				code: code
-			};
-		Ajax('GET', api, para, res => {
-			AppData.openId = res.data.openId;
-			AppData.unionId = res.data.unionId;
-			that.getHasConnectList(res.data.openId)
-		}, err => {
-			console.log('获取OPENID异常', err)
-		})
-	},
-
-	// 获取设备连接记录
-	getHasConnectList: function (openId) {
-		let api = ApiList.userConnectList,
-			para = {
-				key: openId
-			}
-		Ajax('GET', api, para, res => {
-			let list = [],
-				value = res.data ? JSON.parse(res.data.value) : [],
-				flag = true
-			for (let i in value) {
-				flag = true
-				for (let t in list) {
-					if (list[t].showDeviceName == value[i].showDeviceName) {
-						flag = false
-					}
-				}
-				if (flag) {
-					list.push(value[i])
-				}
-			}
-			AppData.hasConnectList = list
-			wx.hideLoading({
-				complete: (res) => {
-					this.handleCheckUnfinish()
-				},
-			})
-		}, err => {
-			console.log('获取OpenId异常')
-		})
-	},
-
-	// 检查是否有未完成操作
-	handleCheckUnfinish: function () {
-		let form = wx.getStorageSync('unfinishFilterReset'),
-			that = this
-		if (form) {
-			console.log('未完成操作记录', JSON.parse(form))
-			wx.showModal({
-				title: '提示',
-				content: '您有未完成的复位操作，是否继续？',
-				success(res) {
-					if (res.confirm) {
-						form = JSON.parse(form);
-						AppData.connectingDeviceId = form.connectingDeviceId
-						AppData.deviceMac = form.deviceMac
-						AppData.productKey = form.productKey
-						AppData.deviceInfo = form.deviceInfo
-						AppData.deviceFilters = form.deviceFilters
-						AppData.scanFilters = form.scanFilters
-						that.handleReConnect()
-					} else if (res.cancel) {
-						wx.removeStorageSync('unfinishFilterReset')
-					}
-				}
-			})
-		}
-	},
-
-	// 回到复位操作
-	handleReConnect: function () {
-		let that = this
-		console.log('进入重连机制')
-		BleReconnect.reConnect(AppData.connectingDeviceId, function () {
-			that.handleGoResetFilter()
-		})
-	},
-
-	// 前往滤芯复位
-	handleGoResetFilter: function () {
-		wx.navigateTo({
-			url: '../FilterCourse/FilterCourse?from=reback',
-		})
-	},
-
-	// ================================
-
-	// 前往蓝牙连接
-	handleGoActive: function () {
-		wx.navigateTo({
-			url: '../BleList/BleList?from=active',
-		})
-	},
-
 	// 扫描滤芯二维码
 	handleGoScan: function () {
+		let that = this
 		wx.scanCode({
 			success: res => {
-				wx.showLoading({
-				  	title: '设备连接中',
-				})
-				setTimeout(function(){
-					wx.navigateTo({
-					  	url: '../ConnectionResult/ConnectionResult',
+				let result = res.result
+				if (result.split('mac=') && result.split('productModel=')) {
+					let mac = result.split('mac=')[1].split('&')[0],
+						productModel = result.split('productModel=')[1]
+					that.data.deviceMac = mac
+					that.data.productModel = productModel
+					that.handleCloseBle()
+				} else {
+					wx.showModal({
+						content: '请扫描正确的二维码',
+						showCancel: false
 					})
-				},1500)
+				}
 			},
 			fail: err => {
 				console.log(err)
 			},
 		})
 	},
+
+	// 关闭蓝牙连接
+	handleCloseBle: function () {
+		let that = this
+		wx.closeBluetoothAdapter({
+			fail(err) {
+				console.log('关闭蓝牙适配器异常', err)
+			},
+			complete() {
+				that.handleTestBlueTooth()
+			}
+		})
+	},
+
+	// 检测本机蓝牙状态
+	handleTestBlueTooth: function () {
+		let that = this
+		wx.openBluetoothAdapter({ // 检测当前是否已经处于蓝牙匹配
+			success: function (res) {
+				that.getBluetoothAdapterState()
+			},
+			fail: function (err) {
+				that.BleError()
+			}
+		})
+	},
+
+	// 检测本机蓝牙是否可用
+	getBluetoothAdapterState: function () {
+		var that = this;
+		wx.getBluetoothAdapterState({
+			success: function (res) {
+				if (res.available) {
+					that.handleFoundDevice()
+				} else {
+					that.BleError()
+				}
+			},
+			fail(err) {
+				that.BleError()
+			}
+		})
+	},
+
+	// 开始搜索蓝牙
+	handleFoundDevice: function () {
+		let that = this
+		wx.showLoading({
+			title: '搜索设备中',
+		})
+		wx.startBluetoothDevicesDiscovery({
+			success: function (res) {
+				that.handleOnDeviceFound()
+				that.data.timer = setTimeout(function () {
+					that.handleStopScan().then(res => {
+						wx.hideLoading()
+						wx.showModal({
+							content: '未发现设备',
+							cancelText: '确认',
+							confirmText: '重新搜索',
+							success: res => {
+								if (res.confirm) {
+									that.handleFoundDevice()
+								}
+							}
+						})
+					})
+				}, 15000)
+			},
+			fail: function (err) { }
+		})
+	},
+
+	// 当搜索到新设备
+	handleOnDeviceFound: function () {
+		let that = this,
+			name = ''
+		wx.onBluetoothDeviceFound(function (res) {
+			var devices = res.devices
+			console.log('发现设备',devices)
+			for (let i in devices) {
+				name = devices.name
+				if (name && name.length > 0 && name.toUpperCase == 'HJSMART') {
+					that.handleConnect(devices[i]);
+					break;
+				}
+			}
+		})
+	},
+
+	// 停止扫描设备
+	handleStopScan: function () {
+		let that = this
+		return new Promise(function (resolve, reject) {
+			wx.stopBluetoothDevicesDiscovery({
+				success: function (res) {
+					clearTimeout(that.data.timer)
+					that.setData({
+						timer: null
+					})
+				},
+				fail: function (err) {
+					wx.hideLoading()
+				},
+				complete: function () {
+					resolve()
+				}
+			})
+		})
+	},
+
+	handleConnect: function (device) {
+		let that = this
+		wx.showLoading({
+			title: '连接设备中',
+		})
+		that.handleStopScan().then(res => {
+			bleTools.handleConnect(device.deviceId).then(res => {
+				that.data.deviceId = device.deviceId
+				AppData.connectingDeviceId = device.deviceId
+				wx.hideLoading()
+				wx.navigateTo({
+					url: '../YYOne/YYOne',
+				})
+			}).catch(err => {
+				wx.hideLoading()
+				wx.showModal({
+					content: '设备连接失败，请稍后再试',
+					showCancel: false
+				})
+			})
+		})
+	},
+
+	// 蓝牙异常处理
+	BleError: function () {
+		wx.showModal({
+			content: '蓝牙功能异常，请检查蓝牙开关或微信蓝牙权限是否开启',
+			showCancel: false,
+			confirmText: '确定',
+		})
+	}
 
 })

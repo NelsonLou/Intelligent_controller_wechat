@@ -1,0 +1,33 @@
+<view class='container'>
+	<navBar title='YY01' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
+	<view class='YYOne' style="height: {{bodyHeight}}rpx">
+		<!-- 功能说明 -->
+		<view class="imagBox clearfloat" bindtap="goInroduce">
+			<view class="instructionsBox right">
+				<image class="instructionsIMG" src="../../assets/yy02_functional_specification.png"></image>
+				<text class="instructionsTxt">功能说明</text>
+			</view>
+		</view>
+		<!-- 加热按钮 -->
+		<view class="bigRoll">
+			<image class="bg" src="../../assets/yy02_dial_mask.png"></image>
+			<view class="gear1 {{gear == 1?'chose':''}}" data-flag="1" bindtap="handleGear">1档</view>
+			<view class="gear2 {{gear == 2?'chose':''}}" data-flag="2" bindtap="handleGear">2档</view>
+			<view class="gear3 {{gear == 3?'chose':''}}" data-flag="3" bindtap="handleGear">3档</view>
+			<view class="gear4 {{gear == 4?'chose':''}}" data-flag="4" bindtap="handleGear">4档</view>
+			<view class="gear5 {{gear == 5?'chose':''}}" data-flag="5" bindtap="handleGear">5档</view>
+			<view class="btn" data-flag="0" bindtap="handleGear">
+				<image class="icon" src="../../assets/yy02_heating.png"></image>
+				<text>加热</text>
+			</view>
+		</view> 
+		<view class="timer">
+			<view class="title">定时</view>
+			<view class="list">
+				<view class="item {{'item'+idx}} {{timer -1 == idx?'chose':''}}" wx:for='{{timers}}' wx:for-item="item" wx:for-index='idx' wx:key='idx' data-time="{{idx + 1}}" bindtap="handleSwitchTimer">{{item}}小时</view>
+			</view>
+		</view>
+		<!-- 电源 -->
+		<image class="power" bindtap="handleSwichPower" src="../../assets/yy02_power_switch_{{power?'on':'off'}}.png"></image>
+	</view>
+</view>

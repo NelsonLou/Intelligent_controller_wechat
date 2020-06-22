@@ -1,4 +1,5 @@
 const AppData = getApp().globalData;
+const Utils = require('../../utils/util');
 import BleTools from '../../utils/bleTools.js';
 
 Page({
@@ -13,6 +14,7 @@ Page({
 		this.setData({
 			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
 		})
+		that.getBLEDeviceServices()
 	},
 
 	onShow: function () {
@@ -59,9 +61,37 @@ Page({
 		});
 	},
 
-	goInroduce: function(){
+	goInroduce: function () {
 		wx.navigateTo({
-		  	url: '../Introduce/Introduce',
+			url: '../Introduce/Introduce',
+		})
+	},
+
+	//  测试主板
+	getBLEDeviceServices: function () {
+		wx.showLoading({
+		  	title: '正在写入数据',
+		})
+		BleTools.getCharacteristicsValue(AppData.connectingDeviceId, 'AE00', 'AE01').then(res => {
+			let value = Utils.hex2ab('A00100000702011E0302000A6EE8EF')
+			BleTools.handleWrite(AppData.connectingDeviceId, res.serviceId, res.characteristicId, value).then(res=>{
+				wx.hideLoading()
+				wx.showToast({
+				  	title: '写入成功',
+				})
+			}).catch(err=>{
+				wx.hideLoading()
+				wx.showModal({
+					content: '写入失败',
+				  	showCancel: false,
+				})
+			})
+		}).catch(err=>{
+			wx.hideLoading()
+			wx.showModal({
+				content: '读取特征值失败',
+				  showCancel: false,
+			})
 		})
 	}
 })

@@ -16,7 +16,7 @@
 .home{
   padding-left: 40rpx;
   padding-right: 40rpx;
-  margin-bottom: 16rpx;
+  overflow: hidden;
 }
 
 .title{

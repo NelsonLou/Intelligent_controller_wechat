@@ -22,30 +22,20 @@ App({
     },
 
     globalData: {
-        // 用户信息
-        openId:'',
-        unionId:'',
-        
         // 系统相关
 		menuBtnHeight: 0,
 		menuButtonTop: 0,
 		windowHeight: 0,
         systemType: null,
-        netStatus: true, // 网络情况
         
         // 设备类
         deviceMac:'', // 设备MAC
-        productKey:'', // 产品PK
         hasConnectList:[], // 已连接设备列表
         connectingDeviceId:'',  // 当前已连接设备
-        wifiInfo:{}, // wifi配置详情
         deviceInfo:{}, // 当前已连接设备详情
 
-        // 滤芯复位
-        scanFilters:[], // 已扫码滤芯
-        deviceFilters: [], // 设备滤芯列表
-
-        // 用户
-        activePhone:'', // 激活手机号
+        // 设备类
+        writeService:[],
+        readService:[],
     }
 })

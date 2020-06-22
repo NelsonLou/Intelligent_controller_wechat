@@ -1,0 +1,15 @@
+<view class='container'>
+	<navBar title='yy04' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
+	<view class='YYFour' style="height: {{bodyHeight}}rpx">
+	<!-- 功能说明 -->
+		<view class="imagBox clearfloat" bindtap="goInroduce">
+			<view class="instructionsBox right">
+				<image class="instructionsIMG" src="../../assets/yy04_functional_specification.png"></image>
+				<text class="instructionsTxt">功能说明</text>
+			</view>
+		</view>
+		<!-- 模式 -->
+        <!-- 电源 -->
+        <image class="power" bindtap="handleSwichPower" src="../../assets/yy04_power_switch_{{power?'on':'off'}}.png"></image>
+	</view>
+</view>

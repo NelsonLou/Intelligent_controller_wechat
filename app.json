@@ -1,8 +1,12 @@
 {
 	"pages": [
+		"pages/index/index",
+		"pages/YYFour/YYFour",
+		"pages/YYThree/YYThree",
+		"pages/YYTwo/YYTwo",
+		"pages/Common/Common",
 		"pages/YYOne/YYOne",
 		"pages/Introduce/Introduce",
-		"pages/index/index",
 		"pages/BleList/BleList"
 	],
 	"usingComponents": {

@@ -1,0 +1,48 @@
+<view class='container'>
+	<navBar title='yy03' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
+	<view class='YYThree' style="height: {{bodyHeight}}rpx">
+		<!-- 功能说明 -->
+		<view class="imagBox clearfloat">
+			<view class="instructionsBox right">
+				<image class="instructionsIMG" src="../../assets/yy03_functional_specification.png" bindtap="goInroduce"></image>
+				<text class="instructionsTxt">功能说明</text>
+			</view>
+		</view>
+		<!-- 温表 -->
+		<view class="thermometer">
+			<view class="BigRoll">
+				<view class="numBox">
+					<view class="txt">加热</view>
+					<view class="num">{{temperature}}</view>
+					<view class="unit">℃</view>
+				</view>
+				<image class="BigRoll_bg" src="../../assets/yy03_dial_bg.png"></image>
+				<image class="BigRoll_side" src="../../assets/yy03_dial_{{temperature}}.png"></image>
+			</view>
+		</view>
+		<!-- 温控 -->
+		<view class="buttonBox clearfloat">
+			<image bindtap="handleAdd" class="BigRoll_plus left" src="../../assets/yy03_power_switch_on.png"></image>
+			<image bindtap="handleSub" class="BigRoll_subtract right" src="../../assets/yy03_power_switch_on.png"></image>
+		</view>
+		<!-- 定时 -->
+		<view class="timerBox">
+			<view class="title">
+				<text class="big">定时</text>
+				<text class="small">（分钟）</text>
+			</view>
+			<view class="timerLine">
+				<text style="margin-left: 49rpx">10</text>
+				<text style="margin-left: 85rpx">20</text>
+				<text style="margin-left: 85rpx">30</text>
+				<text style="margin-left: 85rpx">40</text>
+				<text style="margin-left: 85rpx">50</text>
+				<text style="margin-left: 85rpx">60</text>
+			</view>
+			<view class="choseBox" style="left: {{timing==10?54:timing==20?164:timing==30?277:timing==40?390:timing==50?500:614}}rpx">{{timing}}</view>
+			<image class="timerBar" src="../../assets/yy03_timing_scale.png"></image>
+		</view>
+		<!-- 电源 -->
+		<image class="power" bindtap="handleSwichPower" src="../../assets/yy03_power_switch_{{power?'on':'off'}}.png"></image>
+	</view>
+</view>

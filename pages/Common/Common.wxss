@@ -1,0 +1,40 @@
+.container {
+    background-image: linear-gradient(181deg, #af56d5 0%, #050091 100%);
+}
+
+.YYOne {
+    overflow: auto;
+    margin-top: 12rpx;
+}
+
+.instructionsBox {
+    margin-top: 20rpx;
+    margin-right: 36rpx;
+    width: 88rpx;
+}
+
+.instructionsIMG {
+    width: 80rpx;
+    height: 80rpx;
+    margin-left: 4rpx;
+}
+
+.instructionsTxt {
+    width: 88rpx;
+    font-family: PingFang SC;
+    font-size: 22rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0rpx;
+    color: #FFF;
+    text-align: center;
+    vertical-align: top;
+}
+
+.power {
+    display: block;
+    width: 120rpx;
+    height: 120rpx;
+    margin: 0 auto;
+    margin-top: 100rpx;
+}
