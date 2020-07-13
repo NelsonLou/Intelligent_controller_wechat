@@ -1,6 +1,7 @@
 const AppData = getApp().globalData;
 const Utils = require('../../utils/util');
-import bleTools from '../../utils/bleTools'
+const AesTools = require('../../utils/aesTools')
+import BleTools from '../../utils/bleTools'
 
 Page({
 	data: {
@@ -21,26 +22,26 @@ Page({
 	// 扫描滤芯二维码
 	handleGoScan: function () {
 		let that = this
-		wx.scanCode({
-			success: res => {
-				let result = res.result
-				if (result.split('mac=') && result.split('productModel=')) {
-					let mac = result.split('mac=')[1].split('&')[0],
-						productModel = result.split('productModel=')[1]
-					that.data.deviceMac = mac
-					that.data.productModel = productModel
-					that.handleCloseBle()
-				} else {
-					wx.showModal({
-						content: '请扫描正确的二维码',
-						showCancel: false
-					})
-				}
-			},
-			fail: err => {
-				console.log(err)
-			},
-		})
+		// wx.scanCode({
+		// 	success: res => {
+		// 		let result = res.result
+		// 		if (result.split('mac=') && result.split('productModel=')) {
+		// 			let mac = result.split('mac=')[1].split('&')[0],
+		// 				productModel = result.split('productModel=')[1]
+		// 			that.data.deviceMac = mac
+		// 			that.data.productModel = productModel
+		that.handleCloseBle()
+		// 		} else {
+		// 			wx.showModal({
+		// 				content: '请扫描正确的二维码',
+		// 				showCancel: false
+		// 			})
+		// 		}
+		// 	},
+		// 	fail: err => {
+		// 		console.log(err)
+		// 	},
+		// })
 	},
 
 	// 关闭蓝牙连接
@@ -121,10 +122,8 @@ Page({
 			name = ''
 		wx.onBluetoothDeviceFound(function (res) {
 			var devices = res.devices
-			console.log('发现设备',devices)
 			for (let i in devices) {
-				name = devices.name
-				if (name && name.length > 0 && name.toUpperCase == 'HJSMART') {
+				if (devices[i].name && devices[i].name == 'YouYuan') {
 					that.handleConnect(devices[i]);
 					break;
 				}
@@ -153,26 +152,65 @@ Page({
 		})
 	},
 
+	// 连接设备
 	handleConnect: function (device) {
 		let that = this
 		wx.showLoading({
 			title: '连接设备中',
 		})
 		that.handleStopScan().then(res => {
-			bleTools.handleConnect(device.deviceId).then(res => {
+			BleTools.handleConnect(device.deviceId).then(res => {
 				that.data.deviceId = device.deviceId
 				AppData.connectingDeviceId = device.deviceId
-				wx.hideLoading()
-				wx.navigateTo({
-					url: '../YYOne/YYOne',
-				})
+				that.handleWatchValue()
+				// wx.navigateTo({
+				// 	url: '../YYOne/YYOne',
+				// })
 			}).catch(err => {
+				console.log(err);
 				wx.hideLoading()
 				wx.showModal({
 					content: '设备连接失败，请稍后再试',
 					showCancel: false
 				})
 			})
+		})
+	},
+
+	// 获取特征值变化值
+	handleWatchValue: function () {
+		let that = this
+		wx.onBLECharacteristicValueChange(function (res) {
+			that.handleDealReadResult(res)
+		})
+		this.handleAuth()
+	},
+
+	// 设备校验
+	handleAuth: function () {
+		let that = this,
+			originPwd = Utils.randomString(),
+			pwd = AesTools.handleEncryptCBC(originPwd)
+		AppData.originPwd = originPwd
+		AppData.pwd = pwd
+		console.log('生成随机密钥', originPwd);
+		console.log('生成随机密钥hex', Utils.string2hex(originPwd));
+		console.log('生成加密密钥', pwd);
+		BleTools.getCharacteristicsValue(that.data.deviceId, 'AE00', 'AE07').then(res => {
+			BleTools.handleWrite(that.data.deviceId, res.serviceId, res.characteristicId, Utils.hex2ab(pwd)).then(() => {
+				BleTools.handleRead(that.data.deviceId, res.serviceId, res.characteristicId)
+			})
+		}).catch(err => {
+			console.log('鉴权异常', err)
+		})
+	},
+
+	// 处理读取结果
+	handleDealReadResult: function (data) {
+		console.log('读取', data)
+		console.log('读取', Utils.ab2hex(data.value));
+		wx.navigateTo({
+			url: '../YYOne/YYOne',
 		})
 	},
 

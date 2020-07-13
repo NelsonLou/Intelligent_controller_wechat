@@ -1,11 +1,11 @@
 {
 	"pages": [
 		"pages/index/index",
+		"pages/YYOne/YYOne",
 		"pages/YYFour/YYFour",
 		"pages/YYThree/YYThree",
 		"pages/YYTwo/YYTwo",
 		"pages/Common/Common",
-		"pages/YYOne/YYOne",
 		"pages/Introduce/Introduce",
 		"pages/BleList/BleList"
 	],

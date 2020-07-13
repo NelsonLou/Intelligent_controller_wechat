@@ -1,4 +1,4 @@
-
+const AppData = getApp().globalData;
 // 连接设备
 const handleConnect = function (deviceId) {
 	wx.showLoading({
@@ -10,6 +10,7 @@ const handleConnect = function (deviceId) {
 			deviceId,
 			time: 1500,
 			success: function (res) {
+				AppData.connectingDeviceId = deviceId
 				resolve(deviceId)
 			},
 			fail: function (err) {

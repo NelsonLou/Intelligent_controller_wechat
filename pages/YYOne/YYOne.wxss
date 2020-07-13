@@ -60,7 +60,7 @@
     display: inline-block;
     font-family: PingFang SC;
     font-size: 40rpx;
-    color: #7a5a5a;
+    color: #fff;
     opacity: 0.9;
     position: absolute;
     top: 25rpx;

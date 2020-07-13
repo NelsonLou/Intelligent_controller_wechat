@@ -1,51 +1,13 @@
 
-const formatTime = date => {
-	const year = date.getFullYear()
-	const month = date.getMonth() + 1
-	const day = date.getDate()
-	const hour = date.getHours()
-	const minute = date.getMinutes()
-	const second = date.getSeconds()
-	return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
-}
-
-const formatNumber = n => {
-	n = n.toString()
-	return n[1] ? n : '0' + n
-}
-
-// 检查网络
-const handleCheckNet = () => {
-	// return new Promise(function(resolve, reject){
-	// 	wx.request({
-	// 	  	url: ApiList.,
-	// 	})
-	// })
-}
-
-// 获取wxcode
-const getWxCode = () => {
-	let app = getApp()
-	wx.login({
-		success: res => {
-			app.globalData.wxCode = res.code
-			wx.setStorageSync('wxCode', JSON.stringify(res.code))
-		}
-	})
-}
-
-// 弹窗提示
-const toast = function (msg, fun) {
-	wx.showModal({
-		title: '',
-		content: msg,
-		showCancel: false,
-		success: res => {
-			if (fun) {
-				fun()
-			}
-		}
-	})
+const randomString = function () {
+	let len = 16;
+	var $chars = 'abcdefhijkmnprstwxyz12345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+	var maxPos = $chars.length;
+	var pwd = '';
+	for (let i = 0; i < len; i++) {
+		pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+	}
+	return pwd;
 }
 
 const ab2hex = function (buffer) {
@@ -66,11 +28,11 @@ const hex2ab = function (hex) {
 	return buffer
 }
 
-const int2hex = function(num){
+const int2hex = function (num) {
 	let str = num.toString(16).toUpperCase()
-	if(str.length<2){
-		return '0'+str
-	}else{
+	if (str.length < 2) {
+		return '0' + str
+	} else {
 		return str
 	}
 };
@@ -97,34 +59,34 @@ const hex2string = function (longhex) {
 	return str
 }
 
-const string2BitArr = function(string){
+const string2BitArr = function (string) {
 	let arr = []
-	for(let i = 0;i<string.length;i++){
+	for (let i = 0; i < string.length; i++) {
 		arr.push(parseInt(string[i].charCodeAt()))
 	}
-	return arr 
+	return arr
 }
 
-const hex2Int= function(hex) {
-    var len = hex.length, a = new Array(len), code;
-    for (var i = 0; i < len; i++) {
-        code = hex.charCodeAt(i);
-        if (48<=code && code < 58) {
-            code -= 48;
-        } else {
-            code = (code & 0xdf) - 65 + 10;
-        }
-        a[i] = code;
-    }
-     
-    return a.reduce(function(acc, c) {
-        acc = 16 * acc + c;
-        return acc;
-    }, 0);
+const hex2Int = function (hex) {
+	var len = hex.length, a = new Array(len), code;
+	for (var i = 0; i < len; i++) {
+		code = hex.charCodeAt(i);
+		if (48 <= code && code < 58) {
+			code -= 48;
+		} else {
+			code = (code & 0xdf) - 65 + 10;
+		}
+		a[i] = code;
+	}
+
+	return a.reduce(function (acc, c) {
+		acc = 16 * acc + c;
+		return acc;
+	}, 0);
 }
 
 // 获取激活码异常的处理
-const activeErrorDeal = function(code){
+const activeErrorDeal = function (code) {
 	switch (code) {
 		case -100:
 			return "激活失败"
@@ -148,13 +110,13 @@ const activeErrorDeal = function(code){
 }
 
 module.exports = {
-	formatTime: formatTime,
 	hex2string: hex2string,
 	string2hex: string2hex,
 	ab2hex: ab2hex,
 	hex2ab: hex2ab,
-	hex2Int:hex2Int,
+	hex2Int: hex2Int,
 	string2BitArr: string2BitArr,
 	activeErrorDeal: activeErrorDeal,
 	int2hex: int2hex,
+	randomString: randomString,
 }

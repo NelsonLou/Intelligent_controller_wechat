@@ -27,6 +27,10 @@ App({
 		menuButtonTop: 0,
 		windowHeight: 0,
         systemType: null,
+
+        // 全局
+        originPwd: null,
+        pwd: null,
         
         // 设备类
         deviceMac:'', // 设备MAC
