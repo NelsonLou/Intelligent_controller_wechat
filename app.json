@@ -1,9 +1,10 @@
 {
 	"pages": [
+		"pages/YYFive/YYFive",
 		"pages/index/index",
-		"pages/YYOne/YYOne",
 		"pages/YYFour/YYFour",
 		"pages/YYThree/YYThree",
+		"pages/YYOne/YYOne",
 		"pages/YYTwo/YYTwo",
 		"pages/Common/Common",
 		"pages/Introduce/Introduce",

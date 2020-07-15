@@ -1,5 +1,5 @@
 .container {
-    background-image: linear-gradient(181deg, #277efd 0%,#5097fd 100%);
+    background-image: linear-gradient(181deg, #277efd 0%, #5097fd 100%);
 }
 
 .YYFour {
@@ -37,4 +37,226 @@
     height: 120rpx;
     margin: 0 auto;
     margin-top: 100rpx;
+}
+
+.centerBox {
+    padding-left: 48rpx;
+    padding-right: 48rpx;
+}
+
+.modelChoseBox {
+    width: 442rpx;
+    height: 442rpx;
+    border-radius: 221rpx;
+    background-color: #fff;
+    position: relative;
+}
+
+.modelChoseBg {
+    width: 442rpx;
+    height: 442rpx;
+}
+
+.modelBtn {
+    position: absolute;
+}
+
+.model1 {
+    left: 90rpx;
+    top: 110rpx;
+}
+
+.model3 {
+    left: 90rpx;
+    bottom: 110rpx;
+}
+
+.model2 {
+    right: 90rpx;
+    top: 110rpx;
+}
+
+.model4 {
+    right: 90rpx;
+    bottom: 110rpx;
+}
+
+.powerSwitch {
+    width: 146rpx;
+    height: 400rpx;
+    background-color: #74acfd;
+    box-shadow: 0rpx 0rpx 40rpx 0rpx rgba(0, 90, 222, 0.4);
+    border-radius: 16rpx;
+    margin-top: 20rpx;
+    padding: 24rpx 20rpx;
+    color: #ffffff;
+    position: relative;
+}
+
+.powerSwitch .title {
+    font-family: PingFang SC;
+    font-size: 28rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 40rpx;
+    letter-spacing: 0rpx;
+    opacity: 1;
+}
+
+.powerSwitch .left {
+    width: 24rpx;
+    height: 275rpx;
+    background-color: #8dbbfe;
+    border-radius: 24rpx;
+    margin-top: 45rpx;
+    margin-left: 15rpx;
+    vertical-align: bottom;
+}
+
+.powerSwitch .high {
+    position: absolute;
+    top: 100rpx;
+    right: 50rpx;
+    height: 40rpx;
+    width: 113rpx;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.powerSwitch .center {
+    position: absolute;
+    top: 225rpx;
+    right: 50rpx;
+    height: 40rpx;
+    width: 113rpx;
+    text-align: right;
+}
+
+.powerSwitch .low {
+    position: absolute;
+    top: 350rpx;
+    right: 50rpx;
+    height: 40rpx;
+    width: 113rpx;
+    text-align: right;
+}
+
+.powerSwitch .boll {
+    width: 18rpx;
+    height: 18rpx;
+    background-color: #65d9ff;
+    border: solid 16rpx #ffffff;
+    border-radius: 25rpx;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: -5rpx;
+}
+
+.lineCenter {
+    background-color: #65d9ff;
+    width: 100%;
+    border-radius: 100rpx;
+}
+
+
+.timerBox {
+    margin-top: 60rpx;
+    height: 181rpx;
+    padding: 0 36rpx;
+    position: relative;
+}
+
+.timerBox .title {
+    color: #FFF;
+}
+
+.timerBox .title .big {
+    width: 56rpx;
+    height: 40rpx;
+    font-family: PingFang SC;
+    font-size: 28rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 40rpx;
+    letter-spacing: 0px;
+    color: #ffffff;
+}
+
+.timerBox .title .big {
+    width: 56rpx;
+    height: 40rpx;
+    font-family: PingFang SC;
+    font-size: 28rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 40rpx;
+    letter-spacing: 0px;
+    color: #ffffff;
+}
+
+.timerBox .title .small {
+    width: 59rpx;
+    height: 30rpx;
+    font-family: PingFang SC;
+    font-size: 22rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 30rpx;
+    letter-spacing: 0px;
+    color: #ffffff;
+    opacity: 0.5;
+}
+
+
+.timerMain {
+    margin-top: 24rpx;
+    position: absolute;
+}
+
+.timerItem {
+    width: 48rpx;
+    height: 117rpx;
+    font-family: SF Pro Display;
+    font-size: 24rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 29rpx;
+    letter-spacing: 0px;
+    color: #ffffff;
+    text-align: center;
+    position: relative;
+}
+
+.timerItem .boll {
+    display: inline-block;
+    background-color: #d8e8fe;
+    border-radius: 20rpx;
+    height: 39rpx;
+    width: 39rpx;
+    position: absolute;
+    bottom: 5rpx;
+    left: 5rpx;
+    z-index: 999;
+}
+
+.marginleft {
+    margin-left: 73rpx;
+}
+
+.bollTimer {
+    width: 80rpx;
+    height: 80rpx;
+    margin-left: -20rpx;
+    margin-top: -20rpx;
+}
+
+.timerLine {
+    width: 598rpx;
+    height: 24rpx;
+    background-color: #ffffff;
+    position: absolute;
+    opacity: 0.12;
+    left: 40rpx;
+    top: 82rpx;
 }

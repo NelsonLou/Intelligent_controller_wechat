@@ -7,8 +7,8 @@ Page({
 	data: {
 		power: false, // 控制开关
 		bodyHeight: 0, // 屏幕高度
-		temperature: 30, // 当前温度
-		timing: 10, // 定时器
+		temperature: 0, // 当前温度
+		timing: 0, // 定时器
 		act: '', // 当前读取值
 		deviceId: '',
 		lastReadValue: [], // 最近一次监听的设备服务以及特征值
@@ -36,9 +36,19 @@ Page({
 	// 增加温度
 	handleAdd: function () {
 		let temperature = this.data.temperature
-		if (temperature < 50) {
+		if (!this.data.power) {
+			wx.showToast({
+				title: '设备未开机',
+				icon: 'none',
+			})
+		} else if (temperature < 50) {
+			wx.showLoading({
+				title: '设置中'
+			})
 			this.setData({
 				temperature: temperature + 5
+			}, () => {
+				this.handleSetTemp(temperature + 5)
 			})
 		}
 	},
@@ -46,18 +56,38 @@ Page({
 	// 减少温度
 	handleSub: function () {
 		let temperature = this.data.temperature
-		if (temperature > 30) {
+		if (!this.data.power) {
+			wx.showToast({
+				title: '设备未开机',
+				icon: 'none',
+			})
+		} else if (temperature > 30) {
+			wx.showLoading({
+				title: '设置中'
+			})
 			this.setData({
 				temperature: temperature - 5
+			}, () => {
+				this.handleSetTemp(temperature - 5)
 			})
 		}
 	},
 
 	// 切换定时
 	handleSwitchTimer: function (e) {
-		if (this.data.timing != e.currentTarget.dataset.time) {
+		if (!this.data.power) {
+			wx.showToast({
+				title: '设备未开机',
+				icon: 'none',
+			})
+		} else if (this.data.timing != e.currentTarget.dataset.time) {
+			wx.showLoading({
+				title: '设置中'
+			})
 			this.setData({
 				timing: e.currentTarget.dataset.time
+			}, () => {
+				this.handleSetTiming(Number(e.currentTarget.dataset.time))
 			})
 		}
 	},
@@ -86,7 +116,7 @@ Page({
 	handleWatchValue: function () {
 		let that = this;
 		wx.onBLECharacteristicValueChange(function (res) {
-			BleTools.handleUnNotify(that.data.deviceId, that.data.lastReadValue[0], that.data.lastReadValue[1])
+			// BleTools.handleUnNotify(that.data.deviceId, that.data.lastReadValue[0], that.data.lastReadValue[1])
 			that.handleDealReadResult(res);
 		})
 	},
@@ -98,16 +128,77 @@ Page({
 		})
 		let that = this,
 			deviceId = this.data.deviceId,
-			value = act ? 30 : 0;
-		console.log('写入定时器30');
-		DeviceFunction.handleTimer(deviceId, value).then(() => { // 写入30分钟定时
-			console.log('写入温控30');
-			DeviceFunction.handleTemperature(deviceId, value); // 写入温度控制为30度
+			timing = act ? 30 : 0,
+			temp = act ? 40 : 0;
+		DeviceFunction.handleTimer(deviceId, timing).then(() => { // 写入30分钟定时
+			DeviceFunction.handleTemperature(deviceId, temp); // 写入温度控制为30度
 		}).then(() => {
-			if (act) {
-				that.handleReadTimer();
-			}
+			that.setData({
+				temperature: temp,
+				timing: timing
+			}, () => {
+				wx.hideLoading({
+					success: (res) => {
+						wx.showToast({
+							title: (act ? '开启' : '关机') + '完成',
+						})
+					},
+				})
+			})
+			// if (act) {
+			// 	that.handleReadTimer();
+			// }
+		}).catch(err => {
+			console.log(err)
 		})
+	},
+
+	// 设置温度
+	handleSetTemp: function (temp) {
+		let deviceId = this.data.deviceId;
+		DeviceFunction.handleTemperature(deviceId, temp).then(res => {
+			wx.hideLoading({
+				success: (res) => {
+					wx.showToast({
+						title: '设置完成',
+					})
+				},
+			})
+		}).catch(err => {
+			console.log('异常', err)
+			wx.hideLoading({
+				success: (res) => {
+					wx.showToast({
+						title: '设置失败',
+						icon: 'none',
+					})
+				},
+			})
+		});
+	},
+
+	// 设置定时
+	handleSetTiming: function (timing) {
+		let deviceId = this.data.deviceId;
+		DeviceFunction.handleTimer(deviceId, timing).then(res => {
+			wx.hideLoading({
+				success: (res) => {
+					wx.showToast({
+						title: '设置完成',
+					})
+				},
+			})
+		}).catch(err => {
+			console.log('异常', err)
+			wx.hideLoading({
+				success: (res) => {
+					wx.showToast({
+						title: '设置失败',
+						icon: 'none',
+					})
+				},
+			})
+		});
 	},
 
 	// 读取当前定时
@@ -117,7 +208,7 @@ Page({
 		console.log('读取定时器');
 		BleTools.getCharacteristicsValue(deviceId, 'AE00', 'AE02').then(resService => {
 			that.setData({
-				act: 'timer',
+				act: 'iniTtimer',
 				lastReadValue: [resService.serviceId, resService.characteristicId]
 			}, () => {
 				BleTools.handleRead(deviceId, resService.serviceId, resService.characteristicId);
@@ -134,7 +225,7 @@ Page({
 		console.log('读取温度');
 		BleTools.getCharacteristicsValue(deviceId, 'AE00', 'AE01').then(resService => {
 			that.setData({
-				act: 'temp',
+				act: 'initTemp',
 				lastReadValue: [resService.serviceId, resService.characteristicId]
 			}, () => {
 				BleTools.handleRead(deviceId, resService.serviceId, resService.characteristicId);
@@ -149,11 +240,11 @@ Page({
 		let act = this.data.act,
 			value = Utils.ab2hex(data.value);
 		switch (act) {
-			case 'timer':
+			case 'iniTtimer':
 				console.log('定时', value)
 				this.handleReadTamp()
 				break;
-			case 'temp':
+			case 'initTemp':
 				console.log('温度', value)
 				break;
 			default:

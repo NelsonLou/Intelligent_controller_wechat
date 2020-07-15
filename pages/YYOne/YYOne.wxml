@@ -22,8 +22,8 @@
 		</view>
         <!-- 温控 -->
 		<view class="buttonBox clearfloat">
-			<image bindtap="handleAdd" class="BigRoll_plus left" src="../../assets/yy01_plus.png"></image>
-			<image bindtap="handleSub" class="BigRoll_subtract right" src="../../assets/yy01_subtract.png"></image>
+			<image bindtap="handleSub" class="BigRoll_plus left" src="../../assets/yy01_subtract.png"></image>
+			<image bindtap="handleAdd" class="BigRoll_subtract right" src="../../assets/yy01_plus.png"></image>
 		</view>
         <!-- 定时 -->
 		<view class="timerBox">

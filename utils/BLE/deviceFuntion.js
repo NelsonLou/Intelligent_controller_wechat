@@ -4,7 +4,6 @@ const timerService = ['AE00', 'AE02'];
 const massageService = ['AE00', 'AE03'];
 const ventilationService = ['AE00', 'AE04'];
 const kneadService = ['AE00', 'AE05'];
-
 import BleTools from '../bleTools';
 
 // 温控
@@ -12,6 +11,7 @@ import BleTools from '../bleTools';
 const handleTemperature = function (deviceId, temp) {
 	return new Promise(function (resolve, reject) {
 		BleTools.getCharacteristicsValue(deviceId, heatService[0], heatService[1]).then(resService => {
+			console.log('写入温度', temp, Utils.hex2ab(Utils.int2hex(temp)))
 			let value = Utils.hex2ab(Utils.int2hex(temp))
 			BleTools.handleWrite(deviceId, resService.serviceId, resService.characteristicId, value).then(() => {
 				resolve()
@@ -29,6 +29,7 @@ const handleTemperature = function (deviceId, temp) {
 const handleTimer = function (deviceId, time) {
 	return new Promise(function (resolve, reject) {
 		BleTools.getCharacteristicsValue(deviceId, timerService[0], timerService[1]).then(resService => {
+			console.log('写入时间', time, Utils.hex2ab(Utils.int2hex(time)))
 			let value = Utils.hex2ab(Utils.int2hex(time))
 			BleTools.handleWrite(deviceId, resService.serviceId, resService.characteristicId, value).then(() => {
 				resolve()
@@ -45,6 +46,9 @@ const handleTimer = function (deviceId, time) {
 // 第 1 个字节:按摩模式，'01/'02/'03/'04/'05 代表模式 1-4 及默认模式 
 // 第 2 个字节:按摩力度，'01/'02/'03 代表按摩力度高、中、低
 const handleMassage = function (deviceId, model, degree) {
+	model = '0' + model
+	degree = '0' + degree
+	console.log('写入按摩', model, degree);
 	return new Promise(function (resolve, reject) {
 		BleTools.getCharacteristicsValue(deviceId, ventilationService[0], ventilationService[1]).then(resService => {
 			let value = Utils.hex2ab(Utils.string2hex(model + degree))

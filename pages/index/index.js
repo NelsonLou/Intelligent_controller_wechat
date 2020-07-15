@@ -10,6 +10,7 @@ Page({
 		deviceMac: '', // 设备Mac
 		productModel: '', // 产品类型
 		timer: null,
+		path: '',
 	},
 
 	// 初试流程:  设置高度=>获取code=>获取openId=>获取云备份数据=>查看是否有未完成复位
@@ -22,6 +23,19 @@ Page({
 	// 扫描滤芯二维码
 	handleGoScan: function () {
 		let that = this
+		wx.showActionSheet({
+			itemList: ['YY01', 'YY03', 'YY04'],
+			success(res) {
+				that.setData({
+					path: res.tapIndex == 0 ? 'YYOne' : res.tapIndex == 1 ? 'YYThree' : 'YYFour'
+				}, () => {
+					that.handleCloseBle()
+				})
+			},
+			fail(res) {
+				console.log(res.errMsg)
+			}
+		})
 		// wx.scanCode({
 		// 	success: res => {
 		// 		let result = res.result
@@ -30,7 +44,7 @@ Page({
 		// 				productModel = result.split('productModel=')[1]
 		// 			that.data.deviceMac = mac
 		// 			that.data.productModel = productModel
-		that.handleCloseBle()
+		// that.handleCloseBle()
 		// 		} else {
 		// 			wx.showModal({
 		// 				content: '请扫描正确的二维码',
@@ -188,6 +202,7 @@ Page({
 
 	// 设备校验
 	handleAuth: function () {
+		// this.handleDealReadResult()
 		let that = this,
 			originPwd = Utils.randomString(),
 			pwd = AesTools.handleEncryptCBC(originPwd)
@@ -198,7 +213,10 @@ Page({
 		console.log('生成加密密钥', pwd);
 		BleTools.getCharacteristicsValue(that.data.deviceId, 'AE00', 'AE07').then(res => {
 			BleTools.handleWrite(that.data.deviceId, res.serviceId, res.characteristicId, Utils.hex2ab(pwd)).then(() => {
-				BleTools.handleRead(that.data.deviceId, res.serviceId, res.characteristicId)
+				wx.navigateTo({
+					url: '../' + that.data.path + '/' + that.data.path,
+				})
+				// BleTools.handleRead(that.data.deviceId, res.serviceId, res.characteristicId)
 			})
 		}).catch(err => {
 			console.log('鉴权异常', err)
@@ -210,7 +228,7 @@ Page({
 		console.log('读取', data)
 		console.log('读取', Utils.ab2hex(data.value));
 		wx.navigateTo({
-			url: '../YYOne/YYOne',
+			url: '../' + this.data.path + '/' + this.data.path,
 		})
 	},
 

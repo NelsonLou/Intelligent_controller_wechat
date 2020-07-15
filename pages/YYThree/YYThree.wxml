@@ -22,8 +22,8 @@
 		</view>
 		<!-- 温控 -->
 		<view class="buttonBox clearfloat">
-			<image bindtap="handleAdd" class="BigRoll_plus left" src="../../assets/yy03_power_switch_on.png"></image>
-			<image bindtap="handleSub" class="BigRoll_subtract right" src="../../assets/yy03_power_switch_on.png"></image>
+			<image bindtap="handleSub" class="BigRoll_plus left" src="../../assets/yy03_sub.jpg"></image>
+			<image bindtap="handleAdd" class="BigRoll_subtract right" src="../../assets/yy03_add.jpg"></image>
 		</view>
 		<!-- 定时 -->
 		<view class="timerBox">
@@ -32,17 +32,18 @@
 				<text class="small">（分钟）</text>
 			</view>
 			<view class="timerLine">
-				<text style="margin-left: 49rpx">10</text>
-				<text style="margin-left: 85rpx">20</text>
-				<text style="margin-left: 85rpx">30</text>
-				<text style="margin-left: 85rpx">40</text>
-				<text style="margin-left: 85rpx">50</text>
-				<text style="margin-left: 85rpx">60</text>
+				<text style="margin-left: 49rpx" bindtap="handleSwitchTimer" data-time="10">10</text>
+				<text style="margin-left: 85rpx" bindtap="handleSwitchTimer" data-time="20">20</text>
+				<text style="margin-left: 85rpx" bindtap="handleSwitchTimer" data-time="30">30</text>
+				<text style="margin-left: 85rpx" bindtap="handleSwitchTimer" data-time="40">40</text>
+				<text style="margin-left: 85rpx" bindtap="handleSwitchTimer" data-time="50">50</text>
+				<text style="margin-left: 85rpx" bindtap="handleSwitchTimer" data-time="60">60</text>
 			</view>
-			<view class="choseBox" style="left: {{timing==10?54:timing==20?164:timing==30?277:timing==40?390:timing==50?500:614}}rpx">{{timing}}</view>
+			<view class="choseBox" wx:if='{{timing>10&&timing<=60}}' style="left: {{timing==10?54:timing==20?164:timing==30?277:timing==40?390:timing==50?500:614}}rpx">{{timing}}</view>
 			<image class="timerBar" src="../../assets/yy03_timing_scale.png"></image>
 		</view>
 		<!-- 电源 -->
-		<image class="power" bindtap="handleSwichPower" src="../../assets/yy03_power_switch_{{power?'on':'off'}}.png"></image>
+		<image class="power" bindtap="handleSwichPower" wx:if='{{power}}' src="../../assets/yy03_power_switch_on.png"></image>
+		<image class="power" bindtap="handleSwichPower" wx:else src="../../assets/yy01_power_switch_off.png"></image>
 	</view>
 </view>

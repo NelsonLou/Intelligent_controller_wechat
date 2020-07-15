@@ -1,0 +1,18 @@
+<view class='container'>
+	<navBar title='YY05' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
+	<view class='YYFive' style="height: {{bodyHeight}}rpx">
+	<!-- 功能说明 -->
+		<view class="imagBox clearfloat" bindtap="goInroduce">
+			<view class="instructionsBox right">
+				<image class="instructionsIMG" src="../../assets/yy01_functional_specification.png"></image>
+				<text class="instructionsTxt">功能说明</text>
+			</view>
+		</view>
+		<!-- 温控 -->
+		<view class="temperature clearfloat">
+			<image class="addBtn" src="../../assets/yy05_plus.png"></image>
+		</view>
+        <!-- 电源 -->
+        <image class="power" bindtap="handleSwichPower" src="../../assets/yy05_power_switch_{{power?'on':'off'}}.png"></image>
+	</view>
+</view>
