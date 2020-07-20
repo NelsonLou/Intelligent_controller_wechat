@@ -1,8 +1,11 @@
 {
 	"pages": [
-		"pages/YYFive/YYFive",
-		"pages/index/index",
+		"pages/YYEight/YYEight",
+		"pages/YYSeven/YYSeven",
 		"pages/YYFour/YYFour",
+		"pages/YYFive/YYFive",
+		"pages/YYSix/YYSix",
+		"pages/index/index",
 		"pages/YYThree/YYThree",
 		"pages/YYOne/YYOne",
 		"pages/YYTwo/YYTwo",

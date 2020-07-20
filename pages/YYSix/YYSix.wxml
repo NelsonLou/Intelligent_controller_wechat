@@ -1,26 +1,27 @@
 <view class='container'>
-	<navBar title='YY05' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
-	<view class='YYFive' style="height: {{bodyHeight}}rpx">
+	<navBar title='YY06' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
+	<view class='YYSix' style="height: {{bodyHeight}}rpx">
 		<!-- 功能说明 -->
 		<view class="imagBox clearfloat" bindtap="goInroduce">
 			<view class="instructionsBox right">
-				<image class="instructionsIMG" src="../../assets/yy01_functional_specification.png"></image>
+				<image class="instructionsIMG" src="../../assets/yy06_functional_specification.png"></image>
 				<text class="instructionsTxt">功能说明</text>
 			</view>
 		</view>
 		<!-- 温控 -->
-		<view class="temperature clearfloat">
-			<image class="addBtn right" src="../../assets/yy05_plus.png"></image>
-			<image class="bg" src="../../assets/yy05_dial_bg.png"></image>
-			<image class="roll" src="../../assets/yy05_dial_{{temperature}}.png"></image>
-			<image class="subBtn left" src="../../assets/yy05_subtract.png"></image>
-			<view class="num">{{temperature}}</view>
-			<view class="unit">℃</view>
+		<view class="temperature">
+			<image class="bg" src="../../assets/yy06_dial_bg.png"></image>
+			<image class="calibration" src="../../assets/yy06_dial_{{temperature}}.png"></image>
+		</view>
+		<view class="tempController clearfloat">
+			<image class="tempBtn left" src="../../assets/yy06_plus.png"></image>
+			<text class="text">加热</text>
+			<image class="tempBtn right" src="../../assets/yy06_subtract.png"></image>
 		</view>
 		<!-- 中控 -->
 		<view class="center clearfloat">
 			<!-- 按摩力度 -->
-			<view class="degree left">
+			<view class="degree right">
 				<view class="title">按摩力度</view>
 				<view class="text">
 					<text>低</text>
@@ -33,13 +34,7 @@
 				</view>
 			</view>
 			<!-- 通风力度 -->
-			<view class="efforts right">
-				<view class="title">通风力度</view>
-				<view class="controler clearfloat">
-					<image class="effortsBtn left" src="../../assets/yy05_air_low_nor.png"></image>
-					<image class="effortsBtn" style="margin-left: 50rpx" src="../../assets/yy05_air_medium_nor.png"></image>
-					<image class="effortsBtn right" src="../../assets/yy05_air_high_nor.png"></image>
-				</view>
+			<view class="efforts left">
 			</view>
 		</view>
 		<!-- 定时 -->
@@ -53,49 +48,42 @@
 				<view class='timerItem left' style="margin-left: 16rpx" bindtap="handleSwitchTimer" data-time="10">
 					<text style="opacity: {{timing==10?1:0.5}}">10</text>
 					<view class="boll">
-						<image wx:if='{{timing == 10}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
+						<image wx:if='{{timing == 10}}' class="bollTimer" src="../../assets/yy06_timing.png"></image>
 					</view>
 				</view>
 				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="20">
 					<text style="opacity: {{timing==20?1:0.5}}">20</text>
 					<view class="boll">
-						<image wx:if='{{timing == 20}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
+						<image wx:if='{{timing == 20}}' class="bollTimer" src="../../assets/yy06_timing.png"></image>
 					</view>
 				</view>
 				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="30">
 					<text style="opacity: {{timing==30?1:0.5}}">30</text>
 					<view class="boll">
-						<image wx:if='{{timing == 30}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
+						<image wx:if='{{timing == 30}}' class="bollTimer" src="../../assets/yy06_timing.png"></image>
 					</view>
 				</view>
 				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="40">
 					<text style="opacity: {{timing==40?1:0.5}}">40</text>
 					<view class="boll">
-						<image wx:if='{{timing == 40}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
+						<image wx:if='{{timing == 40}}' class="bollTimer" src="../../assets/yy06_timing.png"></image>
 					</view>
 				</view>
 				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="50">
 					<text style="opacity: {{timing==50?1:0.5}}">50</text>
 					<view class="boll">
-						<image wx:if='{{timing == 50}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
+						<image wx:if='{{timing == 50}}' class="bollTimer" src="../../assets/yy06_timing.png"></image>
 					</view>
 				</view>
 				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="60">
 					<text style="opacity: {{timing==60?1:0.5}}">60</text>
 					<view class="boll">
-						<image wx:if='{{timing == 60}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
+						<image wx:if='{{timing == 60}}' class="bollTimer" src="../../assets/yy06_timing.png"></image>
 					</view>
 				</view>
 			</view>
 		</view>
-		<!-- 模式 -->
-		<view class="modelChose">
-			<view class="modelItem chose">模式一</view>
-			<view class="modelItem unChose">模式二</view>
-			<view class="modelItem unChose">模式三</view>
-			<view class="modelItem unChose">模式四</view>
-		</view>
 		<!-- 电源 -->
-		<image class="power" bindtap="handleSwichPower" src="../../assets/yy05_power_switch_{{power?'on':'off'}}.png"></image>
+		<image class="power" bindtap="handleSwichPower" src="../../assets/yy06_power_switch_{{power?'on':'off'}}.png"></image>
 	</view>
 </view>

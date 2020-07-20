@@ -1,8 +1,8 @@
 .container {
-    background-image: linear-gradient(0deg, #1a093a 0%, #19015e 100%);
+    background-color: #1c1e27;
 }
 
-.YYFive {
+.YYSeven {
     overflow: auto;
     margin-top: 12rpx;
 }
@@ -39,140 +39,60 @@
     margin-top: 100rpx;
 }
 
-/* 基本 */
+/* 温控 */
 
 .temperature {
-    width: 702rpx;
-    height: 284rpx;
-    background-image: linear-gradient(0deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            rgba(255, 255, 255, 0.05) 100%);
-    /* background-image: linear-gradient(0deg,#302054,#190549); */
-    border-radius: 16rpx;
     position: relative;
-    margin-left: 26rpx;
 }
 
 .temperature .bg {
-    width: 510rpx;
-    height: 258rpx;
+    width: 540rpx;
+    height: 540rpx;
+    display: block;
+    margin: 0 auto;
 }
 
-.addBtn {
-    width: 60rpx;
-    height: 60rpx;
-    margin: 141rpx 26rpx 83rpx 0;
-}
-
-.subBtn {
-    width: 60rpx;
-    height: 60rpx;
-    margin: 141rpx 0 83rpx 26rpx;
-}
-
-.num {
+.temperature .num {
+    position: absolute;
     font-family: SF Pro Display;
-    font-size: 90rpx;
+    font-size: 105rpx;
     font-weight: normal;
     font-stretch: normal;
+    line-height: 125rpx;
     letter-spacing: 0rpx;
     color: #ffffff;
-    position: absolute;
-    left: 289rpx;
-    top: 145rpx;
+    left: 310rpx;
+    top: 230rpx;
 }
 
-.unit {
-    font-family: PingFang SC;
-    font-size: 28rpx;
+.temperature .unit {
+    position: absolute;
+    font-family: SF Pro Display;
+    font-size: 35rpx;
     font-weight: normal;
     font-stretch: normal;
+    line-height: 125rpx;
     letter-spacing: 0rpx;
     color: #ffffff;
-    opacity: 0.5;
-    position: absolute;
-    left: 397rpx;
-    top: 159rpx;
+    right: 280rpx;
+    top: 210rpx;
 }
 
-.roll {
-    width: 430rpx;
-    height: 225rpx;
-    position: absolute;
-    left: 125rpx;
-    bottom: 30rpx;
+.tempBtn {
+    width: 80rpx;
+    height: 80rpx;
+    margin-top: -40rpx;
 }
 
-.center {
-    margin-top: 20rpx;
-    margin-left: 26rpx;
-    margin-right: 26rpx;
+.controller .left {
+    margin-left: 250rpx;
 }
 
-.degree,
-.efforts {
-    width: 292rpx;
-    border-radius: 10rpx;
-    background-color: #251253;
-    padding: 24rpx;
-    text-align: left;
-    display: inline-block;
+.controller .right {
+    margin-right: 250rpx;
 }
 
-.degree .title,
-.efforts .title {
-    color: #ffffff;
-}
-
-.degree .text {
-    font-family: PingFang SC;
-    font-size: 22rpx;
-    font-weight: normal;
-    font-stretch: normal;
-    line-height: 30rpx;
-    letter-spacing: 0rpx;
-    color: #ffffff;
-    opacity: 0.7;
-    margin-top: 16rpx;
-    margin-bottom: 30rpx;
-}
-
-.degree .line {
-    width: 293rpx;
-    height: 12rpx;
-    background-color: #47487d;
-    border-radius: 6rpx;
-    margin-top: 24rpx;
-    margin-bottom: 12rpx;
-    position: relative;
-}
-
-.line .showLine {
-    background-color: #65d9ff;
-    border-radius: 6rpx;
-    height: 100%;
-}
-
-.line .boll {
-    width: 10rpx;
-    height: 10rpx;
-    background-color: #65d9ff;
-    border: solid 10rpx #ffffff;
-    border-radius: 20rpx;
-    position: absolute;
-    top: -10rpx;
-}
-
-.controler {
-    margin-top: 20rpx;
-
-}
-
-.effortsBtn {
-    width: 66rpx;
-    height: 66rpx;
-}
-
+/* 定时 */
 .timerBox {
     margin-top: 60rpx;
     height: 181rpx;
@@ -242,15 +162,35 @@
 
 .timerItem .boll {
     display: inline-block;
-    background-color: #fff;
-    border-radius: 20rpx;
-    height: 39rpx;
-    width: 39rpx;
+    background-image: linear-gradient(0deg,
+            #6e7781 0%,
+            #324358 100%);
+    border-radius: 30rpx;
+    width: 52rpx;
+    height: 52rpx;
     position: absolute;
     bottom: 5rpx;
     left: 5rpx;
     z-index: 999;
+    text-align: center;
+    line-height: 52rpx;
 }
+
+.timerItem .choseBall {
+    width: 80rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-radius: 40rpx;
+    background-image: linear-gradient(0deg,
+            #b1e381 0%,
+            #14b474 100%);
+    position: absolute;
+    bottom: -10rpx;
+    left: 5rpx;
+
+}
+
+
 
 .marginleft {
     margin-left: 73rpx;
@@ -273,32 +213,64 @@
     top: 82rpx;
 }
 
-.modelChose {
-    background-color: #47487d;
-    border-radius: 20rpx;
-    margin-top: 60rpx;
-    margin-left: 24rpx;
-    margin-right: 24rpx;
-    padding: 24rpx 0;
+/* 模式 */
+
+.model {
+    margin-top: 50rpx;
+    padding: 0 40rpx;
 }
 
-.modelItem {
-    width: 150rpx;
-    height: 80rpx;
-    line-height: 80rpx;
-    margin-left: 22rpx;
+.model .left {
+    width: 470rpx;
+    height: 180rpx;
+    background-color: #282932;
+    border-radius: 16rpx;
+}
+
+.model .left .item {
+    width: 100rpx;
+    display: inline-block;
     text-align: center;
-    border-radius: 8rpx;
+    color: #fff;
+    font-size: 24rpx;
+    margin-top: 20rpx;
+    margin-left: 45rpx;
+}
+
+.model .left .item text {
+    margin-top: 10rpx;
     display: inline-block;
 }
 
-.chose {
-    color: #fff;
-    background-image: linear-gradient(0deg, #66daff 0%, #33aaff 100%);
+.modelImg {
+    display: block;
+    width: 100rpx;
+    height: 100rpx;
 }
 
-.unChose {
-    background-image: linear-gradient(0deg, #374d87 0%, #283d88 100%);
+.model .right {
+    height: 180rpx;
+    width: 180rpx;
+    font-family: PingFang SC;
+    font-size: 28rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0rpx;
     color: #ffffff;
-    opacity: 0.5;
+    text-align: center;
+    background-color: #282932;
+    border-radius: 16rpx;
+}
+
+.malaxation {
+    display: block;
+    width: 80rpx;
+    height: 80rpx;
+    margin: 0 auto;
+    margin-top: 20rpx;
+}
+
+.model .right text {
+    display: inline-block;
+    margin-top: 20rpx;
 }

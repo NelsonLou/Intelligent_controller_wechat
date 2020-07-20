@@ -1,0 +1,156 @@
+<view class='container'>
+	<navBar title='yy08' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
+	<view class='YYEight' style="height: {{bodyHeight}}rpx">
+		<!-- 功能说明 -->
+		<view class="imagBox clearfloat" bindtap="goInroduce">
+			<view class="instructionsBox right">
+				<image class="instructionsIMG" src="../../assets/yy08_functional_specification.png"></image>
+				<text class="instructionsTxt">功能说明</text>
+			</view>
+		</view>
+		<!-- 模式 -->
+		<view class="topBox clearfloat">
+			<!-- 模式 -->
+			<view class="modelBox left">
+				<image class="bg" src="../../assets/yy08_dial_mask.png"></image>
+				<view class="modelItem unChose">
+					<text style="margin-left: 40rpx;margin-top: 60rpx">模式一</text>
+				</view>
+				<view class="modelItem unChose">
+					<text style="margin-left: 20rpx;margin-top: 60rpx">模式二</text>
+				</view>
+				<view class="modelItem chose">
+					<text style="margin-left: 40rpx;margin-top: 50rpx">模式三</text>
+				</view>
+				<view class="modelItem unChose">
+					<text style="margin-left: 20rpx;margin-top: 50rpx">模式四</text>
+				</view>
+			</view>
+			<view class="degreeBox right">
+				<!-- 按摩力度 -->
+				<view class="degree">
+					<view class="text">
+						<text>低</text>
+						<text style="margin-left: 115rpx">中</text>
+						<text style="margin-left: 110rpx">高</text>
+					</view>
+					<view class="line">
+						<view class="showLine"></view>
+						<view class="boll" style="left: {{degree==0?'0':degree==1?'135':265}}rpx"></view>
+					</view>
+				</view>
+				<!-- 通风力度 -->
+				<view class="efforts">
+					<view class="controler clearfloat">
+						<view class="item left">
+							<image class="effortsBtn" src="../../assets/yy08_inflate_nor.png"></image>
+							<text>进气</text>
+						</view>
+						<view class="item" style="margin-left: 28rpx">
+							<image class="effortsBtn" src="../../assets/yy08_bleed_nor.png"></image>
+							<text>放气</text>
+						</view>
+						<view class="item right">
+							<image class="effortsBtn" src="../../assets/yy08_inflate_bleed_auto_nor.png"></image>
+							<text>自动</text>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<!-- 加热 -->
+		<view class="timerBox">
+			<view class="title">
+				<text class="big">加热</text>
+				<text class="small">（℃）</text>
+			</view>
+			<view class="timerMain clearfloat">
+				<view class="timerLine"></view>
+				<view class='timerItem left' style="margin-left: 16rpx" bindtap="handleSetTemp" data-temp="10">
+					<text style="opacity: {{temperature==10?1:0.5}}">10</text>
+					<view class="boll">
+						<image wx:if='{{timing == 10}}' class="bollTimer" src="../../assets/yy08_heating.png"></image>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSetTemp" data-temp="20">
+					<text style="opacity: {{timing==20?1:0.5}}">20</text>
+					<view class="boll">
+						<image wx:if='{{temperature == 20}}' class="bollTimer" src="../../assets/yy08_heating.png"></image>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSetTemp" data-temp="30">
+					<text style="opacity: {{timing==30?1:0.5}}">30</text>
+					<view class="boll">
+						<image wx:if='{{temperature == 30}}' class="bollTimer" src="../../assets/yy08_heating.png"></image>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSetTemp" data-temp="40">
+					<text style="opacity: {{timing==40?1:0.5}}">40</text>
+					<view class="boll">
+						<image wx:if='{{temperature == 40}}' class="bollTimer" src="../../assets/yy08_heating.png"></image>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSetTemp" data-temp="50">
+					<text style="opacity: {{timing==50?1:0.5}}">50</text>
+					<view class="boll">
+						<image wx:if='{{temperature == 50}}' class="bollTimer" src="../../assets/yy08_heating.png"></image>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSetTemp" data-temp="60">
+					<text style="opacity: {{timing==60?1:0.5}}">60</text>
+					<view class="boll">
+						<image wx:if='{{temperature == 60}}' class="bollTimer" src="../../assets/yy08_heating.png"></image>
+					</view>
+				</view>
+			</view>
+		</view>
+		<!-- 定时 -->
+		<view class="timerBox">
+			<view class="title">
+				<text class="big">定时</text>
+				<text class="small">（分钟）</text>
+			</view>
+			<view class="timerMain clearfloat">
+				<view class="timerLine"></view>
+				<view class='timerItem left' style="margin-left: 16rpx" bindtap="handleSwitchTimer" data-time="10">
+					<text style="opacity: {{timing==10?1:0.5}}">10</text>
+					<view class="boll">
+						<image wx:if='{{timing == 10}}' class="bollTimer" src="../../assets/yy08_heating.png"></image>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="20">
+					<text style="opacity: {{timing==20?1:0.5}}">20</text>
+					<view class="boll">
+						<image wx:if='{{timing == 20}}' class="bollTimer" src="../../assets/yy08_heating.png"></image>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="30">
+					<text style="opacity: {{timing==30?1:0.5}}">30</text>
+					<view class="boll">
+						<image wx:if='{{timing == 30}}' class="bollTimer" src="../../assets/yy08_heating.png"></image>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="40">
+					<text style="opacity: {{timing==40?1:0.5}}">40</text>
+					<view class="boll">
+						<image wx:if='{{timing == 40}}' class="bollTimer" src="../../assets/yy08_heating.png"></image>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="50">
+					<text style="opacity: {{timing==50?1:0.5}}">50</text>
+					<view class="boll">
+						<image wx:if='{{timing == 50}}' class="bollTimer" src="../../assets/yy08_heating.png"></image>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="60">
+					<text style="opacity: {{timing==60?1:0.5}}">60</text>
+					<view class="boll">
+						<image wx:if='{{timing == 60}}' class="bollTimer" src="../../assets/yy08_heating.png"></image>
+					</view>
+				</view>
+			</view>
+		</view>
+		<!-- 电源 -->
+		<image class="power" bindtap="handleSwichPower" src="../../assets/yy08_power_switch_{{power?'on':'off'}}.png"></image>
+	</view>
+</view>

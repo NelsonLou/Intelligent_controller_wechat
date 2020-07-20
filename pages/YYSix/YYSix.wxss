@@ -1,8 +1,8 @@
 .container {
-    background-image: linear-gradient(0deg, #1a093a 0%, #19015e 100%);
+    background-color: #1a2040;
 }
 
-.YYFive {
+.YYSix {
     overflow: auto;
     margin-top: 12rpx;
 }
@@ -42,69 +42,57 @@
 /* 基本 */
 
 .temperature {
-    width: 702rpx;
-    height: 284rpx;
-    background-image: linear-gradient(0deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            rgba(255, 255, 255, 0.05) 100%);
-    /* background-image: linear-gradient(0deg,#302054,#190549); */
-    border-radius: 16rpx;
     position: relative;
-    margin-left: 26rpx;
 }
 
 .temperature .bg {
-    width: 510rpx;
-    height: 258rpx;
+    width: 670rpx;
+    height: 310rpx;
+    margin: 0 auto;
+    display: block;
 }
 
-.addBtn {
-    width: 60rpx;
-    height: 60rpx;
-    margin: 141rpx 26rpx 83rpx 0;
-}
-
-.subBtn {
-    width: 60rpx;
-    height: 60rpx;
-    margin: 141rpx 0 83rpx 26rpx;
-}
-
-.num {
-    font-family: SF Pro Display;
-    font-size: 90rpx;
-    font-weight: normal;
-    font-stretch: normal;
-    letter-spacing: 0rpx;
-    color: #ffffff;
+.temperature .calibration {
+    width: 670rpx;
+    height: 310rpx;
     position: absolute;
-    left: 289rpx;
-    top: 145rpx;
+    bottom: 0rpx;
+    left: 42rpx;
 }
 
-.unit {
-    font-family: PingFang SC;
-    font-size: 28rpx;
-    font-weight: normal;
-    font-stretch: normal;
-    letter-spacing: 0rpx;
-    color: #ffffff;
-    opacity: 0.5;
-    position: absolute;
-    left: 397rpx;
-    top: 159rpx;
-}
-
-.roll {
-    width: 430rpx;
-    height: 225rpx;
-    position: absolute;
-    left: 125rpx;
-    bottom: 30rpx;
-}
-
-.center {
+.tempController {
     margin-top: 20rpx;
+}
+
+.tempController .left {
+    margin-left: 110rpx;
+}
+
+.tempController .right {
+    margin-right: 110rpx;
+}
+
+.tempController .text {
+    margin-left: 165rpx;
+}
+
+.tempBtn {
+    width: 80rpx;
+    height: 80rpx;
+}
+
+.tempController .text {
+    line-height: 80rpx;
+    text-align: center;
+    color: #fff;
+    font-size: 24rpx;
+}
+
+/* 温控 */
+
+/* 控制 */
+.center {
+    margin-top: 50rpx;
     margin-left: 26rpx;
     margin-right: 26rpx;
 }
@@ -113,15 +101,20 @@
 .efforts {
     width: 292rpx;
     border-radius: 10rpx;
-    background-color: #251253;
+    background-color: #484d66;
     padding: 24rpx;
     text-align: left;
     display: inline-block;
 }
 
-.degree .title,
-.efforts .title {
+.degree .title {
     color: #ffffff;
+}
+
+.efforts {
+    background-image: linear-gradient(0deg,
+            #ffc066 0%,
+            #ff894d 100%);
 }
 
 .degree .text {
@@ -140,7 +133,7 @@
 .degree .line {
     width: 293rpx;
     height: 12rpx;
-    background-color: #47487d;
+    background-color: #6d7185;
     border-radius: 6rpx;
     margin-top: 24rpx;
     margin-bottom: 12rpx;
@@ -148,7 +141,7 @@
 }
 
 .line .showLine {
-    background-color: #65d9ff;
+    background-color: #ff944d;
     border-radius: 6rpx;
     height: 100%;
 }
@@ -156,21 +149,11 @@
 .line .boll {
     width: 10rpx;
     height: 10rpx;
-    background-color: #65d9ff;
+    background-color: #ff944d;
     border: solid 10rpx #ffffff;
     border-radius: 20rpx;
     position: absolute;
     top: -10rpx;
-}
-
-.controler {
-    margin-top: 20rpx;
-
-}
-
-.effortsBtn {
-    width: 66rpx;
-    height: 66rpx;
 }
 
 .timerBox {
@@ -271,34 +254,4 @@
     opacity: 0.12;
     left: 40rpx;
     top: 82rpx;
-}
-
-.modelChose {
-    background-color: #47487d;
-    border-radius: 20rpx;
-    margin-top: 60rpx;
-    margin-left: 24rpx;
-    margin-right: 24rpx;
-    padding: 24rpx 0;
-}
-
-.modelItem {
-    width: 150rpx;
-    height: 80rpx;
-    line-height: 80rpx;
-    margin-left: 22rpx;
-    text-align: center;
-    border-radius: 8rpx;
-    display: inline-block;
-}
-
-.chose {
-    color: #fff;
-    background-image: linear-gradient(0deg, #66daff 0%, #33aaff 100%);
-}
-
-.unChose {
-    background-image: linear-gradient(0deg, #374d87 0%, #283d88 100%);
-    color: #ffffff;
-    opacity: 0.5;
 }

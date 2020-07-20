@@ -1,0 +1,85 @@
+<view class='container'>
+	<navBar title='YY07' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
+	<view class='YYSeven' style="height: {{bodyHeight}}rpx">
+		<!-- 功能说明 -->
+		<view class="imagBox clearfloat" bindtap="goInroduce">
+			<view class="instructionsBox right">
+				<image class="instructionsIMG" src="../../assets/yy07_functional_specification.png"></image>
+				<text class="instructionsTxt">功能说明</text>
+			</view>
+		</view>
+		<!-- 温控 -->
+		<view class="temperature">
+			<image class="bg" src="../../assets/yy07_dial_bg.png"></image>
+			<text class="num">{{temperature}}</text>
+			<text class="unit">℃</text>
+			<view class="controller clearfloat">
+				<image class="tempBtn left" src="../../assets/yy07_plus.png"></image>
+				<image class="tempBtn right" src="../../assets/yy07_subtract.png"></image>
+			</view>
+		</view>
+		<!-- 定时 -->
+		<view class="timerBox">
+			<view class="title">
+				<text class="big">定时</text>
+				<text class="small">（分钟）</text>
+			</view>
+			<view class="timerMain clearfloat">
+				<view class="timerLine"></view>
+				<view class='timerItem left' style="margin-left: 16rpx" bindtap="handleSwitchTimer" data-time="10">
+					<view class="choseBall">
+						<text>10</text>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="20">
+					<view class="boll">
+						<text>20</text>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="30">
+					<view class="boll">
+						<text>30</text>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="40">
+					<view class="boll">
+						<text>40</text>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="50">
+					<view class="boll">
+						<text>50</text>
+					</view>
+				</view>
+				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="60">
+					<view class="boll">
+						<text>60</text>
+					</view>
+				</view>
+			</view>
+		</view>
+		<!-- 模式 -->
+		<view class="model clearfloat">
+			<view class="left">
+				<view class="item">
+					<image class="modelImg" src="../../assets/yy07_inflate_nor.png"></image>
+					<text>充气</text>
+				</view>
+				<view class="item">
+					<image class="modelImg" src="../../assets/yy07_bleed_nor.png"></image>
+					<text>放气</text>
+				</view>
+				<view class="item">
+					<image class="modelImg" src="../../assets/yy07_inflate_bleed_auto_nor.png"></image>
+					<text>自动</text>
+				</view>
+			</view>
+			<view class="right">
+				<image class="malaxation" src="../../assets/yy06_malaxation.png"></image>
+				<text>揉捏</text>
+			</view>
+		</view>
+		<!-- 电源 -->
+		<image class="power" bindtap="handleSwichPower" src="../../assets/yy07_power_switch_{{power?'on':'off'}}.png"></image>
+	</view>
+</view>

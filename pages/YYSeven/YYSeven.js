@@ -4,9 +4,8 @@ import BleTools from '../../utils/bleTools.js';
 Page({
 	data: {
 		bodyHeight: 0,
-		temperature: 40,
+		temperature: 30,
 		timing: 10,
-		degree: 2,
 		power: false,
 	},
 
