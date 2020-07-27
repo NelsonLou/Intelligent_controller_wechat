@@ -1,5 +1,5 @@
 <view class='container'>
-	<navBar title='YY07' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
+	<navBar title='YY09' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
 	<view class='YYSeven' style="height: {{bodyHeight}}rpx">
 		<!-- 功能说明 -->
 		<view class="imagBox clearfloat" bindtap="goInroduce">
@@ -61,7 +61,7 @@
 		</view>
 		<!-- 模式 -->
 		<view class="model clearfloat">
-			<view class="left">
+			<view class="box">
 				<view class="item">
 					<image class="modelImg" bindtap="handleGas" data-flag="1" src="../../assets/yy07_inflate_{{gas==1?'sel':'nor'}}.png"></image>
 					<text>充气</text>
@@ -74,10 +74,6 @@
 					<image class="modelImg" bindtap="handleGas" data-flag="3" src="../../assets/yy07_inflate_bleed_auto_{{gas==3?'sel':'nor'}}.png"></image>
 					<text>自动</text>
 				</view>
-			</view>
-			<view class="right {{model == 5?'open':'close'}}" bindtap="handleMessage">
-				<image class="malaxation" src="../../assets/yy06_malaxation.png"></image>
-				<text>揉捏</text>
 			</view>
 		</view>
 		<!-- 电源 -->

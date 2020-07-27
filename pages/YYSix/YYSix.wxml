@@ -11,30 +11,35 @@
 		<!-- 温控 -->
 		<view class="temperature">
 			<image class="bg" src="../../assets/yy06_dial_bg.png"></image>
-			<image class="calibration" src="../../assets/yy06_dial_{{temperature}}.png"></image>
+			<image class="calibration" wx:if='{{temperature>0}}' src="../../assets/yy06_dial_{{temperature}}.png"></image>
+			<view class="num">{{temperature}}</view>
+			<view class="unit">℃</view>
 		</view>
 		<view class="tempController clearfloat">
-			<image class="tempBtn left" src="../../assets/yy06_plus.png"></image>
+			<image class="tempBtn left" bindtap="handleTemp" data-flag="0" src="../../assets/yy06_subtract.png"></image>
 			<text class="text">加热</text>
-			<image class="tempBtn right" src="../../assets/yy06_subtract.png"></image>
+			<image class="tempBtn right" bindtap="handleTemp" data-flag="1" src="../../assets/yy06_plus.png"></image>
 		</view>
 		<!-- 中控 -->
 		<view class="center clearfloat">
 			<!-- 按摩力度 -->
-			<view class="degree right">
-				<view class="title">按摩力度</view>
+			<view class="degree effortsClose right">
+				<view class="title">揉捏力度</view>
 				<view class="text">
-					<text>低</text>
-					<text style="margin-left: 115rpx">中</text>
-					<text style="margin-left: 110rpx">高</text>
+					<text bindtap="handleKneadDegree" class="level" data-flag="1" style="left: -35rpx">低</text>
+					<text bindtap="handleKneadDegree" class="level" data-flag="2" style="left: 100rpx">中</text>
+					<text bindtap="handleKneadDegree" class="level" data-flag="3" style="left: 235rpx">高</text>
 				</view>
 				<view class="line">
-					<view class="showLine"></view>
-					<view class="boll" style="left: {{degree==0?'0':degree==1?'135':265}}rpx"></view>
+					<view class="showLine" wx:if='{{kneadDegree>0}}' style="width: {{kneadDegree==1?'0':kneadDegree==2?'50':100}}%"></view>
+					<view class="boll" wx:if='{{kneadDegree>0}}' style="left: {{kneadDegree==1?'0':kneadDegree==2?'135':265}}rpx"></view>
 				</view>
 			</view>
 			<!-- 通风力度 -->
-			<view class="efforts left">
+			<!-- <view class=" left" bindtap="handleKneadModel"> -->
+			<view class="efforts {{kneadModel>0?'effortsOpen':'effortsClose'}} left" bindtap="handleKneadModel">
+				<image class="malaxation" src="../../assets/yy07_malaxation.png"></image>
+				<text class="effortsTxt">揉捏-{{kneadModel==1?'正转':kneadModel==2?'反转':kneadModel==3?'自动切换':'关'}}</text>
 			</view>
 		</view>
 		<!-- 定时 -->

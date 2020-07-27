@@ -1,4 +1,15 @@
 const AppData = getApp().globalData;
+const GetServices = require('./getService');
+const serviceList = {
+	temp: ['AE00', 'AE01'], // 加热
+	timing: ['AE00', 'AE02'], // 定时
+	massage: ['AE00', 'AE03'], // 按摩
+	ventilation: ['AE00', 'AE04'], // 通风
+	knead: ['AE00', 'AE05'], // 揉捏
+	gas: ['AE00', 'AE06'], // 充放气
+	access: ['AE00', 'AE07'], // 鉴权
+}
+
 // 连接设备
 const handleConnect = function (deviceId) {
 	wx.showLoading({
@@ -10,8 +21,10 @@ const handleConnect = function (deviceId) {
 			deviceId,
 			time: 1500,
 			success: function (res) {
-				AppData.connectingDeviceId = deviceId
-				resolve(deviceId)
+				AppData.connectingDeviceId = deviceId;
+				GetServices.getServices(function(){
+					resolve(deviceId)
+				})
 			},
 			fail: function (err) {
 				reject()
@@ -31,52 +44,6 @@ const handleDisConnect = function (deviceId) {
 		fail: err => {
 			console.log('断开连接失败', err)
 		}
-	})
-}
-
-// 连接异常处理
-const handleOnConnectStateChange = function () {
-
-}
-
-// 获取设备特征值
-const getCharacteristicsValue = function (deviceId, referenceSer, referenceChar) {
-	return new Promise(function (resolve, reject) {
-		// 获取serviceId
-		wx.getBLEDeviceServices({
-			deviceId: deviceId,
-			success: resService => {
-				for (let i in resService.services) {
-					if (resService.services[i].uuid.indexOf(referenceSer) != -1) {
-						// 获取特征值
-						wx.getBLEDeviceCharacteristics({
-							deviceId: deviceId,
-							serviceId: resService.services[i].uuid,
-							success: resChar => {
-								for (let x in resChar.characteristics) {
-									if (resChar.characteristics[x].uuid.indexOf(referenceChar) != -1) {
-										resolve({
-											serviceId: resService.services[i].uuid,
-											characteristicId: resChar.characteristics[x].uuid
-										})
-									}
-								}
-							},
-							fail: errChar => {
-								reject()
-								console.log(referenceSer, referenceChar);
-								console.log(errChar)
-							}
-						})
-					}
-				}
-			},
-			fail: errService => {
-				reject()
-				console.log(referenceSer, referenceChar);
-				console.log(errService)
-			},
-		})
 	})
 }
 
@@ -150,10 +117,9 @@ const handleWrite = function (deviceId, serviceId, characteristicId, value) {
 
 export default {
 	handleConnect, // 连接设备
-	getCharacteristicsValue, // 获取特征值UUID
 	handleRead, // 执行读操作
 	handleUnNotify, // 取消监听特征值
 	handleWrite, // 执行写操作
-	handleOnConnectStateChange, // 当连接异常
 	handleDisConnect, // 断开连接
+	serviceList: serviceList,
 }

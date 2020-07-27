@@ -1,20 +1,22 @@
 {
 	"pages": [
-		"pages/YYEight/YYEight",
-		"pages/YYSeven/YYSeven",
+		"pages/index/index",
+		"pages/YYOne/YYOne",
+		"pages/YYTwo/YYTwo",
+		"pages/YYThree/YYThree",
 		"pages/YYFour/YYFour",
 		"pages/YYFive/YYFive",
 		"pages/YYSix/YYSix",
-		"pages/index/index",
-		"pages/YYThree/YYThree",
-		"pages/YYOne/YYOne",
-		"pages/YYTwo/YYTwo",
-		"pages/Common/Common",
-		"pages/Introduce/Introduce",
-		"pages/BleList/BleList"
+		"pages/YYSeven/YYSeven",
+		"pages/YYEight/YYEight",
+		"pages/YYNight/YYNight",
+		"pages/BleList/BleList",
+		"pages/Introduce/Introduce"
 	],
 	"usingComponents": {
-		"van-dialog":"vant-weapp/dialog",
+		"van-dialog": "vant-weapp/dialog",
+		"van-popup": "vant-weapp/popup",
+		"van-picker": "vant-weapp/picker",
 		"navBar": "./components/navBar/navBar"
 	},
 	"window": {

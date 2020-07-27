@@ -1,20 +1,8 @@
 <view class='container'>
-    <navBar title='搜索蓝牙' backgroundColor='#F7F9FC'></navBar>
+    <navBar title='附近设备' backgroundColor='#F7F9FC'></navBar>
     <view class='BleList' style="height: {{bodyHeight}}rpx">
-        <!-- 已匹配列表 -->
-        <view class="listBox">
-            <view class="listTitle">我的设备（匹配过的设备）</view>
-            <view class="listCard">
-                <view class="deviceItem clearfloat" wx:for='{{hasConnectList}}' wx:for-item="item" wx:key='localName' bindtap="handleConnect" data-name="{{item.showDeviceName}}">
-                    <text style="color:{{item.found?'#333':'#ccc'}}" class="left">{{item.showDeviceName}}</text>
-                    <image wx:if='{{item.found}}' class="arrowLeft right" src="../../assets/icon_arrow_right@3x.png"></image>
-                </view>
-            </view>
-        </view>
-        <!-- 可匹配列表 -->
         <view class="listBox">
             <view class="listTitle">
-                附近设备
                 <image wx:if='{{searching}}' class="loadingIcon" src="../../assets/icon_loading@3x.png"></image>
             </view>
             <view wx:if='{{noDevice}}'>
@@ -22,9 +10,8 @@
                 <view class="normalBtn">重新搜索</view>
             </view>
             <view class="listCard" wx:else >
-                <view class="deviceItem clearfloat" wx:for='{{deviceList}}' wx:for-item="item" wx:key='localName' bindtap="handleConnect" data-deviceid="{{item.deviceId}}">
-                    <text class="left">{{item.showDeviceName}}</text>
-                    <image class="arrowLeft right" src="../../assets/icon_arrow_right@3x.png"></image>
+                <view class="deviceItem clearfloat" wx:for='{{deviceList}}' wx:for-item="item" wx:key='deviceId' bindtap="handleConnect" data-deviceid="{{item.deviceId}}">
+                    <text class="left">{{item.name}}</text>
                 </view>
             </view>
         </view>

@@ -85,28 +85,12 @@ const hex2Int = function (hex) {
 	}, 0);
 }
 
-// 获取激活码异常的处理
-const activeErrorDeal = function (code) {
-	switch (code) {
-		case -100:
-			return "激活失败"
-			break;
-		case -200:
-			return "验证码失效"
-			break;
-		case -101:
-			return "激活码生成失败"
-			break;
-		case -102:
-			return "超过激活次数"
-			break;
-		case -103:
-			return "存在关联设备"
-			break;
-		default:
-			return "服务器异常"
-			break;
-	}
+// 处理时间数据
+const dealTimeData = function (data) {
+	let value = data.toString(),
+		high = value.substring(0, 1),
+		low = value.substring(1, 2)
+	return (string2hex(high) + string2hex(low))
 }
 
 module.exports = {
@@ -116,7 +100,7 @@ module.exports = {
 	hex2ab: hex2ab,
 	hex2Int: hex2Int,
 	string2BitArr: string2BitArr,
-	activeErrorDeal: activeErrorDeal,
+	dealTimeData: dealTimeData,
 	int2hex: int2hex,
 	randomString: randomString,
 }

@@ -1,5 +1,5 @@
 const AppData = getApp().globalData;
-import BleTools from '../../utils/bleTools.js';
+import BleTools from '../../utils/BLE/bleTools.js';
 
 Page({
 	data: {

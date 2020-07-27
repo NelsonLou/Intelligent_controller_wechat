@@ -1,7 +1,5 @@
 const AppData = getApp().globalData;
 const DeviceFunction = require('../../utils/BLE/deviceFuntion');
-const Utils = require('../../utils/util');
-import BleTools from '../../utils/bleTools.js';
 
 Page({
 	data: {
@@ -11,7 +9,6 @@ Page({
 		timing: 0, // 定时器
 		act: '', // 当前读取值
 		deviceId: '',
-		lastReadValue: [], // 最近一次监听的设备服务以及特征值
 	},
 
 	onLoad: function (options) {
@@ -22,15 +19,15 @@ Page({
 	},
 
 	onShow: function () {
-		this.handleWatchValue()
+		this.handleGetValue()
 	},
 
-	// 页面隐藏时关闭定时器以及设备搜索
-	onHide: function () {
-	},
-
-	// 页面隐藏时关闭定时器以及设备搜索
-	onUnload: function () {
+	handleGetValue() {
+		this.setData({
+			temperature: AppData.temperature,
+			timing: AppData.timing,
+			power: AppData.timing == 0 ? false : true
+		})
 	},
 
 	// 增加温度
@@ -45,11 +42,7 @@ Page({
 			wx.showLoading({
 				title: '设置中'
 			})
-			this.setData({
-				temperature: temperature + 5
-			}, () => {
-				this.handleSetTemp(temperature + 5)
-			})
+			this.handleSetTemp(temperature + 5)
 		}
 	},
 
@@ -65,11 +58,7 @@ Page({
 			wx.showLoading({
 				title: '设置中'
 			})
-			this.setData({
-				temperature: temperature - 5
-			}, () => {
-				this.handleSetTemp(temperature - 5)
-			})
+			this.handleSetTemp(temperature - 5)
 		}
 	},
 
@@ -84,22 +73,8 @@ Page({
 			wx.showLoading({
 				title: '设置中'
 			})
-			this.setData({
-				timing: e.currentTarget.dataset.time
-			}, () => {
-				this.handleSetTiming(Number(e.currentTarget.dataset.time))
-			})
+			this.handleSetTiming(Number(e.currentTarget.dataset.time))
 		}
-	},
-
-	// 开关机
-	handleSwichPower: function () {
-		let flag = this.data.power;
-		this.setData({
-			power: !flag
-		}, () => {
-			this.handleInit(!flag);
-		});
 	},
 
 	// 前往说明页面
@@ -111,56 +86,67 @@ Page({
 
 	// ————————————————————设备交互————————————————————
 
-	// 读取设备值处理
-	// 获取特征值变化值
-	handleWatchValue: function () {
-		let that = this;
-		wx.onBLECharacteristicValueChange(function (res) {
-			// BleTools.handleUnNotify(that.data.deviceId, that.data.lastReadValue[0], that.data.lastReadValue[1])
-			that.handleDealReadResult(res);
-		})
-	},
-
 	// 开/关 机初始化
-	handleInit: function (act) {
+	handleSwichPower: function (act) {
 		wx.showLoading({
-			title: '设备初始化中',
+			title: '控制中',
 		})
-		let that = this,
-			deviceId = this.data.deviceId,
-			timing = act ? 30 : 0,
-			temp = act ? 40 : 0;
-		DeviceFunction.handleTimer(deviceId, timing).then(() => { // 写入30分钟定时
-			DeviceFunction.handleTemperature(deviceId, temp); // 写入温度控制为30度
-		}).then(() => {
-			that.setData({
-				temperature: temp,
-				timing: timing
-			}, () => {
-				wx.hideLoading({
-					success: (res) => {
-						wx.showToast({
-							title: (act ? '开启' : '关机') + '完成',
-						})
-					},
+		let that = this;
+		if (this.data.power) {
+			console.log('控制关机');
+			DeviceFunction.handleTimer(AppData.connectingDeviceId, 0).then(() => {
+				that.setData({
+					temperature: 0,
+					timing: 0,
+					power: false,
+				}, () => {
+					wx.hideLoading({
+						success: (res) => {
+							wx.showToast({
+								title: '控制成功',
+								mask: false
+							})
+						},
+					})
 				})
 			})
-			// if (act) {
-			// 	that.handleReadTimer();
-			// }
-		}).catch(err => {
-			console.log(err)
-		})
+		} else {
+			console.log('控制开机');
+			DeviceFunction.handleTimer(AppData.connectingDeviceId, 30).then(() => {
+				DeviceFunction.handleTemperature(AppData.connectingDeviceId, 60).then(() => {
+					that.setData({
+						timing: 30,
+						power: true,
+						temperature: 40,
+					}, () => {
+						wx.hideLoading({
+							success: (res) => {
+								wx.showToast({
+									title: '控制成功',
+									mask: false
+								})
+							},
+						})
+					})
+				})
+			})
+		}
 	},
 
 	// 设置温度
 	handleSetTemp: function (temp) {
-		let deviceId = this.data.deviceId;
-		DeviceFunction.handleTemperature(deviceId, temp).then(res => {
+		let deviceId = this.data.deviceId,
+			that = this,
+			value = temp == 30 ? 30 : temp == 35 ? 40 : temp == 40 ? 60 : temp == 45 ? 80 : 100
+		DeviceFunction.handleTemperature(deviceId, value).then(res => {
 			wx.hideLoading({
 				success: (res) => {
-					wx.showToast({
-						title: '设置完成',
+					that.setData({
+						temperature: temp
+					}, () => {
+						wx.showToast({
+							title: '设置完成',
+						})
 					})
 				},
 			})
@@ -179,12 +165,17 @@ Page({
 
 	// 设置定时
 	handleSetTiming: function (timing) {
-		let deviceId = this.data.deviceId;
+		let that = this,
+			deviceId = this.data.deviceId;
 		DeviceFunction.handleTimer(deviceId, timing).then(res => {
 			wx.hideLoading({
 				success: (res) => {
-					wx.showToast({
-						title: '设置完成',
+					that.setData({
+						timing: timing
+					}, () => {
+						wx.showToast({
+							title: '设置完成',
+						})
 					})
 				},
 			})
@@ -200,56 +191,4 @@ Page({
 			})
 		});
 	},
-
-	// 读取当前定时
-	handleReadTimer: function () {
-		let that = this,
-			deviceId = this.data.deviceId;
-		console.log('读取定时器');
-		BleTools.getCharacteristicsValue(deviceId, 'AE00', 'AE02').then(resService => {
-			that.setData({
-				act: 'iniTtimer',
-				lastReadValue: [resService.serviceId, resService.characteristicId]
-			}, () => {
-				BleTools.handleRead(deviceId, resService.serviceId, resService.characteristicId);
-			})
-		}).catch(err => {
-			console.log('读取异常', err)
-		});
-	},
-
-	// 读取当前温度
-	handleReadTamp: function () {
-		let that = this,
-			deviceId = this.data.deviceId;
-		console.log('读取温度');
-		BleTools.getCharacteristicsValue(deviceId, 'AE00', 'AE01').then(resService => {
-			that.setData({
-				act: 'initTemp',
-				lastReadValue: [resService.serviceId, resService.characteristicId]
-			}, () => {
-				BleTools.handleRead(deviceId, resService.serviceId, resService.characteristicId);
-			})
-		}).catch(err => {
-			console.log('读取异常', err)
-		})
-	},
-
-	// 处理读取到的值
-	handleDealReadResult: function (data) {
-		let act = this.data.act,
-			value = Utils.ab2hex(data.value);
-		switch (act) {
-			case 'iniTtimer':
-				console.log('定时', value)
-				this.handleReadTamp()
-				break;
-			case 'initTemp':
-				console.log('温度', value)
-				break;
-			default:
-				break;
-		}
-	}
-
 })

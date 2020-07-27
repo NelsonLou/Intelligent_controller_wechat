@@ -6,7 +6,6 @@ Page({
 		bodyHeight: 0,
 		temperature: 0,
 		timing: 0,
-		model: 0,
 		gas: 0,
 		power: false,
 	},
@@ -25,7 +24,6 @@ Page({
 		this.setData({
 			temperature: AppData.temperature,
 			timing: AppData.timing,
-			model: AppData.massageModel,
 			gas: AppData.gas,
 			power: AppData.timing == 0 ? false : true
 		})
@@ -136,37 +134,6 @@ Page({
 		}
 	},
 
-	// 揉捏
-	handleMessage: function () {
-		if (this.data.power) {
-			wx.showLoading({
-				title: '控制中',
-			})
-			let that = this,
-				value = this.data.model == 0 ? 5 : 0,
-				degree = value == 5 ? 1 : 0;
-			DeviceFunction.handleMassage(AppData.connectingDeviceId, value, degree).then(() => {
-				that.setData({
-					model: value,
-				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '控制成功',
-								mask: false
-							})
-						},
-					})
-				})
-			})
-		} else {
-			wx.showToast({
-				title: '设备未开启',
-				icon: 'none'
-			})
-		}
-	},
-
 	// 开关机
 	handleSwichPower: function (e) {
 		wx.showLoading({
@@ -179,7 +146,6 @@ Page({
 					timing: 0,
 					power: false,
 					gas: 0,
-					model: 0,
 					temperature: 0,
 				}, () => {
 					wx.hideLoading({
@@ -195,12 +161,11 @@ Page({
 		} else {
 			DeviceFunction.handleTimer(AppData.connectingDeviceId, 30).then(() => {
 				DeviceFunction.handleTemperature(AppData.connectingDeviceId, 60).then(() => {
-					DeviceFunction.handleMassage(AppData.connectingDeviceId, 5, 1).then(() => {
+					DeviceFunction.handleKnead(AppData.connectingDeviceId, 3, 1).then(() => {
 						that.setData({
 							timing: 30,
 							power: true,
 							gas: 1,
-							model: 5,
 							temperature: 50,
 						}, () => {
 							wx.hideLoading({

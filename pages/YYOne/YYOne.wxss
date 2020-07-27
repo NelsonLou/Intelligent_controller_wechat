@@ -48,12 +48,12 @@
 }
 
 .BigRoll .numBox .num {
-    display: inline-block;
+    display: block;
     font-family: SF Pro Display;
     font-size: 154rpx;
     line-height: 184rpx;
     color: #ffffff;
-    margin-left: 48rpx;
+    text-align: center;
 }
 
 .BigRoll .numBox .unit {

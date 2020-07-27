@@ -1,5 +1,6 @@
 const AppData = getApp().globalData;
-import BleTools from '../../utils/bleTools.js';
+import BleTools from '../../utils/BLE/bleTools.js';
+const GetDeviceInfo = require('../../utils/BLE/getDeviceInfo');
 
 Page({
 	data: {
@@ -7,47 +8,21 @@ Page({
 		bodyHeight: 0,
 		netStatus: true,
 		searching: false, // 搜索标识
-		deviceList: [{
-			showDeviceName:'附近设备A',
-			localName:'xxxx',
-		},{
-			showDeviceName:'附近设备B',
-			localName:'xxxx',
-		}], // 搜索到设备列表
-		hasConnectList: [{
-			showDeviceName:'我的设备A（正在附近，可匹配）',
-			localName:'xxxx',
-			found: true
-		},{
-			showDeviceName:'我的设备B（未搜索到）',
-			localName:'xxxx',
-		}], // 连接记录 设备列表
+		deviceList: [], // 连接记录 设备列表
 	},
 
 	onLoad: function (options) {
 		this.setData({
-			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 360,
-			from: options.from
+			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 360
 		})
 	},
 
 	onShow: function () {
-		// 防止息屏返回后重复显示
-		let list = []
-		for (let i in AppData.hasConnectList) {
-			list.push({
-				found: false,
-				...AppData.hasConnectList[i]
-			})
-		}
 		this.setData({
-			netStatus: AppData.netStatus,
-			// hasConnectList: list,
-			// deviceList: []
-		},()=>{
-			// this.handleCloseBle()
+			deviceList: []
+		}, () => {
+			this.handleCloseBle()
 		})
-		
 	},
 
 	// 页面隐藏时关闭定时器以及设备搜索
@@ -56,19 +31,14 @@ Page({
 		this.handleStopScan()
 	},
 
-	// 页面隐藏时关闭定时器以及设备搜索
-	onUnload: function () {
-		this.handleStopScan()
-	},
-
-	handleCloseBle: function(){
+	handleCloseBle: function () {
 		let that = this
 		wx.closeBluetoothAdapter({
 			success(res) {
 				console.log('关闭蓝牙适配器', res)
 			},
 			fail(err) {
-				console.log('关闭蓝牙适配器异常',err)
+				console.log('关闭蓝牙适配器异常', err)
 			},
 			complete() {
 				that.handleTestBlueTooth()
@@ -84,24 +54,20 @@ Page({
 				that.getBluetoothAdapterState()
 			},
 			fail: function (err) {
-				if (err.errCode) {
-					that.goBleError(err.errCode)
-				} else {
-					wx.showModal({
-						content: '蓝牙调用失败，未知错误',
-						cancelText: '确定',
-						confirmText: '重试',
-						success: function (res) {
-							if (res.confirm) {
-								that.handleTestBlueTooth()
-							} else {
-								wx.navigateBack({
-									delta: 1,
-								})
-							}
+				wx.showModal({
+					content: '蓝牙调用失败，未知错误',
+					cancelText: '确定',
+					confirmText: '重试',
+					success: function (res) {
+						if (res.confirm) {
+							that.handleTestBlueTooth()
+						} else {
+							wx.navigateBack({
+								delta: 1,
+							})
 						}
-					})
-				}
+					}
+				})
 			}
 		})
 	},
@@ -115,7 +81,7 @@ Page({
 					that.handleFoundDevice()
 				}
 			},
-			fail(err) {}
+			fail(err) { }
 		})
 	},
 
@@ -130,43 +96,35 @@ Page({
 				that.handleOnDeviceFound()
 				that.data.timer = setTimeout(function () {
 					that.handleStopScan()
-				}, 30000)
+				}, 15000)
 			},
-			fail: function (err) {}
+			fail: function (err) { }
 		})
 	},
 
 	// 当搜索到新设备
 	handleOnDeviceFound: function () {
-		let arr = [],
-			list = this.data.deviceList,
-			hasList = JSON.parse(JSON.stringify(this.data.hasConnectList)),
-			that = this,
-			flag = false
+		let list = this.data.deviceList,
+			flag = false,
+			that = this;
 		wx.onBluetoothDeviceFound(function (res) {
 			var devices = res.devices
 			for (let i in devices) {
 				// 筛选是否为已连接过设备
-				if (devices[i].localName && devices[i].localName.indexOf('#QY#') >= 0) {
-					flag = false
-					devices[i].showDeviceName = devices[i].localName.split('#QY#')[1]
-					for (let t in hasList) {
-						if (hasList[t].showDeviceName == devices[i].showDeviceName) {
-							hasList[t].found = true;
-							hasList[t].deviceId = devices[i].deviceId; // 防止不同幸好设备同一设备DeviceID不同
+				if (devices[i].name && (devices[i].name.indexOf('YouYuan') >= 0 || devices[i].name.indexOf('YY') >= 0)) {
+					for (let x in list) {
+						if (list[x].deviceId == devices[i].deviceId) {
 							flag = true
 						}
 					}
-					if (!flag && devices[i].localName.indexOf('r#QY#') < 0) {
-						arr.push({
-							...devices[i]
-						})
+					if (!flag) {
+						list.push(devices[i])
 					}
+					flag = false
 				}
 			}
 			that.setData({
-				deviceList: list.concat(arr),
-				hasConnectList: hasList
+				deviceList: list,
 			})
 		})
 	},
@@ -182,71 +140,75 @@ Page({
 					timer: null
 				})
 			},
-			fail: function (err) {},
+			fail: function (err) { },
 		})
 	},
 
-	// 创建新设备连接
-	handleConnectNotyet: function (e) {
+	// 创建设备连接
+	handleConnect: function (e) {
 		let deviceId = e.currentTarget.dataset.deviceid,
 			that = this,
-			list = this.data.deviceList,
-			hasList = JSON.parse(JSON.stringify(AppData.hasConnectList)),
-			device = {}
-		for (let i in list) {
-			if (list[i].deviceId == deviceId) {
-				device = list[i]
-			}
-		}
+			list = AppData.historyList,
+			productType = AppData.productType,
+			flag = false,
+			arr = []
+		// for (let i in list) {
+		// 	if (list[i].deviceId == deviceId) {
+		// 		device = list[i]
+		// 	}
+		// }
 		BleTools.handleConnect(deviceId).then(res => {
-			AppData.connectingDeviceId = deviceId
-			hasList.push(device)
-			that.setData({
-				hasConnectList: hasList
-			}, () => {
-				AppData.hasConnectList = hasList;
-				that.handleSaveConnection()
-			})
+			that.goResult()
 		}).catch(err => {
 			console.log(err)
 			that.goResult(0)
 		})
 	},
 
-	// 连接历史连接设备
-	handleConnectAlready: function (e) {
-		let name = e.currentTarget.dataset.name,
-			that = this,
-			flag = false,
-			deviceId = ''
-		for (let i in this.data.hasConnectList) {
-			if (this.data.hasConnectList[i].showDeviceName == name) {
-				flag = this.data.hasConnectList[i].found
-				deviceId = this.data.hasConnectList[i].deviceId
-			}
-		}
-		if (flag) {
-			BleTools.handleConnect(deviceId).then(res => {
-				AppData.connectingDeviceId = deviceId
-				that.handleSaveConnection()
-			}).catch(err => {
-				console.log(err)
-				that.goResult(0)
-			})
-		}
-	},
-
 	// 前往设备连接结果页面
-	goResult: function (result) {
-		wx.navigateTo({
-			url: '../ConnectionResult/ConnectionResult?result=' + result + '&from=' + this.data.from,
-		})
-	},
-
-	// 跳转至蓝牙异常页面
-	goBleError: function (code) {
-		wx.navigateTo({
-			url: '../BleError/BleError?code=' + code,
+	goResult: function () {
+		let path = '';
+		switch (AppData.productType) {
+			case 'yy01':
+				path = 'YYOne';
+				break;
+			case 'yy02':
+				path = 'YYTwo';
+				break;
+			case 'yy03':
+				path = 'YYThree'
+				break;
+			case 'yy04':
+				path = 'YYFour';
+				break;
+			case 'yy05':
+				path = 'YYFive';
+				break;
+			case 'yy06':
+				path = 'YYSix';
+				break;
+			case 'yy07':
+				path = 'YYSeven';
+				break;
+			case 'yy08':
+				path = 'YYEight';
+				break;
+			default:
+				path = 'YYNight';
+				break;
+		}
+		GetDeviceInfo.getDeviceInfo(AppData.connectingDeviceId, function (res) {
+			if (res) {
+				wx.navigateTo({
+					url: '../' + path + '/' + path,
+				})
+			} else {
+				BleTools.handleDisConnect(AppData.connectingDeviceId);
+				wx.showModal({
+					content: '设备连接异常请尝试重连',
+					showCancel: false
+				})
+			}
 		})
 	},
 
@@ -259,52 +221,15 @@ Page({
 				value: JSON.stringify(AppData.hasConnectList),
 				key: AppData.openId
 			}
-		if(AppData.netStatus){
+		if (AppData.netStatus) {
 			Ajax('POST', api, para, res => {
 				that.goResult(1)
 			}, err => {
 				console.log('保存连接记录异常')
 				that.goResult(1)
 			})
-		}else{ // 断网情况
+		} else { // 断网情况
 			that.goResult(1)
 		}
 	},
-
-	// 选择产品页面
-	goChoseProduct: function () {
-		if(AppData.netStatus){
-			wx.navigateTo({
-				url: '../ChoseProduct/ChoseProduct',
-			})
-		}else{ // 断网情况
-			wx.showToast({
-			  	title: '网络异常，暂时无法使用该功能',
-			})
-		}
-	},
-
-	// 扫描设备PK
-	handleScanPK: function () {
-		wx.scanCode({
-			success: res => {
-				if (res.result.split('productKey=')[1]) {
-					wx.navigateTo({
-						url: '../ConnectCourse/ConnectCourse?productKey=' + res.result.split('pk=')[1],
-					})
-				} else {
-					wx.showModal({
-						content: '请扫描正确的设备二维码'
-					})
-				}
-			},
-			fail: err => {
-				console.log(err)
-			},
-		})
-	},
-
-	handleConnect: function(){
-		this.goResult(1)
-	}
 })

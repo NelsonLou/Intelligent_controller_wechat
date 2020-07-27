@@ -50,6 +50,8 @@
 .modelBox {
     width: 300rpx;
     height: 300rpx;
+    border-radius: 20rpx;
+    overflow: hidden;
     position: relative;
     display: inline-block;
     margin-left: 24rpx;
@@ -63,21 +65,18 @@
     font-size: 30rpx;
 }
 
-.modelItem text {
+.modelItemX text {
     display: inline-block;
 }
 
+
+
 .unChose {
-    background-color: #fff;
-    color: #ff8370;
+    color: #999;
 }
 
 .chose {
-    background-image: linear-gradient(0deg,
-            #ffc2b8 0%,
-            #ff8571 100%);
-    box-shadow: 0rpx 0rpx 10rpx 0rpx rgba(255, 131, 112, 0.5);
-    color: #fff;
+    color: #ff8370;
 }
 
 .lineCenter {
@@ -122,6 +121,15 @@
     opacity: 0.7;
     margin-top: 16rpx;
     margin-bottom: 30rpx;
+    position: relative;
+}
+
+.levelBtn{
+    position: absolute;
+    width: 80rpx;
+    height: 100rpx;
+    line-height: 80rpx;
+    text-align: center;
 }
 
 .degree .line {
@@ -129,7 +137,7 @@
     height: 12rpx;
     background-color: #ffe6e2;
     border-radius: 6rpx;
-    margin-top: 24rpx;
+    margin-top: 90rpx;
     margin-bottom: 12rpx;
     position: relative;
 }
@@ -252,6 +260,10 @@
     margin-left: 73rpx;
 }
 
+.marginleftTemp{
+    margin-left: 100rpx;
+}
+
 .bollTimer {
     width: 80rpx;
     height: 80rpx;
@@ -266,4 +278,32 @@
     background-color: #ffe9e6;
     left: 40rpx;
     top: 82rpx;
+}
+
+.modelItemX {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.ItemA {
+    left: 0;
+    top: 0;
+}
+
+.ItemB {
+    left: 0;
+    bottom: 0;
+}
+
+.ItemC {
+    right: 0;
+    top: 0;
+}
+
+.ItemD {
+    right: 0;
+    bottom: 0;
 }

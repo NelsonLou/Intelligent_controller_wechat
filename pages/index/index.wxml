@@ -5,6 +5,7 @@
 		<view class="title clearfloat">
 			<text>智能控制开关</text>
 		</view>
+		<!-- 扫描二维码 -->
 		<view class="moduleBox">
 			<view class="enterCard clearfloat" bindtap="handleGoScan">
 				<view class="left">
@@ -15,6 +16,24 @@
 				</view>
 			</view>
 		</view>
+		<view class="moreWay" bindtap="handleMoreWay">更多方式</view>
+		<!-- 历史记录 -->
+		<view class="moduleBox" style="">
+			<view class="enterCardhistory clearfloat">
+				<view class="historyTitle">历史记录</view>
+				<view class="list">
+					<view class="item clearfloat" wx:for='{{historyList}}' wx:for-index='idx' wx:for-item="item" wx:key='deviceId' bindtap="handleConnectHistory" data-idx="{{idx}}">
+						<text class="left">{{item.productType}}</text>
+						<text class="left" style="margin-left: 20rpx;">{{item.connectDate}}</text>
+						<text class="right" style="color: blue;">连接</text>
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
+	<!-- 弹出层 -->
+	<van-popup show="{{ popup }}" position="bottom" bind:close="onClose">
+		<van-picker show-toolbar columns="{{ columns }}" bind:confirm="handleChosePt" bind:cancel="onClose"/>
+	</van-popup>
 	<van-dialog id="van-dialog" />
 </view>

@@ -219,21 +219,20 @@
     padding: 0 40rpx;
 }
 
-.model .left {
-    width: 470rpx;
+.model .box {
     height: 180rpx;
     background-color: #282932;
     border-radius: 16rpx;
 }
 
-.model .left .item {
+.model .item {
     width: 100rpx;
     display: inline-block;
     text-align: center;
     color: #fff;
     font-size: 24rpx;
     margin-top: 20rpx;
-    margin-left: 45rpx;
+    margin-left: 87rpx;
 }
 
 .model .left .item text {
@@ -258,16 +257,9 @@
     text-align: center;
     border-radius: 16rpx;
     padding-bottom: 20rpx;
-}
-
-.model .open {
     background-image: linear-gradient(0deg,
             #b1e381 0%,
             #14b474 100%);
-}
-
-.model .close {
-    background-color: #282932;
 }
 
 .malaxation {
@@ -283,7 +275,7 @@
     margin-top: 20rpx;
 }
 
-.tempRoll {
+.tempRoll{
     width: 540rpx;
     height: 540rpx;
     position: absolute;

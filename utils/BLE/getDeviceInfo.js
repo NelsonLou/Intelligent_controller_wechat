@@ -1,0 +1,176 @@
+// 继续设备未完成操作
+// 连接设备 =》 鉴权
+const AppData = getApp().globalData;
+const Utils = require('../util');
+import BleTools from './bleTools';
+
+const tempList = {
+	yy01: {
+		'0': 0,
+		'30': 30,
+		'40': 35,
+		'60': 40,
+		'80': 45,
+		'100': 50,
+	},
+	yy02: {
+		'0': 0,
+		'1': 20,
+		'2': 40,
+		'3': 60,
+		'4': 80,
+		'5': 100,
+	},
+	yy03: {
+		'0': 0,
+		'40': 40,
+		'50': 45,
+		'60': 50,
+		'70': 55,
+		'80': 60,
+		'100': 65,
+	},
+	yy04: {
+		'0': 0,
+		'40': 40,
+		'50': 45,
+		'60': 50,
+		'70': 55,
+		'80': 60,
+		'100': 65,
+	},
+	yy05: {
+		'0': 0,
+		'40': 40,
+		'50': 45,
+		'60': 50,
+		'70': 55,
+		'80': 60,
+		'100': 65,
+	},
+	yy06: {
+		'0': 0,
+		'40': 40,
+		'50': 45,
+		'60': 50,
+		'80': 55,
+		'100': 60,
+	},
+	yy07: {
+		'0': 0,
+		'40': 40,
+		'50': 45,
+		'60': 50,
+		'80': 55,
+		'100': 60,
+	},
+	yy08: {
+		'0': 0,
+		'40': 40,
+		'50': 45,
+		'60': 50,
+		'80': 55,
+		'100': 60,
+	},
+}
+
+
+const getDeviceInfo = function (deviceId, callBack) {
+	handleWatchValue(deviceId, callBack)
+}
+
+const handleWatchValue = function (deviceId, callBack) {
+	wx.onBLECharacteristicValueChange((result) => {
+		BleTools.handleUnNotify(deviceId, result.serviceId, result.characteristicId);
+		handleDealResult(deviceId, result, callBack);
+	})
+	getTiming(deviceId, callBack)
+}
+
+const handleDealResult = function (deviceId, result, callBack) {
+	let value = Utils.ab2hex(result.value),
+		charId = result.characteristicId;
+	console.log('读取值', value);
+	if (charId == AppData.services.temp[1]) {
+		let temp = parseInt('0x' + value).toString()
+		console.log('读取到的温度值', temp)
+		console.log(AppData.productType)
+		console.log(tempList[AppData.productType][temp])
+		AppData.temperature = tempList[AppData.productType][temp]
+		console.log('读取温度', tempList[AppData.productType][temp])
+		getTiming(deviceId, callBack);
+	}
+	else if (charId == AppData.services.timing[1]) {
+		let first = parseInt('0x' + value.substring(0, 2)).toString(),
+			sec = parseInt('0x' + value.substring(2, 4)).toString();
+		AppData.timing = Number(first + sec)
+		console.log('读取定时', Number(first + sec));
+		getMassage(deviceId, callBack);
+	}
+	else if (charId == AppData.services.massage[1]) {
+		let model = Number(value.substring(0, 2)),
+			degree = Number(value.substring(2, 4));
+		AppData.massageModel = model;
+		AppData.massageDegree = degree;
+		console.log('读取按摩', model, degree);
+		// getVentilation(deviceId, callBack); // 暂时通风属性还没notify属性
+		getKnead(deviceId, callBack);
+	}
+	else if (charId == AppData.services.ventilation[1]) {
+		console.log('读取通风', value);
+		getKnead(deviceId, callBack);
+	}
+	else if (charId == AppData.services.knead[1]) {
+		let direction = Number(value.substring(0, 2)),
+			degree = Number(value.substring(2, 4));
+		AppData.kneadDirection = direction;
+		AppData.kneadDegree = degree;
+		console.log('读取揉捏', direction, degree);
+		getGas(deviceId, callBack);
+	}
+	else {
+		AppData.gas = Number(value)
+		console.log('读取充放气', value);
+		finish(true, callBack);
+	}
+}
+
+const getTemp = function (deviceId, callBack) {
+	BleTools.handleRead(deviceId, AppData.services.temp[0], AppData.services.temp[1]).catch(err => {
+		finish(false, callBack)
+	})
+}
+
+const getTiming = function (deviceId, callBack) {
+	BleTools.handleRead(deviceId, AppData.services.timing[0], AppData.services.timing[1]).catch(err => {
+		finish(false, callBack)
+	})
+}
+const getMassage = function (deviceId, callBack) {
+	BleTools.handleRead(deviceId, AppData.services.massage[0], AppData.services.massage[1]).catch(err => {
+		finish(false, callBack)
+	})
+}
+const getVentilation = function (deviceId, callBack) {
+	BleTools.handleRead(deviceId, AppData.services.ventilation[0], AppData.services.ventilation[1]).catch(err => {
+		finish(false, callBack)
+	})
+}
+const getKnead = function (deviceId, callBack) {
+	BleTools.handleRead(deviceId, AppData.services.knead[0], AppData.services.knead[1]).catch(err => {
+		finish(false, callBack)
+	})
+}
+const getGas = function (deviceId, callBack) {
+	BleTools.handleRead(deviceId, AppData.services.gas[0], AppData.services.gas[1]).catch(err => {
+		finish(false, callBack)
+	})
+}
+
+const finish = function (flag, callBack) {
+	callBack(flag)
+}
+
+module.exports = {
+	getDeviceInfo: getDeviceInfo
+}

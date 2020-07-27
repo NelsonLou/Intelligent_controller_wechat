@@ -58,28 +58,6 @@ const handleConnect = function (deviceId,callback) {
 	})
 }
 
-// 鉴权
-const handleAuthentication = function (deviceId,callback) {
-	console.log('重连，开始鉴权');
-	let deviceMac = AppData.deviceMac,
-		key = 'qy' + deviceMac + 'qy',
-		text = '2013' + deviceMac,
-		pwd = AesTools.handleEncryptCBC(key, text)
-	// 获取读鉴权信息的特征值
-	BleTools.getCharacteristicsValue(deviceId, BleTools.serviceList.accessW[0], BleTools.serviceList.accessW[1]).then(res => {
-		console.log('重连，获取鉴权服务号')
-		// 获取鉴权的特征值
-		BleTools.getCharacteristicsValue(deviceId, BleTools.serviceList.accessR[0], BleTools.serviceList.accessR[1]).then(resWriteChar => {
-			console.log('重连，获取鉴权特征值')
-			// 进行鉴权
-			BleTools.handleWrite(deviceId, resWriteChar.serviceId, resWriteChar.characteristicId, Utils.hex2ab(pwd)).then(() => {
-				console.log('重连，鉴权写入成功')
-				result(true,callback)
-			})
-		})
-	})
-}
-
 // 蓝牙重连结果
 const result = function (flag, callback) {
 	wx.hideLoading()
