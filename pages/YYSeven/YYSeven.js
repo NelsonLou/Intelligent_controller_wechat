@@ -3,6 +3,7 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion')
 
 Page({
 	data: {
+		timeScrollNum: 0,
 		bodyHeight: 0,
 		temperature: 0,
 		timing: 0,
@@ -19,6 +20,29 @@ Page({
 
 	onShow: function () {
 		this.handleGetValue()
+	},
+
+	handleTouchEndTime: function () {
+		let num = this.data.timeScrollNum,
+			time = 0;
+		if (num >= 267) {
+			time = 10
+		} else if (num < 267 && num >= 210) {
+			time = 20
+		} else if (num < 210 && num >= 149) {
+			time = 30
+		} else if (num < 149 && num >= 87) {
+			time = 40
+		} else if (num < 87 && num >= 27) {
+			time = 30
+		} else if (num < 27) {
+			time = 10
+		}
+		this.handleSwitchTimer(time)
+	},
+
+	handleScrollTime: function (e) {
+		this.data.timeScrollNum = e.detail.scrollLeft
 	},
 
 	handleGetValue: function () {
@@ -72,12 +96,11 @@ Page({
 		}
 	},
 
-
 	// 定时
-	handleSwitchTimer: function (e) {
+	handleSwitchTimer: function (timing) {
 		if (this.data.power) {
 			let that = this,
-				timing = Number(e.currentTarget.dataset.time);
+				timing = Number(timing);
 			wx.showLoading({
 				title: '控制中',
 			})
@@ -96,9 +119,13 @@ Page({
 				})
 			})
 		} else {
-			wx.showToast({
-				title: '设备未开启',
-				icon: 'none'
+			this.setData({
+				timing: this.data.timing
+			}, () => {
+				wx.showToast({
+					title: '设备未开启',
+					icon: 'none'
+				})
 			})
 		}
 	},
@@ -136,7 +163,7 @@ Page({
 		}
 	},
 
-	// 揉捏
+	// 按摩
 	handleMessage: function () {
 		if (this.data.power) {
 			wx.showLoading({
@@ -194,22 +221,24 @@ Page({
 			})
 		} else {
 			DeviceFunction.handleTimer(AppData.connectingDeviceId, 30).then(() => {
-				DeviceFunction.handleTemperature(AppData.connectingDeviceId, 60).then(() => {
-					DeviceFunction.handleMassage(AppData.connectingDeviceId, 5, 1).then(() => {
-						that.setData({
-							timing: 30,
-							power: true,
-							gas: 1,
-							model: 5,
-							temperature: 50,
-						}, () => {
-							wx.hideLoading({
-								success: (res) => {
-									wx.showToast({
-										title: '控制成功',
-										mask: false
-									})
-								},
+				DeviceFunction.handleGas(AppData.connectingDeviceId, 1).then(() => {
+					DeviceFunction.handleTemperature(AppData.connectingDeviceId, 60).then(() => {
+						DeviceFunction.handleMassage(AppData.connectingDeviceId, 5, 1).then(() => {
+							that.setData({
+								timing: 30,
+								power: true,
+								gas: 1,
+								model: 5,
+								temperature: 50,
+							}, () => {
+								wx.hideLoading({
+									success: (res) => {
+										wx.showToast({
+											title: '控制成功',
+											mask: false
+										})
+									},
+								})
 							})
 						})
 					})

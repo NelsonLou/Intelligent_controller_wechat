@@ -105,6 +105,7 @@
     padding: 12rpx 24rpx;
     text-align: left;
     background-color: #fff;
+    position: relative;
 }
 
 .efforts {
@@ -142,23 +143,6 @@
     position: relative;
 }
 
-.line .showLine {
-    background-color: #ff8370;
-    border-radius: 6rpx;
-    height: 100%;
-}
-
-.line .boll {
-    width: 10rpx;
-    height: 10rpx;
-    background-color: #ff8370;
-    border: solid 10rpx #ffffff;
-    border-radius: 20rpx;
-    position: absolute;
-    top: -10rpx;
-    box-shadow: 0rpx 0rpx 10rpx 0rpx rgba(255, 131, 112, 0.5);
-}
-
 .controler .item {
     overflow: auto;
     width: 80rpx;
@@ -193,6 +177,7 @@
     color: #333;
     padding-bottom: 50rpx;
     overflow: auto;
+    position: relative;
 }
 
 .timerBox .title {
@@ -226,9 +211,10 @@
 
 
 .timerMain {
-    margin-top: 24rpx;
     position: absolute;
+    margin-top: 24rpx;
     margin-left: 17rpx;
+    z-index: 1;
 }
 
 .timerItem {
@@ -306,4 +292,51 @@
 .ItemD {
     right: 0;
     bottom: 0;
+}
+
+/* 加热拖拽 */
+
+.srollTemp {
+    position: absolute;
+    top: 150rpx;
+    z-index: 999;
+}
+
+.bollTemp {
+    width: 70rpx;
+    height: 70rpx;
+    margin-left: 620rpx;
+    margin-right: 620rpx;
+}
+
+/* 按摩力度 */
+.degreeScroll{
+    position: absolute;
+    height: 30rpx;
+    width: 300rpx;
+    top: 92rpx;
+    vertical-align: top;
+}
+
+.degreeScroll .showLine {
+    background-color: #ff8370;
+    border-radius: 6rpx;
+    width: 290rpx;
+    height: 12rpx;
+    vertical-align: top;
+    display: inline-block;
+    margin-top: 12rpx;
+    margin-right: 275rpx;
+}
+
+.degreeScroll .boll {
+    width: 10rpx;
+    height: 10rpx;
+    display: inline-block;
+    background-color: #ff8370;
+    vertical-align: top;
+    border: solid 10rpx #ffffff;
+    border-radius: 20rpx;
+    box-shadow: 0rpx 0rpx 10rpx 0rpx rgba(255, 131, 112, 0.5);
+    margin-top: -12rpx;
 }

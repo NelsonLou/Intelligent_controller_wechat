@@ -20,6 +20,29 @@ Page({
 		this.handleGetValue()
 	},
 
+	handleTouchEndTime: function () {
+		let num = this.data.timeScrollNum,
+			time = 0;
+		if (num >= 267) {
+			time = 10
+		} else if (num < 267 && num >= 210) {
+			time = 20
+		} else if (num < 210 && num >= 149) {
+			time = 30
+		} else if (num < 149 && num >= 87) {
+			time = 40
+		} else if (num < 87 && num >= 27) {
+			time = 30
+		} else if (num < 27) {
+			time = 10
+		}
+		this.handleSwitchTimer(time)
+	},
+
+	handleScrollTime: function (e) {
+		this.data.timeScrollNum = e.detail.scrollLeft
+	},
+
 	handleGetValue: function () {
 		this.setData({
 			temperature: AppData.temperature,
@@ -72,10 +95,10 @@ Page({
 
 
 	// 定时
-	handleSwitchTimer: function (e) {
+	handleSwitchTimer: function (timing) {
 		if (this.data.power) {
 			let that = this,
-				timing = Number(e.currentTarget.dataset.time);
+				timing = Number(timing);
 			wx.showLoading({
 				title: '控制中',
 			})
@@ -94,9 +117,13 @@ Page({
 				})
 			})
 		} else {
-			wx.showToast({
-				title: '设备未开启',
-				icon: 'none'
+			this.setData({
+				timing: this.data.timing
+			}, () => {
+				wx.showToast({
+					title: '设备未开启',
+					icon: 'none'
+				})
 			})
 		}
 	},
@@ -161,11 +188,11 @@ Page({
 		} else {
 			DeviceFunction.handleTimer(AppData.connectingDeviceId, 30).then(() => {
 				DeviceFunction.handleTemperature(AppData.connectingDeviceId, 60).then(() => {
-					DeviceFunction.handleKnead(AppData.connectingDeviceId, 3, 1).then(() => {
+					DeviceFunction.handleGas(AppData.connectingDeviceId, 3).then(() => {
 						that.setData({
 							timing: 30,
 							power: true,
-							gas: 1,
+							gas: 3,
 							temperature: 50,
 						}, () => {
 							wx.hideLoading({

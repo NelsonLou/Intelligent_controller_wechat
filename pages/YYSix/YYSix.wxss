@@ -117,7 +117,7 @@
             #ff894d 100%) !important;
 }
 
-.effortsClose{
+.effortsClose {
     background-color: #484d66;
 }
 
@@ -136,10 +136,9 @@
     font-size: 28rpx;
     position: absolute;
     width: 88rpx;
-    height: 100rpx;
+    height: 30rpx;
     line-height: 80rpx;
     text-align: center;
-    z-index: 99;
 }
 
 .degree .line {
@@ -244,7 +243,6 @@
     position: absolute;
     bottom: 5rpx;
     left: 5rpx;
-    z-index: 999;
 }
 
 .marginleft {
@@ -268,33 +266,33 @@
     top: 82rpx;
 }
 
-.malaxation{
+.malaxation {
     width: 100rpx;
     height: 100rpx;
     display: block;
     margin: 0 auto;
 }
 
-.effortsTxt{
+.effortsTxt {
     display: block;
-	font-family: PingFang SC;
-	font-size: 28rpx;
-	font-weight: normal;
-	font-stretch: normal;
-	line-height: 40rpx;
-	letter-spacing: 0px;
+    font-family: PingFang SC;
+    font-size: 28rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 40rpx;
+    letter-spacing: 0px;
     color: #ffffff;
     text-align: center;
 }
 
-.num{
+.num {
     position: absolute;
-	font-family: SF Pro Display;
-	font-size: 140rpx;
-	font-weight: normal;
-	font-stretch: normal;
-	line-height: 167rpx;
-	letter-spacing: 0rpx;
+    font-family: SF Pro Display;
+    font-size: 140rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 167rpx;
+    letter-spacing: 0rpx;
     color: #ffffff;
     left: 0;
     right: 0;
@@ -302,16 +300,65 @@
     top: 145rpx;
 }
 
-.unit{
+.unit {
     position: absolute;
-	font-family: PingFang SC;
-	font-size: 32rpx;
-	font-weight: normal;
-	font-stretch: normal;
-	line-height: 45rpx;
-	letter-spacing: 0rpx;
-	color: #ffffff;
+    font-family: PingFang SC;
+    font-size: 32rpx;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 45rpx;
+    letter-spacing: 0rpx;
+    color: #ffffff;
     opacity: 0.5;
     right: 260rpx;
     top: 145rpx;
+}
+
+/* 拖拽 */
+
+.srollDegree {
+    height: 35rpx;
+    width: 313rpx;
+    /* background-color: rgba(255, 255, 255, 0.3); */
+    position: absolute;
+    left: 16rpx;
+    bottom: 26rpx;
+}
+
+.inside {
+    width: 589rpx;
+}
+
+.showLine {
+    background-color: #65d9ff;
+    width: 298rpx;
+    height: 12rpx;
+    margin-top: 12rpx;
+    position: relative;
+    margin-right: 293rpx;
+}
+
+.degreeBoll {
+    width: 10rpx;
+    height: 10rpx;
+    background-color: #65d9ff;
+    border: solid 10rpx #ffffff;
+    border-radius: 20rpx;
+    position: absolute;
+    top: -10rpx;
+    right: -10rpx;
+}
+
+.srollTemp {
+    position: absolute;
+    top: 60rpx;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.bollTemp {
+    width: 70rpx;
+    height: 70rpx;
+    margin-left: 590rpx;
+    margin-right: 580rpx;
 }

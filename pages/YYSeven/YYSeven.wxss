@@ -145,6 +145,7 @@
 .timerMain {
     margin-top: 24rpx;
     position: absolute;
+    z-index: 1;
 }
 
 .timerItem {
@@ -175,20 +176,6 @@
     z-index: 999;
     text-align: center;
     line-height: 52rpx;
-}
-
-.timerItem .choseBall {
-    width: 80rpx;
-    height: 80rpx;
-    line-height: 80rpx;
-    border-radius: 40rpx;
-    background-image: linear-gradient(0deg,
-            #b1e381 0%,
-            #14b474 100%);
-    position: absolute;
-    bottom: -10rpx;
-    left: 5rpx;
-
 }
 
 .marginleft {
@@ -289,4 +276,31 @@
     position: absolute;
     left: 105rpx;
     top: 0rpx;
+}
+
+.scrollView {
+    position: absolute;
+    width: 690rpx;
+    height: 80rpx;
+    top: 70rpx;
+    left: 45rpx;
+    right: 0;
+    /* background-color: rgba(255, 255, 255, 0.3); */
+    z-index: 999;
+    overflow: auto;
+}
+
+.choseBall {
+    width: 80rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-radius: 40rpx;
+    background-image: linear-gradient(0deg,
+            #b1e381 0%,
+            #14b474 100%);
+    text-align: center;
+    color: #fff;
+    margin-left: 600rpx;
+    margin-right: 600rpx;
+    display: inline-block;
 }

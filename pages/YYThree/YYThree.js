@@ -3,6 +3,7 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion');
 
 Page({
 	data: {
+		scrollNum: 0,
 		power: false, // 控制开关
 		bodyHeight: 0, // 屏幕高度
 		temperature: 0, // 当前温度
@@ -22,6 +23,35 @@ Page({
 		this.handleGetValue()
 	},
 
+	// ——————————————拖拽相关——————————————
+	handleScroll: function (e) {
+		this.setData({
+			scrollNum: e.detail.scrollLeft
+		})
+	},
+
+	handleTouchEnd: function () {
+		let num = this.data.scrollNum,
+			timing = 0;
+		if (num <= 28) {
+			timing = 60
+		} else if (num > 28 && num <= 80) {
+			timing = 50
+		} else if (num > 80 && num <= 137) {
+			timing = 40
+		} else if (num > 137 && num <= 193) {
+			timing = 30
+		} else if (num > 193 && num <= 250) {
+			timing = 20
+		} else if (num > 250 && num <= 277) {
+			timing = 10
+		}
+		this.handleSwitchTimer(timing)
+	},
+
+	// ——————————————控制——————————————
+
+	// 同步实时数据
 	handleGetValue() {
 		this.setData({
 			temperature: AppData.temperature,
@@ -63,17 +93,22 @@ Page({
 	},
 
 	// 切换定时
-	handleSwitchTimer: function (e) {
+	handleSwitchTimer: function (timing) {
 		if (!this.data.power) {
-			wx.showToast({
-				title: '设备未开机',
-				icon: 'none',
+			this.setData({
+				timing: this.data.timing
+			},()=>{
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none',
+				})
 			})
-		} else if (this.data.timing != e.currentTarget.dataset.time) {
+		} else if (this.data.timing != timing) {
+
 			wx.showLoading({
 				title: '设置中'
 			})
-			this.handleSetTiming(Number(e.currentTarget.dataset.time))
+			this.handleSetTiming(Number(timing))
 		}
 	},
 

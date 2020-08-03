@@ -20,20 +20,21 @@
 			<view class="powerSwitch right">
 				<text class="title">力度</text>
 				<view>
-					<view class="left">
-						<view class="lineCenter" style="height: {{degree == 3?'100%': degree == 2?'50%':'0'}};margin-top:{{degree == 2?'150rpx':'0'}}">
+					<scroll-view scroll-top='{{degree == 1? 0:degree == 2? 63:degree == 3? 125:0}}' bindtouchend='handleTouchEndDegree' bindscroll='handleScrollDegree' class="left" scroll-y>
+						<view class="lineCenter">
+							<view class="top"></view>
+							<view class="bottom" wx:if='{{degree>=1}}'>
+								<view class="boll"></view>
+							</view>
 						</view>
-					</view>
-					<view class="high clearfloat" bindtap="handleDegree" data-degree="3">
-						<view class="boll" wx:if='{{degree == 3}}'></view>
+					</scroll-view>
+					<view class="high">
 						<text>高</text>
 					</view>
-					<view class="center" bindtap="handleDegree" data-degree="2">
-						<view class="boll" wx:if='{{degree == 2}}'></view>
+					<view class="center">
 						<text>中</text>
 					</view>
-					<view class="low" bindtap="handleDegree" data-degree="1">
-						<view class="boll" wx:if='{{degree == 1}}'></view>
+					<view class="low">
 						<text>低</text>
 					</view>
 				</view>
@@ -46,41 +47,39 @@
 				<text class="small">（℃）</text>
 			</view>
 			<view class="timerMain clearfloat">
-				<view class="timerLine"></view>
-				<view class='timerItem left' style="margin-left: 16rpx" bindtap="handleSetTemp" data-temp="40">
+				<scroll-view wx:if='{{temperature>=40&&temperature<=65}}' scroll-left='{{temperature == 40?284:temperature == 45?233:temperature == 50?174:temperature == 55?113:temperature == 60?53:temperature == 65?0:0}}' bindtouchend='handleTouchEndTemp' bindscroll='handleScrollTemp' scroll-x class="srollTemp">
+					<image class="bollTemp" src="../../assets/yy04_heating.png"></image>
+				</scroll-view>
+				<view class="timerLine">
+				</view>
+				<view class='timerItem left' style="margin-left: 16rpx">
 					<text>40</text>
 					<view class="boll">
-						<image wx:if='{{temperature == 40}}' class="bollTimer" src="../../assets/yy04_heating.png"></image>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSetTemp" data-temp="45">
+				<view class='timerItem left marginleft'>
 					<text>45</text>
 					<view class="boll">
-						<image wx:if='{{temperature == 45}}' class="bollTimer" src="../../assets/yy04_heating.png"></image>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSetTemp" data-temp="50">
+				<view class='timerItem left marginleft'>
 					<text>50</text>
 					<view class="boll">
-						<image wx:if='{{temperature == 50}}' class="bollTimer" src="../../assets/yy04_heating.png"></image>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSetTemp" data-temp="55">
+				<view class='timerItem left marginleft'>
 					<text>55</text>
 					<view class="boll">
-						<image wx:if='{{temperature == 55}}' class="bollTimer" src="../../assets/yy04_heating.png"></image>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSetTemp" data-temp="60">
+				<view class='timerItem left marginleft'>
 					<text>60</text>
 					<view class="boll">
-						<image wx:if='{{temperature == 60}}' class="bollTimer" src="../../assets/yy04_heating.png"></image>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSetTemp" data-temp="65">
+				<view class='timerItem left marginleft'>
 					<text>65</text>
 					<view class="boll">
-						<image wx:if='{{temperature == 65}}' class="bollTimer" src="../../assets/yy04_heating.png"></image>
 					</view>
 				</view>
 			</view>
@@ -92,41 +91,38 @@
 				<text class="small">（分钟）</text>
 			</view>
 			<view class="timerMain clearfloat">
+				<scroll-view wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 10?289:timing == 20?233:timing == 30?174:timing == 40?113:timing == 50?53:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' bindscroll='handleScrollTime' scroll-x class="srollTemp">
+					<image class="bollTemp" src="../../assets/yy04_timing.png"></image>
+				</scroll-view>
 				<view class="timerLine"></view>
-				<view class='timerItem left' style="margin-left: 16rpx" bindtap="handleSwitchTimer" data-time="10">
+				<view class='timerItem left' style="margin-left: 16rpx">
 					<text style="opacity: {{timing==10?1:0.5}}">10</text>
 					<view class="boll">
-						<image wx:if='{{timing == 10}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="20">
+				<view class='timerItem left marginleft'>
 					<text style="opacity: {{timing==20?1:0.5}}">20</text>
 					<view class="boll">
-						<image wx:if='{{timing == 20}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="30">
+				<view class='timerItem left marginleft'>
 					<text style="opacity: {{timing==30?1:0.5}}">30</text>
 					<view class="boll">
-						<image wx:if='{{timing == 30}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="40">
+				<view class='timerItem left marginleft'>
 					<text style="opacity: {{timing==40?1:0.5}}">40</text>
 					<view class="boll">
-						<image wx:if='{{timing == 40}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="50">
+				<view class='timerItem left marginleft'>
 					<text style="opacity: {{timing==50?1:0.5}}">50</text>
 					<view class="boll">
-						<image wx:if='{{timing == 50}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="60">
+				<view class='timerItem left marginleft'>
 					<text style="opacity: {{timing==60?1:0.5}}">60</text>
 					<view class="boll">
-						<image wx:if='{{timing == 60}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
 					</view>
 				</view>
 			</view>

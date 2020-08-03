@@ -1,4 +1,3 @@
-
 const randomString = function () {
 	let len = 16;
 	var $chars = 'abcdefhijkmnprstwxyz12345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/

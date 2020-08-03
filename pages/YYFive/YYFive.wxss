@@ -111,6 +111,7 @@
 
 .degree,
 .efforts {
+    position: relative;
     width: 292rpx;
     border-radius: 10rpx;
     background-color: #251253;
@@ -137,11 +138,11 @@
     position: relative;
 }
 
-.degreeBtn{
+.degreeBtn {
     font-size: 22rpx;
     position: absolute;
     width: 60rpx;
-    height: 100rpx;
+    height: 30rpx;
     text-align: center;
 }
 
@@ -155,21 +156,8 @@
     position: relative;
 }
 
-.line .showLine {
-    background-color: #65d9ff;
-    border-radius: 6rpx;
-    height: 100%;
-}
 
-.line .boll {
-    width: 10rpx;
-    height: 10rpx;
-    background-color: #65d9ff;
-    border: solid 10rpx #ffffff;
-    border-radius: 20rpx;
-    position: absolute;
-    top: -10rpx;
-}
+
 
 .controler {
     margin-top: 20rpx;
@@ -257,7 +245,6 @@
     position: absolute;
     bottom: 5rpx;
     left: 5rpx;
-    z-index: 999;
 }
 
 .marginleft {
@@ -309,4 +296,57 @@
     background-image: linear-gradient(0deg, #374d87 0%, #283d88 100%);
     color: #ffffff;
     opacity: 0.5;
+}
+
+.srollTemp {
+    position: absolute;
+    top: 160rpx;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.bollTemp {
+    width: 70rpx;
+    height: 70rpx;
+    margin-left: 590rpx;
+    margin-right: 580rpx;
+}
+
+/* width: 10rpx;
+height: 10rpx;
+border: solid 10rpx #ffffff;
+border-radius: 20rpx; */
+
+
+.srollDegree {
+    height: 35rpx;
+    width: 313rpx;
+    /* background-color: rgba(255, 255, 255, 0.3); */
+    position: absolute;
+    left: 16rpx;
+    bottom: 26rpx;
+}
+
+.inside {
+    width: 589rpx;
+}
+
+.showLine {
+    background-color: #65d9ff;
+    width: 298rpx;
+    height: 12rpx;
+    margin-top: 12rpx;
+    position: relative;
+    margin-right: 293rpx;
+}
+
+.degreeBoll {
+    width: 10rpx;
+    height: 10rpx;
+    background-color: #65d9ff;
+    border: solid 10rpx #ffffff;
+    border-radius: 20rpx;
+    position: absolute;
+    top: -10rpx;
+    right: -10rpx;
 }

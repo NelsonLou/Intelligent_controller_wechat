@@ -11,7 +11,7 @@
 		<!-- 温控 -->
 		<view class="temperature">
 			<image class="bg" src="../../assets/yy07_dial_bg.png"></image>
-			<image class="tempRoll" src="../../assets/yy07_dial_{{temperature}}.png"></image>
+			<image class="tempRoll" wx:if='{{temperature>0}}' src="../../assets/yy07_dial_{{temperature}}.png"></image>
 			<text class="num">{{temperature}}</text>
 			<text class="unit">℃</text>
 			<view class="controller clearfloat">
@@ -25,35 +25,38 @@
 				<text class="big">定时</text>
 				<text class="small">（分钟）</text>
 			</view>
+			<scroll-view class="scrollView" wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 10?294:timing == 20?240:timing == 30?180:timing == 40?118:timing == 50?55:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' bindscroll='handleScrollTime' scroll-x>
+				<view class="choseBall">{{timing}}</view>
+			</scroll-view>
 			<view class="timerMain clearfloat">
 				<view class="timerLine"></view>
-				<view class='timerItem left' style="margin-left: 16rpx" bindtap="handleSwitchTimer" data-time="10">
-					<view class="{{timing==10?'choseBall':'boll'}}">
+				<view class='timerItem left' style="margin-left: 16rpx">
+					<view class="boll">
 						<text>10</text>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="20">
-					<view class="{{timing==20?'choseBall':'boll'}}">
+				<view class='timerItem left marginleft'>
+					<view class="boll">
 						<text>20</text>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="30">
-					<view class="{{timing==30?'choseBall':'boll'}}">
+				<view class='timerItem left marginleft'>
+					<view class="boll">
 						<text>30</text>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="40">
-					<view class="{{timing==40?'choseBall':'boll'}}">
+				<view class='timerItem left marginleft'>
+					<view class="boll">
 						<text>40</text>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="50">
-					<view class="{{timing==50?'choseBall':'boll'}}">
+				<view class='timerItem left marginleft'>
+					<view class="boll">
 						<text>50</text>
 					</view>
 				</view>
-				<view class='timerItem left marginleft' bindtap="handleSwitchTimer" data-time="60">
-					<view class="{{timing==60?'choseBall':'boll'}}">
+				<view class='timerItem left marginleft'>
+					<view class="boll">
 						<text>60</text>
 					</view>
 				</view>

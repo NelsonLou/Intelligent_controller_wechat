@@ -15,11 +15,11 @@ const tempList = {
 	},
 	yy02: {
 		'0': 0,
-		'1': 20,
-		'2': 40,
-		'3': 60,
-		'4': 80,
-		'5': 100,
+		'20': 20,
+		'40': 40,
+		'60': 60,
+		'80': 80,
+		'100': 100,
 	},
 	yy03: {
 		'0': 0,
@@ -72,6 +72,14 @@ const tempList = {
 		'80': 55,
 		'100': 60,
 	},
+	yy09: {
+		'0': 0,
+		'40': 40,
+		'50': 45,
+		'60': 50,
+		'80': 55,
+		'100': 60,
+	},
 }
 
 
@@ -84,7 +92,7 @@ const handleWatchValue = function (deviceId, callBack) {
 		BleTools.handleUnNotify(deviceId, result.serviceId, result.characteristicId);
 		handleDealResult(deviceId, result, callBack);
 	})
-	getTiming(deviceId, callBack)
+	getTemp(deviceId, callBack)
 }
 
 const handleDealResult = function (deviceId, result, callBack) {
@@ -101,10 +109,11 @@ const handleDealResult = function (deviceId, result, callBack) {
 		getTiming(deviceId, callBack);
 	}
 	else if (charId == AppData.services.timing[1]) {
-		let first = parseInt('0x' + value.substring(0, 2)).toString(),
-			sec = parseInt('0x' + value.substring(2, 4)).toString();
-		AppData.timing = Number(first + sec)
-		console.log('读取定时', Number(first + sec));
+		let first = value.substring(0, 2),
+			last = value.substring(2, 4)
+		let num = parseInt('0x' + last + first)
+		AppData.timing = Number(num)
+		console.log('读取定时', Number(num));
 		getMassage(deviceId, callBack);
 	}
 	else if (charId == AppData.services.massage[1]) {
@@ -113,11 +122,12 @@ const handleDealResult = function (deviceId, result, callBack) {
 		AppData.massageModel = model;
 		AppData.massageDegree = degree;
 		console.log('读取按摩', model, degree);
-		// getVentilation(deviceId, callBack); // 暂时通风属性还没notify属性
+		// getVentilation(deviceId, callBack);
 		getKnead(deviceId, callBack);
 	}
 	else if (charId == AppData.services.ventilation[1]) {
 		console.log('读取通风', value);
+		AppData.ventilation = Number(value) // 通风
 		getKnead(deviceId, callBack);
 	}
 	else if (charId == AppData.services.knead[1]) {

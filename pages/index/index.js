@@ -30,9 +30,15 @@ Page({
 		})
 	},
 
-	onShow: function(){
-		wx.hideLoading();
-		this.handleCloseBle(false)
+	onShow: function () {
+		if (AppData.connectingDeviceId) {
+			wx.closeBLEConnection({
+				deviceId: AppData.connectingDeviceId,
+				success: res => {
+					AppData.connectingDeviceId = null
+				}
+			})
+		}
 	},
 
 	// 扫描二维码
@@ -45,7 +51,8 @@ Page({
 					that.setData({
 						productType: result.split('productType=')[1]
 					}, () => {
-						that.handleCloseBle(true); // 开始搜索蓝牙
+						wx.hideLoading();
+						that.handleCloseBle(); // 开始搜索蓝牙
 					})
 				} else {
 					wx.showModal({
@@ -61,7 +68,7 @@ Page({
 	},
 
 	// 关闭蓝牙连接
-	handleCloseBle: function (flag) {
+	handleCloseBle: function () {
 		let that = this
 		wx.closeBluetoothAdapter({
 			fail(err) {
@@ -73,9 +80,7 @@ Page({
 						wx.getBluetoothAdapterState({
 							success: function (res) {
 								if (res.available) {
-									if(flag){
-										that.handleFoundDevice()
-									}
+									that.handleFoundDevice()
 								} else {
 									that.BleError()
 								}
@@ -330,7 +335,11 @@ Page({
 	handleConnectHistory: function (e) {
 		let device = this.data.historyList[e.currentTarget.dataset.idx],
 			list = [device];
-		this.handleConnect(device)
+		this.setData({
+			productType: device.productType
+		}, () => {
+			this.handleConnect(device)
+		})
 	},
 
 	getDateNow: function () {

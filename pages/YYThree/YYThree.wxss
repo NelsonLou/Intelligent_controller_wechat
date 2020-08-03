@@ -115,24 +115,6 @@
     position: relative;
 }
 
-.timerBox .choseBox {
-    width: 80rpx;
-    height: 80rpx;
-    background-color: #fff;
-    box-shadow: 0rpx 8rpx 40rpx 0rpx rgba(137, 204, 61, 0.3);
-    border-radius: 16rpx;
-    border: solid 2rpx #89cc3d;
-    position: absolute;
-    z-index: 99;
-    top: 105rpx;
-    font-family: SF Pro Display;
-	font-size: 32rpx;
-    line-height: 80rpx;
-    text-align: center;
-	letter-spacing: 0rpx;
-	color: #89cc3d;
-}
-
 .timerBox .title {
     margin-left: 36rpx;
 }
@@ -175,7 +157,7 @@
     position: relative;
 }
 
-.timerBox .timerLine text{
+.timerBox .timerLine text {
     position: absolute;
     width: 70rpx;
     text-align: center;
@@ -196,4 +178,32 @@
     height: 120rpx;
     margin: 0 auto;
     margin-top: 50rpx;
+}
+
+.scrollView {
+    width: 630rpx;
+    height: 80rpx;
+    position: absolute;
+    left: 60rpx;
+    top: 100rpx;
+    overflow: auto;
+}
+
+.scrollInside {
+    width: 1185rpx;
+}
+
+.choseBox {
+    width: 75rpx;
+    height: 75rpx;
+    background-color: #fff;
+    box-shadow: 0rpx 8rpx 40rpx 0rpx rgba(137, 204, 61, 0.3);
+    border-radius: 16rpx;
+    font-family: SF Pro Display;
+    font-size: 32rpx;
+    line-height: 80rpx;
+    text-align: center;
+    letter-spacing: 0rpx;
+    margin-left: 555rpx;
+    color: #89cc3d;
 }

@@ -3,6 +3,9 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion');
 
 Page({
 	data: {
+		degreeScrollNum: 0,
+		tempScrollNum: 0,
+		timeScrollNum: 0,
 		bodyHeight: 0,
 		temperature: 0,
 		timing: 0,
@@ -22,14 +25,71 @@ Page({
 		this.handleGetValue()
 	},
 
-	// 页面隐藏时关闭定时器以及设备搜索
-	onHide: function () {
+	// ——————————————拖拽——————————————
+	handleScrollDegree: function (e) {
+		this.data.degreeScrollNum = e.detail.scrollTop
 	},
 
-	// 页面隐藏时关闭定时器以及设备搜索
-	onUnload: function () {
+	handleTouchEndDegree: function () {
+		let num = this.data.degreeScrollNum,
+			degree = 0;
+		if (num <= 35) {
+			degree = 1
+		} else if (num > 35 && num <= 95) {
+			degree = 2
+		} else {
+			degree = 3
+		}
+		this.handleDegree(degree)
 	},
 
+	handleScrollTemp: function (e) {
+		this.data.tempScrollNum = e.detail.scrollLeft;
+	},
+
+	handleTouchEndTemp: function () {
+		let num = this.data.tempScrollNum,
+			temp = 0;
+		if (num > 259) {
+			temp = 40
+		} else if (num <= 259 && num > 203) {
+			temp = 45
+		} else if (num <= 203 && num > 144) {
+			temp = 50
+		} else if (num <= 144 && num > 83) {
+			temp = 55
+		} else if (num <= 83 && num > 27) {
+			temp = 60
+		} else if (num <= 27) {
+			temp = 65
+		}
+		this.handleSetTemp(temp)
+	},
+
+	handleScrollTime: function(e){
+		this.data.timeScrollNum = e.detail.scrollLeft;
+	},
+
+	handleTouchEndTime: function(e){
+		let num = this.data.timeScrollNum,
+			time = 0;
+		if (num > 259) {
+			time = 10
+		} else if (num <= 259 && num > 203) {
+			time = 20
+		} else if (num <= 203 && num > 144) {
+			time = 30
+		} else if (num <= 144 && num > 83) {
+			time = 40
+		} else if (num <= 83 && num > 27) {
+			time = 50
+		} else if (num <= 27) {
+			time = 60
+		}
+		this.handleSwitchTimer(time)
+	},
+
+	// ——————————————数据控制——————————————
 	handleGetValue() {
 		this.setData({
 			temperature: AppData.temperature,
@@ -73,24 +133,31 @@ Page({
 	},
 
 	// 设置力度
-	handleDegree: function (e) {
+	handleDegree: function (degree) {
 		if (this.data.power) {
 			wx.showLoading({
 				title: '设置中',
 			})
-			let degree = e.currentTarget.dataset.degree;
 			if (this.data.model == 0) {
-				wx.showToast({
-					title: '按摩未开启',
-					icon: 'none'
+				this.setData({
+					degree: this.data.degree
+				}, () => {
+					wx.showToast({
+						title: '按摩未开启',
+						icon: 'none'
+					})
 				})
 			} else {
 				this.handleMassage(this.data.model, degree)
 			}
 		} else {
-			wx.showToast({
-				title: '设备未开机',
-				icon: 'none',
+			this.setData({
+				degree: this.data.degree
+			}, () => {
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none'
+				})
 			})
 		}
 	},
@@ -115,14 +182,13 @@ Page({
 	},
 
 	// 设置温度
-	handleSetTemp: function (e) {
+	handleSetTemp: function (temp) {
 		if (this.data.power) {
 			wx.showLoading({
 				title: '设置中',
 			})
 			let deviceId = this.data.deviceId,
 				that = this,
-				temp = e.currentTarget.dataset.temp,
 				value = temp == 40 ? 40 : temp == 45 ? 50 : temp == 50 ? 60 : temp == 55 ? 70 : temp == 60 ? 80 : 100;
 			DeviceFunction.handleTemperature(deviceId, value).then(res => {
 				that.setData({
@@ -138,24 +204,27 @@ Page({
 				})
 			})
 		} else {
-			wx.showToast({
-				title: '设备未开机',
-				icon: 'none',
+			this.setData({
+				temperature: this.data.temperature
+			}, () => {
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none',
+				})
 			})
 		}
 	},
 
 	// 设置定时
-	handleSwitchTimer: function (e) {
+	handleSwitchTimer: function (time) {
 		if (this.data.power) {
 			wx.showLoading({
 				title: '设置中',
 			})
-			let deviceId = this.data.deviceId,
-				time = e.currentTarget.dataset.time;
+			let deviceId = this.data.deviceId;
 			DeviceFunction.handleTimer(deviceId, time).then(res => {
 				this.setData({
-					timing: e.currentTarget.dataset.time
+					timing: time
 				}, () => {
 					wx.hideLoading({
 						success: (res) => {
@@ -167,9 +236,13 @@ Page({
 				})
 			})
 		} else {
-			wx.showToast({
-				title: '设备未开机',
-				icon: 'none',
+			this.setData({
+				timing: this.data.timing
+			},()=>{
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none',
+				})
 			})
 		}
 	},

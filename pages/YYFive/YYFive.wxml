@@ -23,14 +23,19 @@
 			<view class="degree left">
 				<view class="title">按摩力度</view>
 				<view class="text">
-					<text class="degreeBtn" bindtap="handleDegree" style="left:-20rpx" data-flag="1">低</text>
-					<text class="degreeBtn" bindtap="handleDegree" style="left:42%" data-flag="2">中</text>
-					<text class="degreeBtn" bindtap="handleDegree" style="left:88%"  data-flag="3">高</text>
+					<text class="degreeBtn" style="left:-20rpx">低</text>
+					<text class="degreeBtn" style="left:42%">中</text>
+					<text class="degreeBtn" style="left:88%">高</text>
 				</view>
 				<view class="line">
-					<view class="showLine" wx:if='{{degree>0}}' style="width: {{degree==1?'0':degree==2?'50':'100'}}%"></view>
-					<view class="boll" wx:if='{{degree>0}}' style="left: {{degree==1?'0':degree==2?'135':265}}rpx"></view>
 				</view>
+				<scroll-view wx:if='{{degree>0}}' scroll-left='{{degree==1?138:degree==2?65:degree==3?0:0}}' bindtouchend='handleTouchEndDegree' bindscroll='handleScrollDegree' scroll-x='true' class="srollDegree">
+					<view class="inside">
+						<view class="showLine">
+							<view class="degreeBoll"></view>
+						</view>
+					</view>
+				</scroll-view>
 			</view>
 			<!-- 通风力度 -->
 			<view class="efforts right">
@@ -49,41 +54,38 @@
 				<text class="small">（分钟）</text>
 			</view>
 			<view class="timerMain clearfloat">
+				<scroll-view wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 10?284:timing == 20?233:timing == 30?174:timing == 40?113:timing == 50?53:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' bindscroll='handleScrollTime' scroll-x class="srollTemp">
+					<image class="bollTemp" src="../../assets/yy04_timing.png"></image>
+				</scroll-view>
 				<view class="timerLine"></view>
 				<view class='timerItem left' style="margin-left: 16rpx" bindtap="handleTiming" data-time="10">
 					<text style="opacity: {{timing==10?1:0.5}}">10</text>
 					<view class="boll">
-						<image wx:if='{{timing == 10}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
 					</view>
 				</view>
 				<view class='timerItem left marginleft' bindtap="handleTiming" data-time="20">
 					<text style="opacity: {{timing==20?1:0.5}}">20</text>
 					<view class="boll">
-						<image wx:if='{{timing == 20}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
 					</view>
 				</view>
 				<view class='timerItem left marginleft' bindtap="handleTiming" data-time="30">
 					<text style="opacity: {{timing==30?1:0.5}}">30</text>
 					<view class="boll">
-						<image wx:if='{{timing == 30}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
 					</view>
 				</view>
 				<view class='timerItem left marginleft' bindtap="handleTiming" data-time="40">
 					<text style="opacity: {{timing==40?1:0.5}}">40</text>
 					<view class="boll">
-						<image wx:if='{{timing == 40}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
 					</view>
 				</view>
 				<view class='timerItem left marginleft' bindtap="handleTiming" data-time="50">
 					<text style="opacity: {{timing==50?1:0.5}}">50</text>
 					<view class="boll">
-						<image wx:if='{{timing == 50}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
 					</view>
 				</view>
 				<view class='timerItem left marginleft' bindtap="handleTiming" data-time="60">
 					<text style="opacity: {{timing==60?1:0.5}}">60</text>
 					<view class="boll">
-						<image wx:if='{{timing == 60}}' class="bollTimer" src="../../assets/yy04_timing.png"></image>
 					</view>
 				</view>
 			</view>

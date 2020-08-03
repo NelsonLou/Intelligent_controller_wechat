@@ -3,6 +3,8 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion')
 
 Page({
 	data: {
+		timeScrollNum: 0,
+		degreeScrollNum: 0,
 		bodyHeight: 0,
 		temperature: 55, // 温度
 		degree: 1, // 按摩力度
@@ -22,10 +24,52 @@ Page({
 		this.handleGetValue()
 	},
 
+	// ————————————拖拽————————————
+	handleScrollTime: function (e) {
+		this.data.timeScrollNum = e.detail.scrollLeft;
+	},
+
+	handleTouchEndTime: function (e) {
+		let num = this.data.timeScrollNum,
+			time = 0;
+		if (num > 259) {
+			time = 10
+		} else if (num <= 259 && num > 203) {
+			time = 20
+		} else if (num <= 203 && num > 144) {
+			time = 30
+		} else if (num <= 144 && num > 83) {
+			time = 40
+		} else if (num <= 83 && num > 27) {
+			time = 50
+		} else if (num <= 27) {
+			time = 60
+		}
+		this.handleTiming(time)
+	},
+
+	handleScrollDegree: function (e) {
+		this.data.degreeScrollNum = e.detail.scrollLeft
+	},
+
+	handleTouchEndDegree: function () {
+		let num = this.data.degreeScrollNum,
+			degree = 0;
+		if (num <= 33) {
+			degree = 3
+		}else if(num > 33&&num <= 101){
+			degree = 2
+		}else if(num>101){
+			degree = 1
+		}
+		this.handleDegree(degree)
+	},
+
 	handleGetValue() {
 		this.setData({
 			temperature: AppData.temperature,
-			timing: AppData.timing,
+			// timing: AppData.timing,
+			timing: 10,
 			effortsDegree: AppData.ventilation,
 			model: AppData.massageModel,
 			degree: AppData.massageDegree,
@@ -77,21 +121,28 @@ Page({
 	},
 
 	// 控制按摩力度
-	handleDegree: function (e) {
+	handleDegree: function (degree) {
 		if (this.data.power) {
-			let degree = Number(e.currentTarget.dataset.flag);
-			if(this.data.model == 0){
-				wx.showToast({
-					title: '按摩未开启',
-					icon: 'none'
+			if (this.data.model == 0) {
+				this.setData({
+					degree: this.data.degree
+				},()=>{
+					wx.showToast({
+						title: '按摩未开启',
+						icon: 'none'
+					})
 				})
-			}else{
+			} else {
 				this.handleMassage(this.data.model, degree)
 			}
 		} else {
-			wx.showToast({
-				title: '设备未开启',
-				icon: 'none'
+			this.setData({
+				degree: this.data.degree
+			},()=>{
+				wx.showToast({
+					title: '设备未开启',
+					icon: 'none'
+				})
 			})
 		}
 	},
@@ -104,7 +155,7 @@ Page({
 				this.handleMassage(0, 0)
 			} else {
 				let degree = this.data.degree;
-				if(degree == 0){
+				if (degree == 0) {
 					degree = 1
 				}
 				this.handleMassage(model, degree)
@@ -174,10 +225,9 @@ Page({
 	},
 
 	// 定时
-	handleTiming: function (e) {
+	handleTiming: function (timing) {
 		if (this.data.power) {
-			let that = this,
-				timing = Number(e.currentTarget.dataset.time);
+			let that = this
 			wx.showLoading({
 				title: '控制中',
 			})
@@ -196,10 +246,14 @@ Page({
 				})
 			})
 		} else {
-			wx.showToast({
-				title: '设备未开启',
-				icon: 'none'
-			})
+			this.setData({
+				timing: this.data.timing
+			}, () => {
+				wx.showToast({
+					title: '设备未开启',
+					icon: 'none'
+				})
+			});
 		}
 	},
 

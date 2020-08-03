@@ -103,22 +103,13 @@
     opacity: 1;
 }
 
-.powerSwitch .left {
-    width: 24rpx;
-    height: 275rpx;
-    background-color: #8dbbfe;
-    border-radius: 24rpx;
-    margin-top: 45rpx;
-    margin-left: 15rpx;
-    vertical-align: bottom;
-}
 
 .powerSwitch .high {
     position: absolute;
     top: 100rpx;
     right: 50rpx;
     height: 40rpx;
-    width: 113rpx;
+    width: 40rpx;
     text-align: right;
     vertical-align: middle;
 }
@@ -128,7 +119,7 @@
     top: 225rpx;
     right: 50rpx;
     height: 40rpx;
-    width: 113rpx;
+    width: 40rpx;
     text-align: right;
 }
 
@@ -137,28 +128,9 @@
     top: 350rpx;
     right: 50rpx;
     height: 40rpx;
-    width: 113rpx;
+    width: 40rpx;
     text-align: right;
 }
-
-.powerSwitch .boll {
-    width: 18rpx;
-    height: 18rpx;
-    background-color: #65d9ff;
-    border: solid 16rpx #ffffff;
-    border-radius: 25rpx;
-    display: inline-block;
-    position: absolute;
-    left: 0;
-    top: -5rpx;
-}
-
-.lineCenter {
-    background-color: #65d9ff;
-    width: 100%;
-    border-radius: 100rpx;
-}
-
 
 .timerBox {
     margin-top: 60rpx;
@@ -237,7 +209,6 @@
     position: absolute;
     bottom: 5rpx;
     left: 5rpx;
-    z-index: 999;
 }
 
 .marginleft {
@@ -259,4 +230,61 @@
     opacity: 0.12;
     left: 40rpx;
     top: 82rpx;
+}
+
+
+.powerSwitch .left {
+    width: 50rpx;
+    height: 300rpx;
+    border-radius: 24rpx;
+    margin-top: 30rpx;
+    margin-left: 15rpx;
+    vertical-align: bottom;
+    overflow: auto;
+    border-radius: 100rpx;
+}
+
+.powerSwitch .lineCenter {
+    background-color: #8dbbfe;
+    width: 24rpx;
+    height: 500rpx;
+    margin: 0 auto;
+    border-radius: 100rpx;
+}
+
+.powerSwitch .lineCenter .top{
+    background-color: #8dbbfe;
+    height: 250rpx;
+    border-radius: 100rpx;
+}
+
+.lineCenter .bottom{
+    background-color: #65d9ff;
+    height: 300rpx;
+    position: relative;
+    border-radius: 100rpx;
+}
+
+.powerSwitch .boll {
+    width: 18rpx;
+    height: 18rpx;
+    background-color: #65d9ff;
+    border: solid 16rpx #ffffff;
+    border-radius: 25rpx;
+    margin-left: -12rpx;
+    display: inline-block;
+}
+
+.srollTemp{
+    position: absolute;
+    top: 60rpx;
+    z-index: 999;
+    background-color:rgba(0, 0, 0, 0);
+}
+
+.bollTemp {
+    width: 70rpx;
+    height: 70rpx;
+    margin-left: 590rpx;
+    margin-right: 580rpx;
 }

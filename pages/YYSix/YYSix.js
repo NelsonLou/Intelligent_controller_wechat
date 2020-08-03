@@ -3,6 +3,7 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion')
 
 Page({
 	data: {
+		kneadScrollNum: 0,
 		bodyHeight: 0,
 		temperature: 0,
 		timing: 0,
@@ -26,12 +27,53 @@ Page({
 		this.setData({
 			temperature: AppData.temperature,
 			timing: AppData.timing,
-			kneadModel: AppData.timing,
-			kneadDegree: AppData.timing,
+			kneadModel: AppData.kneadDirection,
+			kneadDegree: AppData.kneadDegree,
 			power: AppData.timing == 0 ? false : true
 		})
 	},
 
+	// 拖拽控件
+
+	handleScrollTime: function (e) {
+		this.data.timeScrollNum = e.detail.scrollLeft;
+	},
+
+	handleTouchEndTime: function (e) {
+		let num = this.data.timeScrollNum,
+			time = 0;
+		if (num > 259) {
+			time = 10
+		} else if (num <= 259 && num > 203) {
+			time = 20
+		} else if (num <= 203 && num > 144) {
+			time = 30
+		} else if (num <= 144 && num > 83) {
+			time = 40
+		} else if (num <= 83 && num > 27) {
+			time = 50
+		} else if (num <= 27) {
+			time = 60
+		}
+		this.handleSwitchTimer(time)
+	},
+
+	handleScrollKnead: function (e) {
+		this.data.kneadScrollNum = e.detail.scrollLeft
+	},
+
+	handleTouchEndKnead: function () {
+		let num = this.data.degreeScrollNum,
+			degree = 0;
+		if (num <= 35) {
+			degree = 3
+		} else if (num > 35 && num <= 103) {
+			degree = 2
+		} else if (num > 103) {
+			degree = 1
+		}
+		this.handleKneadDegree(degree)
+	},
 
 	// 控制温度
 	handleTemp: function (e) {
@@ -84,15 +126,18 @@ Page({
 	},
 
 	// 揉捏力度
-	handleKneadDegree: function (e) {
+	handleKneadDegree: function (degree) {
 		if (this.data.kneadModel == 0) {
-			wx.showToast({
-				title: '揉捏未开启',
-				icon: 'none'
+			this.setData({
+				handleKnead: this.data.handleKnead
+			}, () => {
+				wx.showToast({
+					title: '揉捏未开启',
+					icon: 'none'
+				})
 			})
 		} else {
-			let value = e.currentTarget.dataset.flag;
-			this.handleKnead(this.data.kneadModel, value)
+			this.handleKnead(this.data.kneadModel, degree)
 		}
 	},
 
@@ -119,18 +164,21 @@ Page({
 				})
 			})
 		} else {
-			wx.showToast({
-				title: '设备未开启',
-				icon: 'none'
+			this.setData({
+				kneadDegree: this.data.kneadDegree
+			}, () => {
+				wx.showToast({
+					title: '设备未开启',
+					icon: 'none'
+				})
 			})
 		}
 	},
 
 	// 定时
-	handleSwitchTimer: function (e) {
+	handleSwitchTimer: function (timing) {
 		if (this.data.power) {
-			let that = this,
-				timing = Number(e.currentTarget.dataset.time);
+			let that = this;
 			wx.showLoading({
 				title: '控制中',
 			})
@@ -149,9 +197,13 @@ Page({
 				})
 			})
 		} else {
-			wx.showToast({
-				title: '设备未开启',
-				icon: 'none'
+			this.setData({
+				timing: this.data.timing
+			}, () => {
+				wx.showToast({
+					title: '设备未开启',
+					icon: 'none'
+				})
 			})
 		}
 	},
