@@ -23,7 +23,7 @@ Page({
 		this.handleGetValue()
 	},
 
-	// ——————————————拖拽相关——————————————
+	// ——————————————滚动条相关——————————————
 	handleScroll: function (e) {
 		this.setData({
 			scrollNum: e.detail.scrollLeft
@@ -46,6 +46,7 @@ Page({
 		} else if (num > 250 && num <= 277) {
 			timing = 10
 		}
+		console.log(timing)
 		this.handleSwitchTimer(timing)
 	},
 
@@ -97,14 +98,13 @@ Page({
 		if (!this.data.power) {
 			this.setData({
 				timing: this.data.timing
-			},()=>{
+			}, () => {
 				wx.showToast({
 					title: '设备未开机',
 					icon: 'none',
 				})
 			})
-		} else if (this.data.timing != timing) {
-
+		} else {
 			wx.showLoading({
 				title: '设置中'
 			})

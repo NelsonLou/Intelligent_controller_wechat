@@ -1,31 +1,31 @@
 <view class='container'>
 	<navBar title='YY01' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
 	<view class='YYOne' style="height: {{bodyHeight}}rpx">
-	<!-- 功能说明 -->
+		<!-- 功能说明 -->
 		<view class="imagBox clearfloat" bindtap="goInroduce">
 			<view class="instructionsBox right">
 				<image class="instructionsIMG" src="../../assets/yy01_functional_specification.png"></image>
 				<text class="instructionsTxt">功能说明</text>
 			</view>
 		</view>
-        <!-- 温表 -->
+		<!-- 温表 -->
 		<view class="thermometer">
 			<view class="BigRoll">
-                <view class="numBox">
-                    <view class="num">{{temperature}}</view>
-                    <view class="unit">℃</view>
-                    <view class="txt">加热</view>
-                </view>
+				<view class="numBox">
+					<view class="num">{{temperature}}</view>
+					<view class="unit">℃</view>
+					<view class="txt">加热</view>
+				</view>
 				<image class="BigRoll_bg" src="../../assets/yy01_dial_bg.png"></image>
-				<image class="BigRoll_side" src="../../assets/yy01_dial_{{temperature}}.png"></image>
+				<image class="BigRoll_side" wx:if='{{temperature>0}}' src="../../assets/yy01_dial_{{temperature}}.png"></image>
 			</view>
 		</view>
-        <!-- 温控 -->
+		<!-- 温控 -->
 		<view class="buttonBox clearfloat">
 			<image bindtap="handleSub" class="BigRoll_plus left" src="../../assets/yy01_subtract.png"></image>
 			<image bindtap="handleAdd" class="BigRoll_subtract right" src="../../assets/yy01_plus.png"></image>
 		</view>
-        <!-- 定时 -->
+		<!-- 定时 -->
 		<view class="timerBox">
 			<view class="title">
 				<text class="big">定时</text>
@@ -71,7 +71,7 @@
 				</view>
 			</view>
 		</view>
-        <!-- 电源 -->
-        <image class="power" bindtap="handleSwichPower" src="../../assets/yy01_power_switch_{{power?'on':'off'}}.png"></image>
+		<!-- 电源 -->
+		<image class="power" bindtap="handleSwichPower" src="../../assets/yy01_power_switch_{{power?'on':'off'}}.png"></image>
 	</view>
 </view>
