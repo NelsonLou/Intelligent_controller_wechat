@@ -97,6 +97,15 @@ Page({
 					icon: 'none',
 				})
 			})
+		} else if (timing == this.data.timing) {
+			let value = this.data.timing;
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+			})
 		} else {
 			wx.showLoading({
 				title: '设置中'

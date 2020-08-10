@@ -85,11 +85,24 @@ Page({
 	handleSwitchTimer: function (time) {
 		if (!this.data.power) {
 			this.setData({
-				timing: this.data.timing,
+				timing: 0,
+			},()=>{
+				this.setData({
+					timing: this.data.timing,
+				})
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none',
+				})
 			})
-			wx.showToast({
-				title: '设备未开机',
-				icon: 'none',
+		} else if(time == this.data.timing){
+			let value = this.data.timing;
+			this.setData({
+				timing: 0,
+			},()=>{
+				this.setData({
+					timing: value,
+				})
 			})
 		} else {
 			wx.showLoading({

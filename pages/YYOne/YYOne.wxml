@@ -33,7 +33,7 @@
 			</view>
 			<view class="timerMain clearfloat">
 				<!-- 滑动 -->
-				<scroll-view wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 10?300:timing == 20?238:timing == 30?180:timing == 40?120:timing == 50?60:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' scroll-x class="srollTemp">
+				<scroll-view wx:if='{{timing>=10&&timing<=60&&power}}' scroll-left='{{timing == 10?298:timing == 20?238:timing == 30?178:timing == 40?118:timing == 50?58:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' scroll-x class="srollTemp">
 					<image class="bollTemp" src="../../assets/yy01_timing.png"></image>
 				</scroll-view>
 				<view class="timerLine"></view>

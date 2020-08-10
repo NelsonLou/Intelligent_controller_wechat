@@ -35,7 +35,6 @@ Page({
 	},
 
 	// 拖拽控件
-
 	handleTouchEndTime: function (e) {
 		let num = e.changedTouches[0].clientX,
 			time = 0;
@@ -59,7 +58,7 @@ Page({
 	handleTouchEndKnead: function (e) {
 		let num = e.changedTouches[0].clientX,
 			degree = 0;
-			// 206 276 346 
+		// 206 276 346 
 		if (num <= 241) {
 			degree = 1
 		} else if (num > 241 && num <= 311) {
@@ -122,13 +121,26 @@ Page({
 
 	// 揉捏力度
 	handleKneadDegree: function (degree) {
+		console.log(degree);
+		let value = this.data.kneadDegree;
 		if (this.data.kneadModel == 0) {
 			this.setData({
-				handleKnead: this.data.handleKnead
+				kneadDegree: 0
 			}, () => {
+				this.setData({
+					kneadDegree: value
+				})
 				wx.showToast({
 					title: '揉捏未开启',
 					icon: 'none'
+				})
+			})
+		} else if (degree == value) {
+			this.setData({
+				kneadDegree: 0
+			}, () => {
+				this.setData({
+					kneadDegree: value
 				})
 			})
 		} else {
@@ -172,29 +184,43 @@ Page({
 
 	// 定时
 	handleSwitchTimer: function (timing) {
+		let value = this.data.timing;
 		if (this.data.power) {
-			let that = this;
-			wx.showLoading({
-				title: '控制中',
-			})
-			DeviceFunction.handleTimer(AppData.connectingDeviceId, timing).then(res => {
-				that.setData({
-					timing: timing,
+			if (timing == value) {
+				this.setData({
+					timing: 0
 				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '控制成功',
-								mask: false
-							})
-						},
+					this.setData({
+						timing: value
 					})
 				})
-			})
+			} else {
+				let that = this;
+				wx.showLoading({
+					title: '控制中',
+				})
+				DeviceFunction.handleTimer(AppData.connectingDeviceId, timing).then(res => {
+					that.setData({
+						timing: timing,
+					}, () => {
+						wx.hideLoading({
+							success: (res) => {
+								wx.showToast({
+									title: '控制成功',
+									mask: false
+								})
+							},
+						})
+					})
+				})
+			}
 		} else {
 			this.setData({
-				timing: this.data.timing
+				timing: 0
 			}, () => {
+				this.setData({
+					timing: value
+				})
 				wx.showToast({
 					title: '设备未开启',
 					icon: 'none'

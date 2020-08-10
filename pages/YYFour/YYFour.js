@@ -128,7 +128,28 @@ Page({
 
 	// 设置力度
 	handleDegree: function (degree) {
-		if (this.data.power) {
+		let value = this.data.degree;
+		if (!this.data.power) {
+			this.setData({
+				degree: 0
+			}, () => {
+				this.setData({
+					degree: value
+				})
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none'
+				})
+			})
+		} else if (degree == this.data.degree) {
+			this.setData({
+				degree: 0
+			}, () => {
+				this.setData({
+					degree: value
+				})
+			})
+		} else {
 			wx.showLoading({
 				title: '设置中',
 			})
@@ -144,15 +165,6 @@ Page({
 			} else {
 				this.handleMassage(this.data.model, degree)
 			}
-		} else {
-			this.setData({
-				degree: this.data.degree
-			}, () => {
-				wx.showToast({
-					title: '设备未开机',
-					icon: 'none'
-				})
-			})
 		}
 	},
 
@@ -177,7 +189,28 @@ Page({
 
 	// 设置温度
 	handleSetTemp: function (temp) {
-		if (this.data.power) {
+		let value = this.data.temperature;
+		if (!this.data.power) {
+			this.setData({
+				temperature: 0
+			}, () => {
+				this.setData({
+					temperature: value
+				})
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none',
+				})
+			})
+		} else if (temp == this.data.temperature) {
+			this.setData({
+				temperature: 0
+			}, () => {
+				this.setData({
+					temperature: value
+				})
+			})
+		} else {
 			wx.showLoading({
 				title: '设置中',
 			})
@@ -197,21 +230,33 @@ Page({
 					})
 				})
 			})
-		} else {
-			this.setData({
-				temperature: this.data.temperature
-			}, () => {
-				wx.showToast({
-					title: '设备未开机',
-					icon: 'none',
-				})
-			})
 		}
 	},
 
 	// 设置定时
 	handleSwitchTimer: function (time) {
-		if (this.data.power) {
+		let value = this.data.timing;
+		if (!this.data.power) {
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none',
+				})
+			})
+		} else if (time == this.data.timing) {
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+			})
+		} else {
 			wx.showLoading({
 				title: '设置中',
 			})
@@ -229,15 +274,7 @@ Page({
 					})
 				})
 			})
-		} else {
-			this.setData({
-				timing: this.data.timing
-			}, () => {
-				wx.showToast({
-					title: '设备未开机',
-					icon: 'none',
-				})
-			})
+
 		}
 	},
 

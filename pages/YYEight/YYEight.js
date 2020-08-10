@@ -67,7 +67,7 @@ Page({
 	handleTouchEndDegree: function (e) {
 		let num = e.changedTouches[0].clientX,
 			degree = 0;
-			// 199 266 337 
+		// 199 266 337 
 		if (num >= 301) {
 			degree = 3;
 		} else if (num < 301 && num >= 233) {
@@ -119,14 +119,26 @@ Page({
 
 	// 设置力度
 	handleDegree: function (degree) {
+		let value = this.data.degree;
 		if (this.data.power) {
 			if (this.data.model == 0) {
 				this.setData({
-					degree: this.data.degree
+					degree: 0
 				}, () => {
+					this.setData({
+						degree: value
+					})
 					wx.showToast({
 						title: '按摩未开启',
 						icon: 'none'
+					})
+				})
+			} else if (degree == value) {
+				this.setData({
+					degree: 0
+				}, () => {
+					this.setData({
+						degree: value
 					})
 				})
 			} else {
@@ -202,7 +214,28 @@ Page({
 
 	// 设置温度
 	handleSetTemp: function (temp) {
-		if (this.data.power) {
+		let value = this.data.temperature;
+		if (!this.data.power) {
+			this.setData({
+				temperature: 0
+			}, () => {
+				this.setData({
+					temperature: value
+				})
+				wx.showToast({
+					title: '设备未开启',
+					icon: 'none'
+				})
+			})
+		} else if (temp == value) {
+			this.setData({
+				temperature: 0
+			}, () => {
+				this.setData({
+					temperature: value
+				})
+			})
+		} else {
 			let that = this;
 			wx.showLoading({
 				title: '控制中',
@@ -222,21 +255,33 @@ Page({
 					})
 				})
 			})
-		} else {
-			this.setData({
-				temperature: this.data.temperature
-			}, () => {
-				wx.showToast({
-					title: '设备未开启',
-					icon: 'none'
-				})
-			})
 		}
 	},
 
 	// 设置定时
 	handleSwitchTimer: function (time) {
-		if (this.data.power) {
+		let value = this.data.timing;
+		if (!this.data.power) {
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none',
+				})
+			})
+		} else if (time == value) {
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+			})
+		} else {
 			wx.showLoading({
 				title: '设置中',
 			})
@@ -252,15 +297,6 @@ Page({
 							})
 						},
 					})
-				})
-			})
-		} else {
-			this.setData({
-				timing: this.data.timing
-			}, () => {
-				wx.showToast({
-					title: '设备未开机',
-					icon: 'none',
 				})
 			})
 		}

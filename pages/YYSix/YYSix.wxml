@@ -32,7 +32,7 @@
 				</view>
 				<view class="line">
 				</view>
-				<scroll-view wx:if='{{kneadDegree>0}}' scroll-left='{{kneadDegree==1?138:kneadDegree==2?69:kneadDegree==3?0:0}}' bindtouchend='handleTouchEndKnead' scroll-x='true' class="srollDegree">
+				<scroll-view wx:if='{{kneadDegree>0 && kneadModel > 0}}' scroll-left='{{kneadDegree==1?138:kneadDegree==2?69:kneadDegree==3?0:0}}' bindtouchend='handleTouchEndKnead' scroll-x='true' class="srollDegree">
 					<view class="inside">
 						<view class="showLine">
 							<view class="degreeBoll"></view>

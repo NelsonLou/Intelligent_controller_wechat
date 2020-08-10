@@ -114,14 +114,26 @@ Page({
 
 	// 控制按摩力度
 	handleDegree: function (degree) {
+		let value = this.data.degree;
 		if (this.data.power) {
 			if (this.data.model == 0) {
 				this.setData({
-					degree: this.data.degree
+					degree: 0
 				}, () => {
+					this.setData({
+						degree: value
+					})
 					wx.showToast({
 						title: '按摩未开启',
 						icon: 'none'
+					})
+				})
+			} else if (degree == this.data.degree) {
+				this.setData({
+					degree: 0
+				}, () => {
+					this.setData({
+						degree: value
 					})
 				})
 			} else {
@@ -129,8 +141,11 @@ Page({
 			}
 		} else {
 			this.setData({
-				degree: this.data.degree
+				degree: 0
 			}, () => {
+				this.setData({
+					degree: value
+				})
 				wx.showToast({
 					title: '设备未开启',
 					icon: 'none'
@@ -218,7 +233,28 @@ Page({
 
 	// 定时
 	handleTiming: function (timing) {
-		if (this.data.power) {
+		let value = this.data.timing;
+		if (!this.data.power) {
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+				wx.showToast({
+					title: '设备未开启',
+					icon: 'none'
+				})
+			});
+		} else if (timing == value) {
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+			});
+		} else {
 			let that = this
 			wx.showLoading({
 				title: '控制中',
@@ -237,15 +273,6 @@ Page({
 					})
 				})
 			})
-		} else {
-			this.setData({
-				timing: this.data.timing
-			}, () => {
-				wx.showToast({
-					title: '设备未开启',
-					icon: 'none'
-				})
-			});
 		}
 	},
 
