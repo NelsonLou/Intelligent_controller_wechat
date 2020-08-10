@@ -40,7 +40,7 @@
 				<text style="left: 588rpx" bindtap="handleSwitchTimer" data-time="60">60</text>
 			</view>
 			<!-- 滚动条 -->
-			<scroll-view wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 60?0 :timing == 50?56 :timing == 40? 109 :timing == 30? 164 :timing == 20? 222 :277}}' bindtouchend='handleTouchEnd' bindscroll='handleScroll' class="scrollView clearfloat" scroll-x>
+			<scroll-view wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 60?0 :timing == 50?56 :timing == 40? 109 :timing == 30? 164 :timing == 20? 222 :277}}' bindtouchend='handleTouchEnd' class="scrollView clearfloat" scroll-x>
 				<view class="scrollInside">
 					<view class="choseBox">{{timing}}</view>
 				</view>

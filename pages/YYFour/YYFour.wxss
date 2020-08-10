@@ -240,7 +240,6 @@
     margin-top: 30rpx;
     margin-left: 15rpx;
     vertical-align: bottom;
-    overflow: auto;
     border-radius: 100rpx;
 }
 

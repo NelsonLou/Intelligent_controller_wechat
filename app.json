@@ -1,14 +1,14 @@
 {
 	"pages": [
-		"pages/YYOne/YYOne",
 		"pages/index/index",
-		"pages/YYTwo/YYTwo",
-		"pages/YYThree/YYThree",
 		"pages/YYFour/YYFour",
+		"pages/YYEight/YYEight",
+		"pages/YYSeven/YYSeven",
 		"pages/YYFive/YYFive",
 		"pages/YYSix/YYSix",
-		"pages/YYSeven/YYSeven",
-		"pages/YYEight/YYEight",
+		"pages/YYThree/YYThree",
+		"pages/YYOne/YYOne",
+		"pages/YYTwo/YYTwo",
 		"pages/YYNight/YYNight",
 		"pages/BleList/BleList",
 		"pages/Introduce/Introduce"

@@ -28,6 +28,7 @@ const handleTemperature = function (deviceId, temp) {
 const handleTimer = function (deviceId, time) {
 	return new Promise(function (resolve, reject) {
 		time = Number(time)
+		console.log(time);
 		let num = time.toString(16);
 		if (num.length == 1) {
 			num = '000' + num

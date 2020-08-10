@@ -22,27 +22,24 @@ Page({
 		this.handleGetValue()
 	},
 
-	handleTouchEndTime: function () {
-		let num = this.data.timeScrollNum,
+	handleTouchEndTime: function (e) {
+		let num = e.changedTouches[0].clientX,
 			time = 0;
-		if (num >= 267) {
-			time = 10
-		} else if (num < 267 && num >= 210) {
-			time = 20
-		} else if (num < 210 && num >= 149) {
-			time = 30
-		} else if (num < 149 && num >= 87) {
+		// 37 97 157 217 277 337
+		if (num > 307) {
+			time = 60
+		} else if (num <= 307 && num > 247) {
+			time = 50
+		} else if (num <= 247 && num > 187) {
 			time = 40
-		} else if (num < 87 && num >= 27) {
+		} else if (num <= 187 && num > 127) {
 			time = 30
-		} else if (num < 27) {
+		} else if (num <= 127 && num > 67) {
+			time = 20
+		} else if (num <= 67) {
 			time = 10
 		}
 		this.handleSwitchTimer(time)
-	},
-
-	handleScrollTime: function (e) {
-		this.data.timeScrollNum = e.detail.scrollLeft
 	},
 
 	handleGetValue: function () {
@@ -99,8 +96,7 @@ Page({
 	// 定时
 	handleSwitchTimer: function (timing) {
 		if (this.data.power) {
-			let that = this,
-				timing = Number(timing);
+			let that = this
 			wx.showLoading({
 				title: '控制中',
 			})

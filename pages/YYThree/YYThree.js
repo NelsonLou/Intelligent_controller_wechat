@@ -3,7 +3,6 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion');
 
 Page({
 	data: {
-		scrollNum: 0,
 		power: false, // 控制开关
 		bodyHeight: 0, // 屏幕高度
 		temperature: 0, // 当前温度
@@ -24,29 +23,23 @@ Page({
 	},
 
 	// ——————————————滚动条相关——————————————
-	handleScroll: function (e) {
-		this.setData({
-			scrollNum: e.detail.scrollLeft
-		})
-	},
 
-	handleTouchEnd: function () {
-		let num = this.data.scrollNum,
+	handleTouchEnd: function (e) {
+		let num = e.changedTouches[0].clientX,
 			timing = 0;
-		if (num <= 28) {
-			timing = 60
-		} else if (num > 28 && num <= 80) {
-			timing = 50
-		} else if (num > 80 && num <= 137) {
-			timing = 40
-		} else if (num > 137 && num <= 193) {
-			timing = 30
-		} else if (num > 193 && num <= 250) {
-			timing = 20
-		} else if (num > 250 && num <= 277) {
+		if (num <= 73) {
 			timing = 10
+		} else if (num > 73 && num <= 128) {
+			timing = 20
+		} else if (num > 128 && num <= 185) {
+			timing = 30
+		} else if (num > 185 && num <= 241) {
+			timing = 40
+		} else if (num > 241 && num <= 298) {
+			timing = 50
+		} else if (num > 298) {
+			timing = 60
 		}
-		console.log(timing)
 		this.handleSwitchTimer(timing)
 	},
 

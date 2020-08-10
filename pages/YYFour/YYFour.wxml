@@ -20,7 +20,7 @@
 			<view class="powerSwitch right">
 				<text class="title">力度</text>
 				<view>
-					<scroll-view scroll-top='{{degree == 1? 0:degree == 2? 63:degree == 3? 125:0}}' bindtouchend='handleTouchEndDegree' bindscroll='handleScrollDegree' class="left" scroll-y>
+					<scroll-view scroll-top='{{degree == 1? 0:degree == 2? 63:degree == 3? 125:0}}' bindtouchend='handleTouchEndDegree' class="left" scroll-y>
 						<view class="lineCenter">
 							<view class="top"></view>
 							<view class="bottom" wx:if='{{degree>=1}}'>
@@ -47,7 +47,7 @@
 				<text class="small">（℃）</text>
 			</view>
 			<view class="timerMain clearfloat">
-				<scroll-view wx:if='{{temperature>=40&&temperature<=65}}' scroll-left='{{temperature == 40?284:temperature == 45?233:temperature == 50?174:temperature == 55?113:temperature == 60?53:temperature == 65?0:0}}' bindtouchend='handleTouchEndTemp' bindscroll='handleScrollTemp' scroll-x class="srollTemp">
+				<scroll-view wx:if='{{temperature>=40&&temperature<=65}}' scroll-left='{{temperature == 40?284:temperature == 45?233:temperature == 50?174:temperature == 55?113:temperature == 60?53:temperature == 65?0:0}}' bindtouchend='handleTouchEndTemp' scroll-x class="srollTemp">
 					<image class="bollTemp" src="../../assets/yy04_heating.png"></image>
 				</scroll-view>
 				<view class="timerLine">
@@ -91,7 +91,7 @@
 				<text class="small">（分钟）</text>
 			</view>
 			<view class="timerMain clearfloat">
-				<scroll-view wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 10?289:timing == 20?233:timing == 30?174:timing == 40?113:timing == 50?53:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' bindscroll='handleScrollTime' scroll-x class="srollTemp">
+				<scroll-view wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 10?289:timing == 20?233:timing == 30?174:timing == 40?113:timing == 50?53:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' scroll-x class="srollTemp">
 					<image class="bollTemp" src="../../assets/yy04_timing.png"></image>
 				</scroll-view>
 				<view class="timerLine"></view>

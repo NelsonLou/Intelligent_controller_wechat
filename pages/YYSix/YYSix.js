@@ -28,49 +28,44 @@ Page({
 			temperature: AppData.temperature,
 			timing: AppData.timing,
 			kneadModel: AppData.kneadDirection,
-			kneadDegree: AppData.kneadDegree,
+			// kneadDegree: AppData.kneadDegree,
+			kneadDegree: 1,
 			power: AppData.timing == 0 ? false : true
 		})
 	},
 
 	// 拖拽控件
 
-	handleScrollTime: function (e) {
-		this.data.timeScrollNum = e.detail.scrollLeft;
-	},
-
 	handleTouchEndTime: function (e) {
-		let num = this.data.timeScrollNum,
+		let num = e.changedTouches[0].clientX,
 			time = 0;
-		if (num > 259) {
-			time = 10
-		} else if (num <= 259 && num > 203) {
-			time = 20
-		} else if (num <= 203 && num > 144) {
-			time = 30
-		} else if (num <= 144 && num > 83) {
-			time = 40
-		} else if (num <= 83 && num > 27) {
-			time = 50
-		} else if (num <= 27) {
+		// 37 97 157 217 277 337
+		if (num > 307) {
 			time = 60
+		} else if (num <= 307 && num > 247) {
+			time = 50
+		} else if (num <= 247 && num > 187) {
+			time = 40
+		} else if (num <= 187 && num > 127) {
+			time = 30
+		} else if (num <= 127 && num > 67) {
+			time = 20
+		} else if (num <= 67) {
+			time = 10
 		}
 		this.handleSwitchTimer(time)
 	},
 
-	handleScrollKnead: function (e) {
-		this.data.kneadScrollNum = e.detail.scrollLeft
-	},
-
-	handleTouchEndKnead: function () {
-		let num = this.data.degreeScrollNum,
+	handleTouchEndKnead: function (e) {
+		let num = e.changedTouches[0].clientX,
 			degree = 0;
-		if (num <= 35) {
-			degree = 3
-		} else if (num > 35 && num <= 103) {
-			degree = 2
-		} else if (num > 103) {
+			// 206 276 346 
+		if (num <= 241) {
 			degree = 1
+		} else if (num > 241 && num <= 311) {
+			degree = 2
+		} else if (num > 311) {
+			degree = 3
 		}
 		this.handleKneadDegree(degree)
 	},

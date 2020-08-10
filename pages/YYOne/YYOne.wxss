@@ -168,6 +168,7 @@
     color: #ffffff;
     text-align: center;
     position: relative;
+    z-index: 1;
 }
 
 .timerItem .boll {
@@ -209,4 +210,18 @@
     height: 120rpx;
     margin: 0 auto;
     margin-top: 100rpx;
+}
+
+.srollTemp {
+    position: absolute;
+    top: 60rpx;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.bollTemp {
+    width: 70rpx;
+    height: 70rpx;
+    margin-left: 600rpx;
+    margin-right: 600rpx;
 }

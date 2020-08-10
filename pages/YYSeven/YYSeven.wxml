@@ -25,7 +25,7 @@
 				<text class="big">定时</text>
 				<text class="small">（分钟）</text>
 			</view>
-			<scroll-view class="scrollView" wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 10?294:timing == 20?240:timing == 30?180:timing == 40?118:timing == 50?55:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' bindscroll='handleScrollTime' scroll-x>
+			<scroll-view class="scrollView" wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 10?294:timing == 20?240:timing == 30?180:timing == 40?118:timing == 50?55:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' scroll-x>
 				<view class="choseBall">{{timing}}</view>
 			</scroll-view>
 			<view class="timerMain clearfloat">

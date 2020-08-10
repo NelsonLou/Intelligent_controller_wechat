@@ -25,66 +25,55 @@ Page({
 	onShow: function () {
 		this.handleGetValue()
 	},
-	// 拖拽
-	handleScrollTemp: function (e) {
-		this.data.tempScrollNum = e.detail.scrollLeft
-	},
 
-	handleTouchEndTemp: function () {
-		let num = this.data.tempScrollNum,
+	handleTouchEndTemp: function (e) {
+		let num = e.changedTouches[0].clientX,
 			temp = 0;
-		console.log(num)
-		if (num >= 263) {
-			temp = 10;
-		} else if (num < 263 && num >= 189) {
-			temp = 20;
-		} else if (num < 189 && num >= 103) {
-			temp = 30;
-		} else if (num < 103 && num >= 27) {
-			temp = 40;
-		} else if (num < 27) {
+		// 40 113 187 261 336 
+		if (num >= 298) {
+			temp = 60;
+		} else if (num < 298 && num >= 224) {
+			temp = 55;
+		} else if (num < 224 && num >= 150) {
 			temp = 50;
+		} else if (num < 150 && num >= 77) {
+			temp = 45;
+		} else if (num < 77) {
+			temp = 40;
 		}
 		this.handleSetTemp(temp);
 	},
 
-	handleScrollTime: function (e) {
-		this.data.timeScrollNum = e.detail.scrollLeft
-	},
-
-	handleTouchEndTime: function () {
-		let num = this.data.timeScrollNum,
+	handleTouchEndTime: function (e) {
+		let num = e.changedTouches[0].clientX,
 			time = 0;
-		console.log(num)
-		if (num >= 270) {
-			time = 10;
-		} else if (num < 270 && num >= 210) {
-			time = 20;
-		} else if (num < 210 && num >= 150) {
-			time = 30;
-		} else if (num < 150 && num >= 90) {
-			time = 40;
-		} else if (num < 90 && num >= 30) {
-			time = 50;
-		} else if (num < 30) {
-			time = 60;
+		// 37 97 157 217 277 337
+		if (num > 307) {
+			time = 60
+		} else if (num <= 307 && num > 247) {
+			time = 50
+		} else if (num <= 247 && num > 187) {
+			time = 40
+		} else if (num <= 187 && num > 127) {
+			time = 30
+		} else if (num <= 127 && num > 67) {
+			time = 20
+		} else if (num <= 67) {
+			time = 10
 		}
 		this.handleSwitchTimer(time)
 	},
 
-	handleScrollDegree: function (e) {
-		this.data.degreeScrollNum = e.detail.scrollLeft
-	},
-
-	handleTouchEndDegree: function () {
-		let num = this.data.degreeScrollNum,
+	handleTouchEndDegree: function (e) {
+		let num = e.changedTouches[0].clientX,
 			degree = 0;
-		if (num >= 99) {
-			degree = 1;
-		} else if (num < 99 && num >= 34) {
-			degree = 2
-		} else if (num < 34) {
+			// 199 266 337 
+		if (num >= 301) {
 			degree = 3;
+		} else if (num < 301 && num >= 233) {
+			degree = 2
+		} else if (num < 233) {
+			degree = 1;
 		}
 		this.handleDegree(degree)
 	},

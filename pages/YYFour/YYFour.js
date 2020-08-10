@@ -3,11 +3,11 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion');
 
 Page({
 	data: {
-		degreeScrollNum: 0,
-		tempScrollNum: 0,
-		timeScrollNum: 0,
 		bodyHeight: 0,
 		temperature: 0,
+		firstLoadTemp: true,
+		firstLoadTime: true,
+		firstLoadDegree: true,
 		timing: 0,
 		power: false,
 		degree: 0,
@@ -26,66 +26,60 @@ Page({
 	},
 
 	// ——————————————拖拽——————————————
-	handleScrollDegree: function (e) {
-		this.data.degreeScrollNum = e.detail.scrollTop
-	},
-
-	handleTouchEndDegree: function () {
-		let num = this.data.degreeScrollNum,
+	handleTouchEndDegree: function (e) {
+		let num = e.changedTouches[0].clientY,
 			degree = 0;
-		if (num <= 35) {
-			degree = 1
-		} else if (num > 35 && num <= 95) {
+		if (num <= 259) {
+			degree = 3
+		} else if (num > 259 && num <= 327) {
 			degree = 2
 		} else {
-			degree = 3
+			degree = 1
 		}
+		// 224 295 359
 		this.handleDegree(degree)
 	},
 
-	handleScrollTemp: function (e) {
-		this.data.tempScrollNum = e.detail.scrollLeft;
-	},
-
-	handleTouchEndTemp: function () {
-		let num = this.data.tempScrollNum,
+	// 温度
+	handleTouchEndTemp: function (e) {
+		let num = null,
 			temp = 0;
-		if (num > 259) {
+		// 38 96 157 217 277 337
+		num = e.changedTouches[0].clientX;
+		if (num <= 67) {
 			temp = 40
-		} else if (num <= 259 && num > 203) {
+		} else if (num <= 127 && num > 67) {
 			temp = 45
-		} else if (num <= 203 && num > 144) {
+		} else if (num <= 187 && num > 127) {
 			temp = 50
-		} else if (num <= 144 && num > 83) {
+		} else if (num <= 247 && num > 187) {
 			temp = 55
-		} else if (num <= 83 && num > 27) {
+		} else if (num <= 307 && num > 247) {
 			temp = 60
-		} else if (num <= 27) {
+		} else if (num > 307) {
 			temp = 65
 		}
 		this.handleSetTemp(temp)
 	},
 
-	handleScrollTime: function(e){
-		this.data.timeScrollNum = e.detail.scrollLeft;
-	},
-
-	handleTouchEndTime: function(e){
-		let num = this.data.timeScrollNum,
+	// 定时
+	handleTouchEndTime: function (e) {
+		let num = e.changedTouches[0].clientX,
 			time = 0;
-		if (num > 259) {
+		if (num <= 67) {
 			time = 10
-		} else if (num <= 259 && num > 203) {
+		} else if (num <= 127 && num > 67) {
 			time = 20
-		} else if (num <= 203 && num > 144) {
+		} else if (num <= 187 && num > 127) {
 			time = 30
-		} else if (num <= 144 && num > 83) {
+		} else if (num <= 247 && num > 187) {
 			time = 40
-		} else if (num <= 83 && num > 27) {
+		} else if (num <= 307 && num > 247) {
 			time = 50
-		} else if (num <= 27) {
+		} else if (num > 307) {
 			time = 60
 		}
+		// 38 96 157 217 277 337
 		this.handleSwitchTimer(time)
 	},
 
@@ -238,7 +232,7 @@ Page({
 		} else {
 			this.setData({
 				timing: this.data.timing
-			},()=>{
+			}, () => {
 				wx.showToast({
 					title: '设备未开机',
 					icon: 'none',

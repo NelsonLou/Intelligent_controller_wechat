@@ -3,8 +3,6 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion')
 
 Page({
 	data: {
-		timeScrollNum: 0,
-		degreeScrollNum: 0,
 		bodyHeight: 0,
 		temperature: 55, // 温度
 		degree: 1, // 按摩力度
@@ -25,42 +23,37 @@ Page({
 	},
 
 	// ————————————拖拽————————————
-	handleScrollTime: function (e) {
-		this.data.timeScrollNum = e.detail.scrollLeft;
-	},
 
 	handleTouchEndTime: function (e) {
-		let num = this.data.timeScrollNum,
+		let num = e.changedTouches[0].clientX,
 			time = 0;
-		if (num > 259) {
-			time = 10
-		} else if (num <= 259 && num > 203) {
-			time = 20
-		} else if (num <= 203 && num > 144) {
-			time = 30
-		} else if (num <= 144 && num > 83) {
-			time = 40
-		} else if (num <= 83 && num > 27) {
-			time = 50
-		} else if (num <= 27) {
+		// 37 97 157 217 277 337
+		if (num > 307) {
 			time = 60
+		} else if (num <= 307 && num > 247) {
+			time = 50
+		} else if (num <= 247 && num > 187) {
+			time = 40
+		} else if (num <= 187 && num > 127) {
+			time = 30
+		} else if (num <= 127 && num > 67) {
+			time = 20
+		} else if (num <= 67) {
+			time = 10
 		}
 		this.handleTiming(time)
 	},
 
-	handleScrollDegree: function (e) {
-		this.data.degreeScrollNum = e.detail.scrollLeft
-	},
-
-	handleTouchEndDegree: function () {
-		let num = this.data.degreeScrollNum,
+	handleTouchEndDegree: function (e) {
+		let num = e.changedTouches[0].clientX,
 			degree = 0;
-		if (num <= 33) {
-			degree = 3
-		}else if(num > 33&&num <= 101){
-			degree = 2
-		}else if(num>101){
+		// 28 104 169
+		if (num <= 66) {
 			degree = 1
+		} else if (num > 66 && num <= 137) {
+			degree = 2
+		} else if (num > 137) {
+			degree = 3
 		}
 		this.handleDegree(degree)
 	},
@@ -68,8 +61,7 @@ Page({
 	handleGetValue() {
 		this.setData({
 			temperature: AppData.temperature,
-			// timing: AppData.timing,
-			timing: 10,
+			timing: AppData.timing,
 			effortsDegree: AppData.ventilation,
 			model: AppData.massageModel,
 			degree: AppData.massageDegree,
@@ -126,7 +118,7 @@ Page({
 			if (this.data.model == 0) {
 				this.setData({
 					degree: this.data.degree
-				},()=>{
+				}, () => {
 					wx.showToast({
 						title: '按摩未开启',
 						icon: 'none'
@@ -138,7 +130,7 @@ Page({
 		} else {
 			this.setData({
 				degree: this.data.degree
-			},()=>{
+			}, () => {
 				wx.showToast({
 					title: '设备未开启',
 					icon: 'none'

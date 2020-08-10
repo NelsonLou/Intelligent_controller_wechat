@@ -19,15 +19,34 @@ Page({
 	},
 
 	onShow: function () {
-		this.handleGetValue()
+		this.handleGetValue();
 	},
 
 	handleGetValue() {
 		this.setData({
 			temperature: AppData.temperature,
 			timing: AppData.timing,
-			power: AppData.timing == 0 ? false : true
+			power: AppData.timing == 0 ? false : true,
 		})
+	},
+
+	handleTouchEndTime: function (e) {
+		let num = e.changedTouches[0].clientX,
+			time = 0;
+		if (num <= 67) {
+			time = 10
+		} else if (num > 67 && num <= 126) {
+			time = 20
+		} else if (num > 126 && num <= 186) {
+			time = 30
+		} else if (num > 186 && num <= 245) {
+			time = 40
+		} else if (num > 245 && num <= 306) {
+			time = 50
+		} else if (num > 306) {
+			time = 60
+		}
+		this.handleSwitchTimer(time)
 	},
 
 	// 增加温度
@@ -63,17 +82,20 @@ Page({
 	},
 
 	// 切换定时
-	handleSwitchTimer: function (e) {
+	handleSwitchTimer: function (time) {
 		if (!this.data.power) {
+			this.setData({
+				timing: this.data.timing,
+			})
 			wx.showToast({
 				title: '设备未开机',
 				icon: 'none',
 			})
-		} else if (this.data.timing != e.currentTarget.dataset.time) {
+		} else {
 			wx.showLoading({
 				title: '设置中'
 			})
-			this.handleSetTiming(Number(e.currentTarget.dataset.time))
+			this.handleSetTiming(time);
 		}
 	},
 
@@ -171,7 +193,7 @@ Page({
 			wx.hideLoading({
 				success: (res) => {
 					that.setData({
-						timing: timing
+						timing: timing,
 					}, () => {
 						wx.showToast({
 							title: '设置完成',
@@ -183,9 +205,13 @@ Page({
 			console.log('异常', err)
 			wx.hideLoading({
 				success: (res) => {
-					wx.showToast({
-						title: '设置失败',
-						icon: 'none',
+					that.setData({
+						timing: that.data.timing,
+					}, () => {
+						wx.showToast({
+							title: '设置失败',
+							icon: 'none',
+						})
 					})
 				},
 			})

@@ -32,7 +32,7 @@
 				</view>
 				<view class="line">
 				</view>
-				<scroll-view wx:if='{{kneadDegree>0}}' scroll-left='{{kneadDegree==1?138:kneadDegree==2?69:kneadDegree==3?0:0}}' bindtouchend='handleTouchEndKnead' bindscroll='handleScrollKnead' scroll-x='true' class="srollDegree">
+				<scroll-view wx:if='{{kneadDegree>0}}' scroll-left='{{kneadDegree==1?138:kneadDegree==2?69:kneadDegree==3?0:0}}' bindtouchend='handleTouchEndKnead' scroll-x='true' class="srollDegree">
 					<view class="inside">
 						<view class="showLine">
 							<view class="degreeBoll"></view>
@@ -54,7 +54,7 @@
 				<text class="small">（分钟）</text>
 			</view>
 			<view class="timerMain clearfloat">
-				<scroll-view wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 10?288:timing == 20?233:timing == 30?174:timing == 40?113:timing == 50?53:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' bindscroll='handleScrollTime' scroll-x class="srollTemp">
+				<scroll-view wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 10?288:timing == 20?233:timing == 30?174:timing == 40?113:timing == 50?53:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' scroll-x class="srollTemp">
 					<image class="bollTemp" src="../../assets/yy06_timing.png"></image>
 				</scroll-view>
 				<view class="timerLine"></view>
