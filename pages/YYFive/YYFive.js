@@ -3,6 +3,8 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion')
 
 Page({
 	data: {
+		scrollArrTiming: { '10': 310, '20': 240, '30': 180, '40': 120, '50': 60, '60': 0 },
+		scrollArrDegree: { '1': 138, '2': 65, '3': 0},
 		bodyHeight: 0,
 		temperature: 55, // 温度
 		degree: 1, // 按摩力度
@@ -13,7 +15,17 @@ Page({
 	},
 
 	onLoad: function (options) {
+		let objD = Object.assign({}, this.data.scrollArrDegree),
+			objTi = Object.assign({}, this.data.scrollArrTiming)
+		for (let i in objD) {
+			objD[i] = objD[i] / AppData.widthProp;
+		}
+		for (let i in objTi) {
+			objTi[i] = objTi[i] / AppData.widthProp;
+		}
 		this.setData({
+			scrollArrTiming:objTi,
+			scrollArrDegree:objD,
 			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
 		})
 	},

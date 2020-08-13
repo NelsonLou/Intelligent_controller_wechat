@@ -3,6 +3,7 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion');
 
 Page({
 	data: {
+		scrollArr: { '10': 277, '20': 222, '30': 164, '40': 109, '50': 56, '60': 0 },
 		power: false, // 控制开关
 		bodyHeight: 0, // 屏幕高度
 		temperature: 0, // 当前温度
@@ -12,9 +13,14 @@ Page({
 	},
 
 	onLoad: function (options) {
+		let obj = Object.assign({}, this.data.scrollArr);
+		for (let i in obj) {
+			obj[i] = obj[i] / AppData.widthProp;
+		}
 		this.setData({
 			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
 			deviceId: AppData.connectingDeviceId,
+			scrollArr: obj
 		})
 	},
 
@@ -50,7 +56,7 @@ Page({
 		this.setData({
 			temperature: AppData.temperature,
 			timing: AppData.timing,
-			power: AppData.timing == 0 ? false : true
+			power: AppData.timing == 0 ? false : true,
 		})
 	},
 

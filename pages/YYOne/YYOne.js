@@ -3,6 +3,8 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion');
 
 Page({
 	data: {
+		scrollArr: { '10': 0, '20': 60, '30': 120, '40': 180, '50': 240, '60': 300 },
+		scrollScope: [60, 120, 180, 240, 300],
 		power: false, // 控制开关
 		bodyHeight: 0, // 屏幕高度
 		temperature: 0, // 当前温度
@@ -12,9 +14,19 @@ Page({
 	},
 
 	onLoad: function (options) {
+		let obj = Object.assign({}, this.data.scrollArr),
+			arr = Object.assign([], this.data.scrollScope);
+		for (let i in obj) {
+			obj[i] = obj[i] / AppData.widthProp;
+		}
+		for (let i in arr) {
+			arr[i] = arr[i] / AppData.widthProp;
+		}
 		this.setData({
 			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
 			deviceId: AppData.connectingDeviceId,
+			scrollArr: obj,
+			scrollScope: arr
 		})
 	},
 
@@ -32,18 +44,19 @@ Page({
 
 	handleTouchEndTime: function (e) {
 		let num = e.changedTouches[0].clientX,
+			arr = this.data.scrollScope,
 			time = 0;
-		if (num <= 67) {
+		if (num <= arr[0]) {
 			time = 10
-		} else if (num > 67 && num <= 126) {
+		} else if (num > arr[0] && num <= arr[1]) {
 			time = 20
-		} else if (num > 126 && num <= 186) {
+		} else if (num > arr[1] && num <= arr[2]) {
 			time = 30
-		} else if (num > 186 && num <= 245) {
+		} else if (num > arr[2] && num <= arr[3]) {
 			time = 40
-		} else if (num > 245 && num <= 306) {
+		} else if (num > arr[3] && num <= arr[4]) {
 			time = 50
-		} else if (num > 306) {
+		} else if (num > arr[4]) {
 			time = 60
 		}
 		this.handleSwitchTimer(time)
@@ -86,7 +99,7 @@ Page({
 		if (!this.data.power) {
 			this.setData({
 				timing: 0,
-			},()=>{
+			}, () => {
 				this.setData({
 					timing: this.data.timing,
 				})
@@ -95,11 +108,11 @@ Page({
 					icon: 'none',
 				})
 			})
-		} else if(time == this.data.timing){
+		} else if (time == this.data.timing) {
 			let value = this.data.timing;
 			this.setData({
 				timing: 0,
-			},()=>{
+			}, () => {
 				this.setData({
 					timing: value,
 				})

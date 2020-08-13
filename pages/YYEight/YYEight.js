@@ -3,9 +3,9 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion');
 
 Page({
 	data: {
-		timeScrollNum: 0,
-		tempScrollNum: 0,
-		degreeScrollNum: 0,
+		scrollArrDegree: { '3': 0, '2': 70, '1': 140 },
+		scrollArrTemp: { '40': 300, '45': 227, '50': 152, '55': 76, '60': 0 },
+		scrollArrTiming: { '10': 300, '20': 240, '30': 180, '40': 120, '50': 60, '60': 0 },
 		bodyHeight: 0,
 		temperature: 50,
 		timing: 0,
@@ -16,7 +16,22 @@ Page({
 	},
 
 	onLoad: function (options) {
+		let objD = Object.assign({}, this.data.scrollArrDegree),
+			objTe = Object.assign({}, this.data.scrollArrTemp),
+			objTi = Object.assign({}, this.data.scrollArrTiming)
+		for (let i in objD) {
+			objD[i] = objD[i] / AppData.widthProp;
+		}
+		for (let i in objTe) {
+			objTe[i] = objTe[i] / AppData.widthProp;
+		}
+		for (let i in objTi) {
+			objTi[i] = objTi[i] / AppData.widthProp;
+		}
 		this.setData({
+			scrollArrDegree: objD,
+			scrollArrTemp: objTe,
+			scrollArrTiming: objTi,
 			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
 			deviceId: AppData.connectingDeviceId,
 		})

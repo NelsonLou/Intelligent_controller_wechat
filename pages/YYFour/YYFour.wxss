@@ -135,8 +135,8 @@
 .timerBox {
     margin-top: 60rpx;
     height: 181rpx;
-    padding: 0 36rpx;
     position: relative;
+    margin-left: 36rpx;
 }
 
 .timerBox .title {
@@ -184,6 +184,8 @@
 .timerMain {
     margin-top: 24rpx;
     position: absolute;
+    left: 0;
+    right: 0;
 }
 
 .timerItem {
@@ -284,6 +286,6 @@
 .bollTemp {
     width: 70rpx;
     height: 70rpx;
-    margin-left: 590rpx;
-    margin-right: 580rpx;
+    margin-left: 600rpx;
+    margin-right: 640rpx;
 }

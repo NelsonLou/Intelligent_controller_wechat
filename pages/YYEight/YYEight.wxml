@@ -35,7 +35,7 @@
 						<text class="levelBtn" style="left: 240rpx">高</text>
 					</view>
 					<view class="line"></view>
-					<scroll-view wx:if='{{degree>0}}' scroll-left='{{degree == 1?130:degree == 2?68:degree == 3?0:0}}' bindtouchend='handleTouchEndDegree' class="degreeScroll" scroll-x>
+					<scroll-view wx:if='{{degree>0}}' scroll-left='{{scrollArrDegree[degree]}}' bindtouchend='handleTouchEndDegree' class="degreeScroll" scroll-x>
 						<view class="showLine clearfloat" wx:if='{{degree>0}}'>
 							<view class="boll right" wx:if='{{degree>0}}'></view>
 						</view>
@@ -66,7 +66,7 @@
 				<text class="big">加热</text>
 				<text class="small">（℃）</text>
 			</view>
-			<scroll-view wx:if='{{temperature>=40&&temperature<=60}}' scroll-left='{{temperature == 40?300:temperature == 45?227:temperature == 50?152:temperature == 55?76:temperature == 60?0:0}}' bindtouchend='handleTouchEndTemp' scroll-x class="srollTemp">
+			<scroll-view wx:if='{{temperature>=40&&temperature<=60}}' scroll-left='{{scrollArrTemp[temperature]}}' bindtouchend='handleTouchEndTemp' scroll-x class="srollTemp">
 				<image class="bollTemp" src="../../assets/yy08_heating.png"></image>
 			</scroll-view>
 			<view class="timerMain clearfloat">
@@ -99,7 +99,7 @@
 				<text class="big">定时</text>
 				<text class="small">（分钟）</text>
 			</view>
-			<scroll-view wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 10?300:timing == 20?240:timing == 30?180:timing == 40?120:timing == 50?60:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' scroll-x class="srollTemp">
+			<scroll-view wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{scrollArrTiming[timing]}}' bindtouchend='handleTouchEndTime' scroll-x class="srollTemp">
 				<image class="bollTemp" src="../../assets/yy08_timing.png"></image>
 			</scroll-view>
 			<view class="timerMain clearfloat">

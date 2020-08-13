@@ -1,7 +1,7 @@
 {
 	"pages": [
-		"pages/index/index",
 		"pages/YYOne/YYOne",
+		"pages/index/index",
 		"pages/YYTwo/YYTwo",
 		"pages/YYThree/YYThree",
 		"pages/YYFour/YYFour",

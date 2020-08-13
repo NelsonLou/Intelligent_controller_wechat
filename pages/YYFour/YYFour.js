@@ -3,6 +3,9 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion');
 
 Page({
 	data: {
+		scrollArrDegree: { '1': 0, '2': 63, '3': 125 },
+		scrollArrTemp: { '40': 310, '45': 240, '50': 180, '55': 120, '60': 60, '65': 0 },
+		scrollArrTiming: { '10': 310, '20': 240, '30': 180, '40': 120, '50': 60, '60': 0 },
 		bodyHeight: 0,
 		temperature: 0,
 		firstLoadTemp: true,
@@ -15,9 +18,24 @@ Page({
 	},
 
 	onLoad: function (options) {
+		let objD = Object.assign({}, this.data.scrollArrDegree),
+			objTe = Object.assign({}, this.data.scrollArrTemp),
+			objTi = Object.assign({}, this.data.scrollArrTiming)
+		for (let i in objD) {
+			objD[i] = objD[i] / AppData.widthProp;
+		}
+		for (let i in objTe) {
+			objTe[i] = objTe[i] / AppData.widthProp;
+		}
+		for (let i in objTi) {
+			objTi[i] = objTi[i] / AppData.widthProp;
+		}
 		this.setData({
 			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
 			deviceId: AppData.connectingDeviceId,
+			scrollArrDegree: objD,
+			scrollArrTemp: objTe,
+			scrollArrTiming: objTi,
 		})
 	},
 
@@ -88,6 +106,7 @@ Page({
 		this.setData({
 			temperature: AppData.temperature,
 			timing: AppData.timing,
+			degree: AppData.massageDegree,
 			degree: AppData.massageDegree,
 			model: AppData.massageModel,
 			power: AppData.timing == 0 ? false : true
