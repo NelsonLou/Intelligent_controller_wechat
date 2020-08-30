@@ -122,8 +122,8 @@ const handleDealResult = function (deviceId, result, callBack) {
 		AppData.massageModel = model;
 		AppData.massageDegree = degree;
 		console.log('读取按摩', model, degree);
-		// getVentilation(deviceId, callBack);
-		getKnead(deviceId, callBack);
+		getVentilation(deviceId, callBack);
+		// getKnead(deviceId, callBack);
 	}
 	else if (charId == AppData.services.ventilation[1]) {
 		console.log('读取通风', value);
