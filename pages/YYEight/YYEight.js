@@ -3,9 +3,9 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion');
 
 Page({
 	data: {
-		timeScrollNum: 0,
-		tempScrollNum: 0,
-		degreeScrollNum: 0,
+		scrollArrDegree: { '3': 0, '2': 70, '1': 140 },
+		scrollArrTemp: { '40': 300, '45': 227, '50': 152, '55': 76, '60': 0 },
+		scrollArrTiming: { '10': 300, '20': 240, '30': 180, '40': 120, '50': 60, '60': 0 },
 		bodyHeight: 0,
 		temperature: 50,
 		timing: 0,
@@ -16,7 +16,22 @@ Page({
 	},
 
 	onLoad: function (options) {
+		let objD = Object.assign({}, this.data.scrollArrDegree),
+			objTe = Object.assign({}, this.data.scrollArrTemp),
+			objTi = Object.assign({}, this.data.scrollArrTiming)
+		for (let i in objD) {
+			objD[i] = objD[i] / AppData.widthProp;
+		}
+		for (let i in objTe) {
+			objTe[i] = objTe[i] / AppData.widthProp;
+		}
+		for (let i in objTi) {
+			objTi[i] = objTi[i] / AppData.widthProp;
+		}
 		this.setData({
+			scrollArrDegree: objD,
+			scrollArrTemp: objTe,
+			scrollArrTiming: objTi,
 			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
 			deviceId: AppData.connectingDeviceId,
 		})
@@ -67,7 +82,7 @@ Page({
 	handleTouchEndDegree: function (e) {
 		let num = e.changedTouches[0].clientX,
 			degree = 0;
-			// 199 266 337 
+		// 199 266 337 
 		if (num >= 301) {
 			degree = 3;
 		} else if (num < 301 && num >= 233) {
@@ -119,14 +134,26 @@ Page({
 
 	// 设置力度
 	handleDegree: function (degree) {
+		let value = this.data.degree;
 		if (this.data.power) {
 			if (this.data.model == 0) {
 				this.setData({
-					degree: this.data.degree
+					degree: 0
 				}, () => {
+					this.setData({
+						degree: value
+					})
 					wx.showToast({
 						title: '按摩未开启',
 						icon: 'none'
+					})
+				})
+			} else if (degree == value) {
+				this.setData({
+					degree: 0
+				}, () => {
+					this.setData({
+						degree: value
 					})
 				})
 			} else {
@@ -202,7 +229,28 @@ Page({
 
 	// 设置温度
 	handleSetTemp: function (temp) {
-		if (this.data.power) {
+		let value = this.data.temperature;
+		if (!this.data.power) {
+			this.setData({
+				temperature: 0
+			}, () => {
+				this.setData({
+					temperature: value
+				})
+				wx.showToast({
+					title: '设备未开启',
+					icon: 'none'
+				})
+			})
+		} else if (temp == value) {
+			this.setData({
+				temperature: 0
+			}, () => {
+				this.setData({
+					temperature: value
+				})
+			})
+		} else {
 			let that = this;
 			wx.showLoading({
 				title: '控制中',
@@ -222,21 +270,33 @@ Page({
 					})
 				})
 			})
-		} else {
-			this.setData({
-				temperature: this.data.temperature
-			}, () => {
-				wx.showToast({
-					title: '设备未开启',
-					icon: 'none'
-				})
-			})
 		}
 	},
 
 	// 设置定时
 	handleSwitchTimer: function (time) {
-		if (this.data.power) {
+		let value = this.data.timing;
+		if (!this.data.power) {
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none',
+				})
+			})
+		} else if (time == value) {
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+			})
+		} else {
 			wx.showLoading({
 				title: '设置中',
 			})
@@ -252,15 +312,6 @@ Page({
 							})
 						},
 					})
-				})
-			})
-		} else {
-			this.setData({
-				timing: this.data.timing
-			}, () => {
-				wx.showToast({
-					title: '设备未开机',
-					icon: 'none',
 				})
 			})
 		}

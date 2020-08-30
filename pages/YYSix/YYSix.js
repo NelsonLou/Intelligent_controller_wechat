@@ -3,6 +3,8 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion')
 
 Page({
 	data: {
+		scrollArrTiming: { '10': 310, '20': 240, '30': 178, '40': 120, '50': 60, '60': 0 },
+		scrollArrDegree: { '1': 138, '2': 70, '3': 0},
 		kneadScrollNum: 0,
 		bodyHeight: 0,
 		temperature: 0,
@@ -14,8 +16,18 @@ Page({
 	},
 
 	onLoad: function (options) {
+		let objD = Object.assign({}, this.data.scrollArrDegree),
+			objTi = Object.assign({}, this.data.scrollArrTiming)
+		for (let i in objD) {
+			objD[i] = objD[i] / AppData.widthProp;
+		}
+		for (let i in objTi) {
+			objTi[i] = objTi[i] / AppData.widthProp;
+		}
 		this.setData({
 			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
+			scrollArrTiming:objTi,
+			scrollArrDegree:objD,
 		})
 	},
 
@@ -28,14 +40,12 @@ Page({
 			temperature: AppData.temperature,
 			timing: AppData.timing,
 			kneadModel: AppData.kneadDirection,
-			// kneadDegree: AppData.kneadDegree,
-			kneadDegree: 1,
+			kneadDegree: AppData.kneadDegree,
 			power: AppData.timing == 0 ? false : true
 		})
 	},
 
 	// 拖拽控件
-
 	handleTouchEndTime: function (e) {
 		let num = e.changedTouches[0].clientX,
 			time = 0;
@@ -59,7 +69,7 @@ Page({
 	handleTouchEndKnead: function (e) {
 		let num = e.changedTouches[0].clientX,
 			degree = 0;
-			// 206 276 346 
+		// 206 276 346 
 		if (num <= 241) {
 			degree = 1
 		} else if (num > 241 && num <= 311) {
@@ -122,13 +132,26 @@ Page({
 
 	// 揉捏力度
 	handleKneadDegree: function (degree) {
+		console.log(degree);
+		let value = this.data.kneadDegree;
 		if (this.data.kneadModel == 0) {
 			this.setData({
-				handleKnead: this.data.handleKnead
+				kneadDegree: 0
 			}, () => {
+				this.setData({
+					kneadDegree: value
+				})
 				wx.showToast({
 					title: '揉捏未开启',
 					icon: 'none'
+				})
+			})
+		} else if (degree == value) {
+			this.setData({
+				kneadDegree: 0
+			}, () => {
+				this.setData({
+					kneadDegree: value
 				})
 			})
 		} else {
@@ -172,29 +195,43 @@ Page({
 
 	// 定时
 	handleSwitchTimer: function (timing) {
+		let value = this.data.timing;
 		if (this.data.power) {
-			let that = this;
-			wx.showLoading({
-				title: '控制中',
-			})
-			DeviceFunction.handleTimer(AppData.connectingDeviceId, timing).then(res => {
-				that.setData({
-					timing: timing,
+			if (timing == value) {
+				this.setData({
+					timing: 0
 				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '控制成功',
-								mask: false
-							})
-						},
+					this.setData({
+						timing: value
 					})
 				})
-			})
+			} else {
+				let that = this;
+				wx.showLoading({
+					title: '控制中',
+				})
+				DeviceFunction.handleTimer(AppData.connectingDeviceId, timing).then(res => {
+					that.setData({
+						timing: timing,
+					}, () => {
+						wx.hideLoading({
+							success: (res) => {
+								wx.showToast({
+									title: '控制成功',
+									mask: false
+								})
+							},
+						})
+					})
+				})
+			}
 		} else {
 			this.setData({
-				timing: this.data.timing
+				timing: 0
 			}, () => {
+				this.setData({
+					timing: value
+				})
 				wx.showToast({
 					title: '设备未开启',
 					icon: 'none'

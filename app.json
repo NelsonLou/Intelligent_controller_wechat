@@ -1,30 +1,30 @@
 {
-	"pages": [
-		"pages/index/index",
-		"pages/YYNight/YYNight",
-		"pages/YYEight/YYEight",
-		"pages/YYSeven/YYSeven",
-		"pages/YYSix/YYSix",
-		"pages/YYFive/YYFive",
-		"pages/YYFour/YYFour",
-		"pages/YYThree/YYThree",
-		"pages/YYTwo/YYTwo",
-		"pages/YYOne/YYOne",
-		"pages/BleList/BleList",
-		"pages/Introduce/Introduce"
-	],
-	"usingComponents": {
-		"van-dialog": "vant-weapp/dialog",
-		"van-popup": "vant-weapp/popup",
-		"van-picker": "vant-weapp/picker",
-		"navBar": "./components/navBar/navBar"
-	},
-	"window": {
-		"backgroundTextStyle": "light",
-		"navigationBarBackgroundColor": "#fff",
-		"navigationBarTitleText": "",
-		"navigationBarTextStyle": "black",
-		"navigationStyle": "custom"
-	},
-	"sitemapLocation": "sitemap.json"
+    "pages": [
+        "pages/index/index",
+        "pages/YYOne/YYOne",
+        "pages/YYTwo/YYTwo",
+        "pages/YYThree/YYThree",
+        "pages/YYFour/YYFour",
+        "pages/YYFive/YYFive",
+        "pages/YYSix/YYSix",
+        "pages/YYSeven/YYSeven",
+        "pages/YYEight/YYEight",
+        "pages/YYNight/YYNight",
+        "pages/BleList/BleList",
+        "pages/Introduce/Introduce"
+    ],
+    "usingComponents": {
+        "van-dialog": "vant-weapp/dialog",
+        "van-popup": "vant-weapp/popup",
+        "van-picker": "vant-weapp/picker",
+        "navBar": "./components/navBar/navBar"
+    },
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "",
+        "navigationBarTextStyle": "black",
+        "navigationStyle": "custom"
+    },
+    "sitemapLocation": "sitemap.json"
 }

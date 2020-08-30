@@ -25,6 +25,13 @@
 			<image bindtap="handleSub" class="BigRoll_plus left" src="../../assets/yy01_subtract.png"></image>
 			<image bindtap="handleAdd" class="BigRoll_subtract right" src="../../assets/yy01_plus.png"></image>
 		</view>
+		<!-- 滚动条 -->
+		<!-- 0 60 120 180 240 300-->
+		<movable-area class='movable' bindtouchend='handleTouchEndTime' wx:if='{{timing>=10&&timing<=60&&power}}'>
+			<movable-view x='{{scrollArr[timing]}}' direction='horizontal' style="width: 70rpx;height: 70rpx;">
+				<image style="width: 70rpx;height: 70rpx;" src="../../assets/yy01_timing.png"></image>
+			</movable-view>
+		</movable-area>
 		<!-- 定时 -->
 		<view class="timerBox">
 			<view class="title">
@@ -33,9 +40,9 @@
 			</view>
 			<view class="timerMain clearfloat">
 				<!-- 滑动 -->
-				<scroll-view wx:if='{{timing>=10&&timing<=60}}' scroll-left='{{timing == 10?300:timing == 20?238:timing == 30?180:timing == 40?120:timing == 50?60:timing == 60?0:0}}' bindtouchend='handleTouchEndTime' scroll-x class="srollTemp">
+				<!-- <scroll-view id="scrollView" bindscroll='handleTest'  scroll-left='{{}}' bindtouchend='handleTouchEndTime' scroll-x class="srollTemp">
 					<image class="bollTemp" src="../../assets/yy01_timing.png"></image>
-				</scroll-view>
+				</scroll-view> -->
 				<view class="timerLine"></view>
 				<view class='timerItem left' style="margin-left: 16rpx">
 					<text style="opacity: {{timing==10?1:0.5}}">10</text>
@@ -65,5 +72,6 @@
 		</view>
 		<!-- 电源 -->
 		<image class="power" bindtap="handleSwichPower" src="../../assets/yy01_power_switch_{{power?'on':'off'}}.png"></image>
+
 	</view>
 </view>

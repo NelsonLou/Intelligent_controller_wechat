@@ -3,6 +3,7 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion')
 
 Page({
 	data: {
+		scrollArrTiming: { '10': 298, '20': 238, '30': 183, '40': 118, '50': 60, '60': 0 },
 		bodyHeight: 0,
 		temperature: 0,
 		timing: 0,
@@ -11,8 +12,13 @@ Page({
 	},
 
 	onLoad: function (options) {
+		let objTi = Object.assign({}, this.data.scrollArrTiming);
+		for (let i in objTi) {
+			objTi[i] = objTi[i] / AppData.widthProp;
+		}
 		this.setData({
 			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
+			scrollArrTiming:objTi
 		})
 	},
 
@@ -92,7 +98,28 @@ Page({
 
 	// 定时
 	handleSwitchTimer: function (timing) {
-		if (this.data.power) {
+		let value = this.data.timing;
+		if (!this.data.power) {
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+				wx.showToast({
+					title: '设备未开启',
+					icon: 'none'
+				})
+			})
+		} else if (timing == value) {
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+			})
+		} else {
 			let that = this;
 			wx.showLoading({
 				title: '控制中',
@@ -109,15 +136,6 @@ Page({
 							})
 						},
 					})
-				})
-			})
-		} else {
-			this.setData({
-				timing: this.data.timing
-			}, () => {
-				wx.showToast({
-					title: '设备未开启',
-					icon: 'none'
 				})
 			})
 		}

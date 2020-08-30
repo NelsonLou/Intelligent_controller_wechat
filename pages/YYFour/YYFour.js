@@ -3,6 +3,9 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion');
 
 Page({
 	data: {
+		scrollArrDegree: { '1': 0, '2': 63, '3': 125 },
+		scrollArrTemp: { '40': 310, '45': 240, '50': 180, '55': 120, '60': 60, '65': 0 },
+		scrollArrTiming: { '10': 310, '20': 240, '30': 180, '40': 120, '50': 60, '60': 0 },
 		bodyHeight: 0,
 		temperature: 0,
 		firstLoadTemp: true,
@@ -15,9 +18,24 @@ Page({
 	},
 
 	onLoad: function (options) {
+		let objD = Object.assign({}, this.data.scrollArrDegree),
+			objTe = Object.assign({}, this.data.scrollArrTemp),
+			objTi = Object.assign({}, this.data.scrollArrTiming)
+		for (let i in objD) {
+			objD[i] = objD[i] / AppData.widthProp;
+		}
+		for (let i in objTe) {
+			objTe[i] = objTe[i] / AppData.widthProp;
+		}
+		for (let i in objTi) {
+			objTi[i] = objTi[i] / AppData.widthProp;
+		}
 		this.setData({
 			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
 			deviceId: AppData.connectingDeviceId,
+			scrollArrDegree: objD,
+			scrollArrTemp: objTe,
+			scrollArrTiming: objTi,
 		})
 	},
 
@@ -89,6 +107,7 @@ Page({
 			temperature: AppData.temperature,
 			timing: AppData.timing,
 			degree: AppData.massageDegree,
+			degree: AppData.massageDegree,
 			model: AppData.massageModel,
 			power: AppData.timing == 0 ? false : true
 		})
@@ -128,7 +147,28 @@ Page({
 
 	// 设置力度
 	handleDegree: function (degree) {
-		if (this.data.power) {
+		let value = this.data.degree;
+		if (!this.data.power) {
+			this.setData({
+				degree: 0
+			}, () => {
+				this.setData({
+					degree: value
+				})
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none'
+				})
+			})
+		} else if (degree == this.data.degree) {
+			this.setData({
+				degree: 0
+			}, () => {
+				this.setData({
+					degree: value
+				})
+			})
+		} else {
 			wx.showLoading({
 				title: '设置中',
 			})
@@ -144,15 +184,6 @@ Page({
 			} else {
 				this.handleMassage(this.data.model, degree)
 			}
-		} else {
-			this.setData({
-				degree: this.data.degree
-			}, () => {
-				wx.showToast({
-					title: '设备未开机',
-					icon: 'none'
-				})
-			})
 		}
 	},
 
@@ -177,7 +208,28 @@ Page({
 
 	// 设置温度
 	handleSetTemp: function (temp) {
-		if (this.data.power) {
+		let value = this.data.temperature;
+		if (!this.data.power) {
+			this.setData({
+				temperature: 0
+			}, () => {
+				this.setData({
+					temperature: value
+				})
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none',
+				})
+			})
+		} else if (temp == this.data.temperature) {
+			this.setData({
+				temperature: 0
+			}, () => {
+				this.setData({
+					temperature: value
+				})
+			})
+		} else {
 			wx.showLoading({
 				title: '设置中',
 			})
@@ -197,21 +249,33 @@ Page({
 					})
 				})
 			})
-		} else {
-			this.setData({
-				temperature: this.data.temperature
-			}, () => {
-				wx.showToast({
-					title: '设备未开机',
-					icon: 'none',
-				})
-			})
 		}
 	},
 
 	// 设置定时
 	handleSwitchTimer: function (time) {
-		if (this.data.power) {
+		let value = this.data.timing;
+		if (!this.data.power) {
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+				wx.showToast({
+					title: '设备未开机',
+					icon: 'none',
+				})
+			})
+		} else if (time == this.data.timing) {
+			this.setData({
+				timing: 0
+			}, () => {
+				this.setData({
+					timing: value
+				})
+			})
+		} else {
 			wx.showLoading({
 				title: '设置中',
 			})
@@ -229,15 +293,7 @@ Page({
 					})
 				})
 			})
-		} else {
-			this.setData({
-				timing: this.data.timing
-			}, () => {
-				wx.showToast({
-					title: '设备未开机',
-					icon: 'none',
-				})
-			})
+
 		}
 	},
 

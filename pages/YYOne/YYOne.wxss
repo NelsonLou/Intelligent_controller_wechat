@@ -5,6 +5,7 @@
 .YYOne {
     overflow: auto;
     margin-top: 12rpx;
+    position: relative;
 }
 
 .instructionsBox {
@@ -106,7 +107,8 @@
 .timerBox {
     margin-top: 60rpx;
     height: 181rpx;
-    padding: 0 36rpx;
+    /* padding: 0 36rpx; */
+    margin-left: 36rpx;
     position: relative;
 }
 
@@ -154,6 +156,8 @@
 .timerMain {
     margin-top: 24rpx;
     position: absolute;
+    left: 0;
+    right: 0;
 }
 
 .timerItem {
@@ -223,5 +227,16 @@
     width: 70rpx;
     height: 70rpx;
     margin-left: 600rpx;
-    margin-right: 600rpx;
+    margin-right: 640rpx;
+}
+
+
+/* movable */
+.movable{
+    position: absolute;
+    height: 70rpx;
+    width: 670rpx;
+    left: 40rpx;
+    top: 980rpx;
+    z-index: 999;
 }

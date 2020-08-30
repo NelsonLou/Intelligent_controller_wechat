@@ -4,6 +4,7 @@ App({
         // 获取系统信息
         wx.getSystemInfo({
             success: (res) => {
+                this.globalData.widthProp = (375 / res.windowWidth).toFixed(1);
                 this.globalData.systemType = res.platform;
                 let proportion = 750 / res.windowWidth,
                     menuButtonObject = wx.getMenuButtonBoundingClientRect(); // 获取胶囊按钮信息
@@ -25,6 +26,7 @@ App({
         menuButtonTop: 0,
         windowHeight: 0,
         systemType: null,
+        widthProp: 1,
 
         // 全局
         originPwd: null,
