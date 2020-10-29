@@ -7,6 +7,9 @@
 				<image class="instructionsIMG" src="../../assets/yy06_functional_specification.png"></image>
 				<text class="instructionsTxt">功能说明</text>
 			</view>
+			<view class="TempBox left">
+				<view class="TempText">开启温控</view>
+			</view>
 		</view>
 		<!-- 温控 -->
 		<view class="temperature">

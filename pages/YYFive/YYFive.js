@@ -3,8 +3,19 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion')
 
 Page({
 	data: {
-		scrollArrTiming: { '10': 310, '20': 240, '30': 180, '40': 120, '50': 60, '60': 0 },
-		scrollArrDegree: { '1': 138, '2': 65, '3': 0},
+		scrollArrTiming: {
+			'10': 310,
+			'20': 240,
+			'30': 180,
+			'40': 120,
+			'50': 60,
+			'60': 0
+		},
+		scrollArrDegree: {
+			'1': 138,
+			'2': 65,
+			'3': 0
+		},
 		bodyHeight: 0,
 		temperature: 55, // 温度
 		degree: 1, // 按摩力度
@@ -24,8 +35,8 @@ Page({
 			objTi[i] = objTi[i] / AppData.widthProp;
 		}
 		this.setData({
-			scrollArrTiming:objTi,
-			scrollArrDegree:objD,
+			scrollArrTiming: objTi,
+			scrollArrDegree: objD,
 			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
 		})
 	},
@@ -105,13 +116,10 @@ Page({
 					that.setData({
 						temperature: temp
 					}, () => {
-						wx.hideLoading({
-							success: (res) => {
-								wx.showToast({
-									title: '控制成功',
-									mask: false
-								})
-							},
+						wx.hideLoading()
+						wx.showToast({
+							title: '控制成功',
+							mask: false
 						})
 					})
 				})
@@ -198,13 +206,10 @@ Page({
 				degree: degree,
 				model: model
 			}, () => {
-				wx.hideLoading({
-					success: (res) => {
-						wx.showToast({
-							title: '控制成功',
-							mask: false
-						})
-					},
+				wx.hideLoading()
+				wx.showToast({
+					title: '控制成功',
+					mask: false
 				})
 			})
 		})
@@ -225,13 +230,10 @@ Page({
 				that.setData({
 					effortsDegree: degree,
 				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '控制成功',
-								mask: false
-							})
-						},
+					wx.hideLoading()
+					wx.showToast({
+						title: '控制成功',
+						mask: false
 					})
 				})
 			})
@@ -275,13 +277,10 @@ Page({
 				that.setData({
 					timing: timing,
 				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '控制成功',
-								mask: false
-							})
-						},
+					wx.hideLoading()
+					wx.showToast({
+						title: '控制成功',
+						mask: false
 					})
 				})
 			})
@@ -303,13 +302,10 @@ Page({
 					model: 0,
 					temperature: 0,
 				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '控制成功',
-								mask: false
-							})
-						},
+					wx.hideLoading()
+					wx.showToast({
+						title: '控制成功',
+						mask: false
 					})
 				})
 			})
@@ -326,13 +322,10 @@ Page({
 								model: 1,
 								temperature: 50,
 							}, () => {
-								wx.hideLoading({
-									success: (res) => {
-										wx.showToast({
-											title: '控制成功',
-											mask: false
-										})
-									},
+								wx.hideLoading()
+								wx.showToast({
+									title: '控制成功',
+									mask: false
 								})
 							})
 						})

@@ -90,13 +90,10 @@ Page({
 					timing: 0,
 					power: false,
 				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '控制成功',
-								mask: false
-							})
-						},
+					wx.hideLoading()
+					wx.showToast({
+						title: '控制成功',
+						mask: false
 					})
 				})
 			})
@@ -109,13 +106,10 @@ Page({
 						power: true,
 						temperature: 60,
 					}, () => {
-						wx.hideLoading({
-							success: (res) => {
-								wx.showToast({
-									title: '控制成功',
-									mask: false
-								})
-							},
+						wx.hideLoading()
+						wx.showToast({
+							title: '控制成功',
+							mask: false
 						})
 					})
 				})
@@ -128,16 +122,13 @@ Page({
 		let deviceId = this.data.deviceId,
 			that = this;
 		DeviceFunction.handleTemperature(deviceId, Number(temp)).then(res => {
-			wx.hideLoading({
-				success: (res) => {
-					that.setData({
-						temperature: temp
-					}, () => {
-						wx.showToast({
-							title: '设置完成',
-						})
-					})
-				},
+			wx.hideLoading()
+			that.setData({
+				temperature: temp
+			}, () => {
+				wx.showToast({
+					title: '设置完成',
+				})
 			})
 		}).catch(err => {
 			console.log('异常', err)
@@ -155,26 +146,20 @@ Page({
 			deviceId = this.data.deviceId;
 		console.log(timing)
 		DeviceFunction.handleTimer(deviceId, timing).then(res => {
-			wx.hideLoading({
-				success: (res) => {
-					that.setData({
-						timing: num
-					}, () => {
-						wx.showToast({
-							title: '设置完成',
-						})
-					})
-				},
+			wx.hideLoading()
+			that.setData({
+				timing: num
+			}, () => {
+				wx.showToast({
+					title: '设置完成',
+				})
 			})
 		}).catch(err => {
 			console.log('异常', err)
-			wx.hideLoading({
-				success: (res) => {
-					wx.showToast({
-						title: '设置失败',
-						icon: 'none',
-					})
-				},
+			wx.hideLoading()
+			wx.showToast({
+				title: '设置失败',
+				icon: 'none',
 			})
 		});
 	},

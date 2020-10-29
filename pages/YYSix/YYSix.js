@@ -3,8 +3,19 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion')
 
 Page({
 	data: {
-		scrollArrTiming: { '10': 310, '20': 240, '30': 178, '40': 120, '50': 60, '60': 0 },
-		scrollArrDegree: { '1': 138, '2': 70, '3': 0},
+		scrollArrTiming: {
+			'10': 310,
+			'20': 240,
+			'30': 178,
+			'40': 120,
+			'50': 60,
+			'60': 0
+		},
+		scrollArrDegree: {
+			'1': 138,
+			'2': 70,
+			'3': 0
+		},
 		kneadScrollNum: 0,
 		bodyHeight: 0,
 		temperature: 0,
@@ -26,8 +37,8 @@ Page({
 		}
 		this.setData({
 			bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
-			scrollArrTiming:objTi,
-			scrollArrDegree:objD,
+			scrollArrTiming: objTi,
+			scrollArrDegree: objD,
 		})
 	},
 
@@ -96,13 +107,10 @@ Page({
 					that.setData({
 						temperature: temp
 					}, () => {
-						wx.hideLoading({
-							success: (res) => {
-								wx.showToast({
-									title: '控制成功',
-									mask: false
-								})
-							},
+						wx.hideLoading()
+						wx.showToast({
+							title: '控制成功',
+							mask: false
 						})
 					})
 				})
@@ -171,13 +179,10 @@ Page({
 					kneadModel: kneadModel,
 					kneadDegree: kneadDegree
 				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '控制成功',
-								mask: false
-							})
-						},
+					wx.hideLoading();
+					wx.showToast({
+						title: '控制成功',
+						mask: false
 					})
 				})
 			})
@@ -214,13 +219,10 @@ Page({
 					that.setData({
 						timing: timing,
 					}, () => {
-						wx.hideLoading({
-							success: (res) => {
-								wx.showToast({
-									title: '控制成功',
-									mask: false
-								})
-							},
+						wx.hideLoading()
+						wx.showToast({
+							title: '控制成功',
+							mask: false
 						})
 					})
 				})
@@ -255,13 +257,10 @@ Page({
 					kneadDegree: 0,
 					temperature: 0,
 				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '控制成功',
-								icon: 'none'
-							})
-						},
+					wx.hideLoading()
+					wx.showToast({
+						title: '控制成功',
+						icon: 'none'
 					})
 				})
 			})
@@ -276,13 +275,10 @@ Page({
 							kneadDegree: 1,
 							temperature: 50,
 						}, () => {
-							wx.hideLoading({
-								success: (res) => {
-									wx.showToast({
-										title: '控制成功',
-										mask: false
-									})
-								},
+							wx.hideLoading()
+							wx.showToast({
+								title: '控制成功',
+								mask: false
 							})
 						})
 					})

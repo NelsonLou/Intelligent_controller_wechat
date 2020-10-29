@@ -11,13 +11,10 @@ const handleTemperature = function (deviceId, temp) {
 		BleTools.handleWrite(deviceId, AppData.services.temp[0], AppData.services.temp[1], value).then(() => {
 			resolve()
 		}).catch(err => {
-			wx.hideLoading({
-				success: (res) => {
-					wx.showToast({
-						title: '设置失败',
-						icon: 'none',
-					})
-				},
+			wx.hideLoading()
+			wx.showToast({
+				title: '设置失败',
+				icon: 'none',
 			})
 		})
 	})
@@ -42,13 +39,10 @@ const handleTimer = function (deviceId, time) {
 		BleTools.handleWrite(deviceId, AppData.services.timing[0], AppData.services.timing[1], value).then(() => {
 			resolve()
 		}).catch(err => {
-			wx.hideLoading({
-				success: (res) => {
-					wx.showToast({
-						title: '设置失败',
-						icon: 'none',
-					})
-				},
+			wx.hideLoading()
+			wx.showToast({
+				title: '设置失败',
+				icon: 'none',
 			})
 		})
 	})
@@ -66,13 +60,10 @@ const handleMassage = function (deviceId, model, degree) {
 		BleTools.handleWrite(deviceId, AppData.services.massage[0], AppData.services.massage[1], value).then(() => {
 			resolve()
 		}).catch(err => {
-			wx.hideLoading({
-				success: (res) => {
-					wx.showToast({
-						title: '设置失败',
-						icon: 'none',
-					})
-				},
+			wx.hideLoading()
+			wx.showToast({
+				title: '设置失败',
+				icon: 'none',
 			})
 		})
 	})
@@ -88,13 +79,10 @@ const handleVentilation = function (deviceId, degree) {
 		BleTools.handleWrite(deviceId, AppData.services.ventilation[0], AppData.services.ventilation[1], value).then(() => {
 			resolve()
 		}).catch(err => {
-			wx.hideLoading({
-				success: (res) => {
-					wx.showToast({
-						title: '设置失败',
-						icon: 'none',
-					})
-				},
+			wx.hideLoading()
+			wx.showToast({
+				title: '设置失败',
+				icon: 'none',
 			})
 		})
 	})
@@ -110,16 +98,13 @@ const handleKnead = function (deviceId, direction, degree) {
 	return new Promise(function (resolve, reject) {
 		let value = Utils.hex2ab(direction + degree)
 		BleTools.handleWrite(deviceId, AppData.services.knead[0], AppData.services.knead[1], value).then(() => {
-			resolve()
+			resolve();
 		}).catch(err => {
 			console.log(err)
-			wx.hideLoading({
-				success: (res) => {
-					wx.showToast({
-						title: '设置失败',
-						icon: 'none',
-					})
-				},
+			wx.hideLoading();
+			wx.showToast({
+				title: '设置失败',
+				icon: 'none',
 			})
 		})
 	})

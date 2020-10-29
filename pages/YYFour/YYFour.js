@@ -3,9 +3,27 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion');
 
 Page({
 	data: {
-		scrollArrDegree: { '1': 0, '2': 63, '3': 125 },
-		scrollArrTemp: { '40': 310, '45': 240, '50': 180, '55': 120, '60': 60, '65': 0 },
-		scrollArrTiming: { '10': 310, '20': 240, '30': 180, '40': 120, '50': 60, '60': 0 },
+		scrollArrDegree: {
+			'1': 0,
+			'2': 63,
+			'3': 125
+		},
+		scrollArrTemp: {
+			'40': 310,
+			'45': 240,
+			'50': 180,
+			'55': 120,
+			'60': 60,
+			'65': 0
+		},
+		scrollArrTiming: {
+			'10': 310,
+			'20': 240,
+			'30': 180,
+			'40': 120,
+			'50': 60,
+			'60': 0
+		},
 		bodyHeight: 0,
 		temperature: 0,
 		firstLoadTemp: true,
@@ -195,12 +213,9 @@ Page({
 				degree: degree,
 				model: model
 			}, () => {
-				wx.hideLoading({
-					success: (res) => {
-						wx.showToast({
-							title: '设置成功',
-						})
-					},
+				wx.hideLoading()
+				wx.showToast({
+					title: '设置成功',
 				})
 			})
 		})
@@ -240,12 +255,9 @@ Page({
 				that.setData({
 					temperature: temp
 				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '设置完成',
-							})
-						},
+					wx.hideLoading()
+					wx.showToast({
+						title: '设置完成',
 					})
 				})
 			})
@@ -284,12 +296,9 @@ Page({
 				this.setData({
 					timing: time
 				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '设置完成',
-							})
-						},
+					wx.hideLoading()
+					wx.showToast({
+						title: '设置完成',
 					})
 				})
 			})
@@ -312,13 +321,10 @@ Page({
 					degree: 0,
 					power: false,
 				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '控制成功',
-								mask: false
-							})
-						},
+					wx.hideLoading()
+					wx.showToast({
+						title: '控制成功',
+						mask: false
 					})
 				})
 			})
@@ -333,13 +339,10 @@ Page({
 							model: 1,
 							degree: 1
 						}, () => {
-							wx.hideLoading({
-								success: (res) => {
-									wx.showToast({
-										title: '控制成功',
-										mask: false
-									})
-								},
+							wx.hideLoading()
+							wx.showToast({
+								title: '控制成功',
+								mask: false
 							})
 						})
 					})

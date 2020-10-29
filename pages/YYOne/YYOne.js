@@ -3,7 +3,14 @@ const DeviceFunction = require('../../utils/BLE/deviceFuntion');
 
 Page({
 	data: {
-		scrollArr: { '10': 0, '20': 60, '30': 120, '40': 180, '50': 240, '60': 300 },
+		scrollArr: {
+			'10': 0,
+			'20': 60,
+			'30': 120,
+			'40': 180,
+			'50': 240,
+			'60': 300
+		},
 		scrollScope: [60, 120, 180, 240, 300],
 		power: false, // 控制开关
 		bodyHeight: 0, // 屏幕高度
@@ -148,13 +155,10 @@ Page({
 					timing: 0,
 					power: false,
 				}, () => {
-					wx.hideLoading({
-						success: (res) => {
-							wx.showToast({
-								title: '控制成功',
-								mask: false
-							})
-						},
+					wx.hideLoading()
+					wx.showToast({
+						title: '控制成功',
+						mask: false
 					})
 				})
 			})
@@ -167,13 +171,10 @@ Page({
 						power: true,
 						temperature: 40,
 					}, () => {
-						wx.hideLoading({
-							success: (res) => {
-								wx.showToast({
-									title: '控制成功',
-									mask: false
-								})
-							},
+						wx.hideLoading()
+						wx.showToast({
+							title: '控制成功',
+							mask: false
 						})
 					})
 				})
@@ -187,26 +188,20 @@ Page({
 			that = this,
 			value = temp == 30 ? 30 : temp == 35 ? 40 : temp == 40 ? 60 : temp == 45 ? 80 : 100
 		DeviceFunction.handleTemperature(deviceId, value).then(res => {
-			wx.hideLoading({
-				success: (res) => {
-					that.setData({
-						temperature: temp
-					}, () => {
-						wx.showToast({
-							title: '设置完成',
-						})
-					})
-				},
+			wx.hideLoading()
+			that.setData({
+				temperature: temp
+			}, () => {
+				wx.showToast({
+					title: '设置完成',
+				})
 			})
 		}).catch(err => {
 			console.log('异常', err)
-			wx.hideLoading({
-				success: (res) => {
-					wx.showToast({
-						title: '设置失败',
-						icon: 'none',
-					})
-				},
+			wx.hideLoading()
+			wx.showToast({
+				title: '设置失败',
+				icon: 'none',
 			})
 		});
 	},
@@ -216,30 +211,24 @@ Page({
 		let that = this,
 			deviceId = this.data.deviceId;
 		DeviceFunction.handleTimer(deviceId, timing).then(res => {
-			wx.hideLoading({
-				success: (res) => {
-					that.setData({
-						timing: timing,
-					}, () => {
-						wx.showToast({
-							title: '设置完成',
-						})
-					})
-				},
+			wx.hideLoading()
+			that.setData({
+				timing: timing,
+			}, () => {
+				wx.showToast({
+					title: '设置完成',
+				})
 			})
 		}).catch(err => {
 			console.log('异常', err)
-			wx.hideLoading({
-				success: (res) => {
-					that.setData({
-						timing: that.data.timing,
-					}, () => {
-						wx.showToast({
-							title: '设置失败',
-							icon: 'none',
-						})
-					})
-				},
+			wx.hideLoading()
+			that.setData({
+				timing: that.data.timing,
+			}, () => {
+				wx.showToast({
+					title: '设置失败',
+					icon: 'none',
+				})
 			})
 		});
 	},

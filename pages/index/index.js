@@ -114,7 +114,7 @@ Page({
 					});
 				}, 3000)
 			},
-			fail: function (err) { }
+			fail: function (err) {}
 		})
 	},
 
@@ -173,14 +173,11 @@ Page({
 			if (flag == 1) {
 				this.handleCheckDeviceList(2)
 			} else {
-				wx.hideLoading({
-					complete: (res) => {
-						wx.showModal({
-							title: '未搜索到设备',
-							content: '未搜索到相关设备，请检查设备。',
-							showCancel: false
-						})
-					},
+				wx.hideLoading();
+				wx.showModal({
+					title: '未搜索到设备',
+					content: '未搜索到相关设备，请检查设备。',
+					showCancel: false
 				})
 			}
 		}
@@ -198,13 +195,10 @@ Page({
 			that.handleSaveHistory(device);
 		}).catch(err => {
 			console.log(err);
-			wx.hideLoading({
-				complete: () => {
-					wx.showModal({
-						content: '设备连接失败，请稍后再试',
-						showCancel: false
-					})
-				}
+			wx.hideLoading()
+			wx.showModal({
+				content: '设备连接失败，请稍后再试',
+				showCancel: false
 			})
 		})
 	},

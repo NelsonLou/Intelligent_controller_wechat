@@ -13,6 +13,12 @@
     width: 88rpx;
 }
 
+.TempBox {
+    margin-top: 20rpx;
+    margin-left: 36rpx;
+    width: 200rpx;
+}
+
 .instructionsIMG {
     width: 80rpx;
     height: 80rpx;
@@ -27,6 +33,23 @@
     font-stretch: normal;
     letter-spacing: 0rpx;
     color: #FFF;
+    text-align: center;
+    vertical-align: top;
+}
+
+.TempText {
+    margin-top: 20rpx;
+    width: 128rpx;
+    height: 30px;
+    line-height: 30px;
+    background-color: #fff;
+    font-family: PingFang SC;
+    font-size: 26rpx;
+    border-radius: 5px;
+    font-weight: 600;
+    font-stretch: normal;
+    letter-spacing: 0rpx;
+    color: #ff894d;
     text-align: center;
     vertical-align: top;
 }
