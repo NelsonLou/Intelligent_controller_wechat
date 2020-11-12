@@ -2,25 +2,28 @@
 	<navBar title='YY06' backgroundColor='rgba(0,0,0,0)' color='#FFF' iconColor='white'></navBar>
 	<view class='YYSix' style="height: {{bodyHeight}}rpx">
 		<!-- 功能说明 -->
-		<view class="imagBox clearfloat" bindtap="goInroduce">
-			<view class="instructionsBox right">
-				<image class="instructionsIMG" src="../../assets/yy06_functional_specification.png"></image>
-				<text class="instructionsTxt">功能说明</text>
+		<view class="imagBox clearfloat">
+			<view class="instructionsBox  right" bindtap="goInroduce">
+				<image class="instructionsIMG" src="../../assets/yy01_functional_specification.png"></image>
+				<view class="instructionsTxt">功能说明</view>
 			</view>
-			<view class="TempBox left">
-				<view class="TempText">开启温控</view>
-			</view>
+			<!-- <view class="tempBox left" bindtap="handleStartTemp">
+				{{tempPower?'关闭温控':'开启温控'}}
+			</view> -->
 		</view>
 		<!-- 温控 -->
 		<view class="temperature">
 			<image class="bg" src="../../assets/yy06_dial_bg.png"></image>
 			<image class="calibration" wx:if='{{temperature>0}}' src="../../assets/yy06_dial_{{temperature}}.png"></image>
-			<view class="num">{{temperature}}</view>
-			<view class="unit">℃</view>
+			<view class="tempPowerBtn" bindtap="handleChoseTempTiming">
+				<van-icon class="icon" size='50px' name="fire" />
+			</view>
+			<!-- <view class="num" bindtap="handleChoseTempTiming">{{tempTiminig}}</view> -->
+			<!-- <view class="unit">分钟</view> -->
 		</view>
 		<view class="tempController clearfloat">
 			<image class="tempBtn left" bindtap="handleTemp" data-flag="0" src="../../assets/yy06_subtract.png"></image>
-			<text class="text">加热</text>
+			<!-- <text class="text">加热</text> -->
 			<image class="tempBtn right" bindtap="handleTemp" data-flag="1" src="../../assets/yy06_plus.png"></image>
 		</view>
 		<!-- 中控 -->
@@ -53,7 +56,7 @@
 		<!-- 定时 -->
 		<view class="timerBox">
 			<view class="title">
-				<text class="big">定时</text>
+				<text class="big">加热定时</text>
 				<text class="small">（分钟）</text>
 			</view>
 			<view class="timerMain clearfloat">
@@ -96,4 +99,7 @@
 		<!-- 电源 -->
 		<image class="power" bindtap="handleSwichPower" src="../../assets/yy06_power_switch_{{power?'on':'off'}}.png"></image>
 	</view>
+	<van-popup show="{{ showDialog }}" position="bottom" bind:close="onClose">
+		<van-picker show-toolbar title="加热定时（分钟）" columns="{{ tempList }}" bind:confirm="handleConfirm" bind:cancel="onClose" />
+	</van-popup>
 </view>

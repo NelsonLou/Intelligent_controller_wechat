@@ -1,12 +1,12 @@
 {
     "pages": [
         "pages/index/index",
+        "pages/YYSix/YYSix",
         "pages/YYOne/YYOne",
         "pages/YYTwo/YYTwo",
         "pages/YYThree/YYThree",
         "pages/YYFour/YYFour",
         "pages/YYFive/YYFive",
-        "pages/YYSix/YYSix",
         "pages/YYSeven/YYSeven",
         "pages/YYEight/YYEight",
         "pages/YYNight/YYNight",
@@ -17,6 +17,7 @@
         "van-dialog": "vant-weapp/dialog",
         "van-popup": "vant-weapp/popup",
         "van-picker": "vant-weapp/picker",
+        "van-icon": "vant-weapp/icon",
         "navBar": "./components/navBar/navBar"
     },
     "window": {

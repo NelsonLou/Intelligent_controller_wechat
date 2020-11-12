@@ -13,10 +13,19 @@
     width: 88rpx;
 }
 
-.TempBox {
+.tempBox {
     margin-top: 20rpx;
     margin-left: 36rpx;
-    width: 200rpx;
+    width: 108rpx;
+    height: 44rpx;
+    line-height: 44rpx;
+    border-radius: 10rpx;
+    border: 2px solid #ff894d;
+    background-color: #fff;
+    color: #ff894d;
+    font-size: 22rpx;
+    text-align: center;
+    font-weight: 500;
 }
 
 .instructionsIMG {
@@ -37,22 +46,6 @@
     vertical-align: top;
 }
 
-.TempText {
-    margin-top: 20rpx;
-    width: 128rpx;
-    height: 30px;
-    line-height: 30px;
-    background-color: #fff;
-    font-family: PingFang SC;
-    font-size: 26rpx;
-    border-radius: 5px;
-    font-weight: 600;
-    font-stretch: normal;
-    letter-spacing: 0rpx;
-    color: #ff894d;
-    text-align: center;
-    vertical-align: top;
-}
 
 .power {
     display: block;
@@ -325,6 +318,31 @@
     top: 145rpx;
 }
 
+.tempPowerBtn {
+    position: absolute;
+    font-family: SF Pro Display;
+    font-size: 30rpx;
+    font-weight: 600;
+    font-stretch: normal;
+    letter-spacing: 0rpx;
+    color: #ffffff;
+    left: 300rpx;
+    right: 0;
+    text-align: center;
+    top: 165rpx;
+    /* border: 4px solid #ff944d; */
+    background-color: #ff944d;
+    border-radius: 150rpx;
+    width: 150rpx;
+    height: 150rpx;
+
+}
+
+.tempPowerBtn .icon {
+    margin-top: 25rpx;
+    display: block;
+}
+
 .unit {
     position: absolute;
     font-family: PingFang SC;
@@ -335,7 +353,7 @@
     letter-spacing: 0rpx;
     color: #ffffff;
     opacity: 0.5;
-    right: 260rpx;
+    right: 220rpx;
     top: 145rpx;
 }
 
@@ -386,4 +404,14 @@
     height: 70rpx;
     margin-left: 600rpx;
     margin-right: 640rpx;
+}
+
+.dialogBox {
+    text-align: center;
+    border: 1px solid #ccc;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 50rpx;
+    margin-bottom: 50rpx;
+    border-radius: 20rpx;
 }
