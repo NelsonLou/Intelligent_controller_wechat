@@ -5,6 +5,7 @@ import Dialog from 'vant-weapp/dialog/dialog';
 
 Page({
     data: {
+        // 滚动相关
         scrollArrTiming: {
             '10': 310,
             '20': 240,
@@ -21,15 +22,13 @@ Page({
         kneadScrollNum: 0,
         bodyHeight: 0,
         temperature: 0,
-        timing: 0,
-        degree: 0,
         power: false,
         kneadModel: 0,
-        kneadDegree: 0,
-        tempList: [10, 20, 30, 40, 50, 60],
-        tempPower: false,
-        tempTiminig: 30,
-        showDialog: false,
+        kneadDegree: 0, // 按摩登记
+        tempList: [10, 20, 30, 40, 50, 60], // 温度列表
+        tempTiming: 0, // 温度定时
+        tempPower: false, // 加热开关
+        showDialog: false, // 展示弹窗
     },
 
     onLoad: function (options) {
@@ -42,47 +41,63 @@ Page({
             objTi[i] = objTi[i] / AppData.widthProp;
         }
         this.setData({
-            bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
+            // bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
+            bodyHeight: AppData.windowHeight,
             scrollArrTiming: objTi,
             scrollArrDegree: objD,
         })
     },
 
     onShow: function () {
-        this.handleGetValue()
+        this.handleGetValue();
     },
 
     handleGetValue() {
         this.setData({
-            temperature: 45,
-            timing: 50,
+            temperature: AppData.temperature,
+            tempTiming: AppData.tempTiming,
+            tempPower: AppData.tempTiming === 0 ? false : true,
             kneadModel: AppData.kneadDirection,
             kneadDegree: AppData.kneadDegree,
-            power: true
+            power: AppData.timing == 0 ? false : true,
+        }, () => {
+            this.handleNotify()
         })
     },
 
-    // 拖拽控件
+    // 拖拽加热定时控件
     handleTouchEndTime: function (e) {
-        let num = e.changedTouches[0].clientX,
-            time = 0;
         // 37 97 157 217 277 337
+        let num = e.changedTouches[0].clientX,
+            that = this,
+            tempTiming = 0;
         if (num > 307) {
-            time = 60
+            tempTiming = 60
         } else if (num <= 307 && num > 247) {
-            time = 50
+            tempTiming = 50
         } else if (num <= 247 && num > 187) {
-            time = 40
+            tempTiming = 40
         } else if (num <= 187 && num > 127) {
-            time = 30
+            tempTiming = 30
         } else if (num <= 127 && num > 67) {
-            time = 20
+            tempTiming = 20
         } else if (num <= 67) {
-            time = 10
+            tempTiming = 10
         }
-        this.handleSwitchTimer(time)
+        DeviceFunction.handleTemperature(AppData.connectingDeviceId, that.data.temperature, tempTiming).then(() => {
+            that.setData({
+                tempTiming: tempTiming
+            }, () => {
+                wx.hideLoading();
+                wx.showToast({
+                    title: '控制成功',
+                    mask: false
+                })
+            })
+        })
     },
 
+    // 拖拽揉捏控件
     handleTouchEndKnead: function (e) {
         let num = e.changedTouches[0].clientX,
             degree = 0;
@@ -97,37 +112,7 @@ Page({
         this.handleKneadDegree(degree)
     },
 
-    // 控制温度
-    handleTemp: function (e) {
-        if (this.data.power) {
-            let temp = Number(this.data.temperature),
-                flag = Number(e.currentTarget.dataset.flag),
-                that = this;
-            if ((temp > 40 && flag != 1) || (temp < 60 && flag == 1)) {
-                wx.showLoading({
-                    title: '控制中',
-                })
-                temp = flag == 1 ? (temp + 5) : (temp - 5)
-                let value = temp == 40 ? 40 : temp == 45 ? 50 : temp == 50 ? 60 : temp == 55 ? 80 : 100;
-                DeviceFunction.handleTemperature(AppData.connectingDeviceId, value).then(() => {
-                    that.setData({
-                        temperature: temp
-                    }, () => {
-                        wx.hideLoading()
-                        wx.showToast({
-                            title: '控制成功',
-                            mask: false
-                        })
-                    })
-                })
-            }
-        } else {
-            wx.showToast({
-                title: '设备未开启',
-                icon: 'none'
-            })
-        }
-    },
+    // ———————————— 设备控制-其他 ————————————
 
     // 揉捏方向
     handleKneadModel: function () {
@@ -204,50 +189,6 @@ Page({
         }
     },
 
-    // 定时
-    handleSwitchTimer: function (timing) {
-        let value = this.data.timing;
-        if (this.data.power) {
-            if (timing == value) {
-                this.setData({
-                    timing: 0
-                }, () => {
-                    this.setData({
-                        timing: value
-                    })
-                })
-            } else {
-                let that = this;
-                wx.showLoading({
-                    title: '控制中',
-                })
-                DeviceFunction.handleTimer(AppData.connectingDeviceId, timing).then(res => {
-                    that.setData({
-                        timing: timing,
-                    }, () => {
-                        wx.hideLoading()
-                        wx.showToast({
-                            title: '控制成功',
-                            mask: false
-                        })
-                    })
-                })
-            }
-        } else {
-            this.setData({
-                timing: 0
-            }, () => {
-                this.setData({
-                    timing: value
-                })
-                wx.showToast({
-                    title: '设备未开启',
-                    icon: 'none'
-                })
-            })
-        }
-    },
-
     // 开关机
     handleSwichPower: function (e) {
         wx.showLoading({
@@ -261,9 +202,8 @@ Page({
                     power: false,
                     kneadModel: 0,
                     kneadDegree: 0,
-                    temperature: 0,
                 }, () => {
-                    wx.hideLoading()
+                    wx.hideLoading();
                     wx.showToast({
                         title: '控制成功',
                         icon: 'none'
@@ -272,20 +212,17 @@ Page({
             })
         } else {
             DeviceFunction.handleTimer(AppData.connectingDeviceId, 30).then(() => {
-                DeviceFunction.handleTemperature(AppData.connectingDeviceId, 60).then(() => {
-                    DeviceFunction.handleKnead(AppData.connectingDeviceId, 3, 1).then(() => {
-                        that.setData({
-                            timing: 30,
-                            power: true,
-                            kneadModel: 3,
-                            kneadDegree: 1,
-                            temperature: 50,
-                        }, () => {
-                            wx.hideLoading()
-                            wx.showToast({
-                                title: '控制成功',
-                                mask: false
-                            })
+                DeviceFunction.handleKnead(AppData.connectingDeviceId, 3, 1).then(() => {
+                    that.setData({
+                        timing: 30,
+                        power: true,
+                        kneadModel: 3,
+                        kneadDegree: 1,
+                    }, () => {
+                        wx.hideLoading();
+                        wx.showToast({
+                            title: '控制成功',
+                            mask: false
                         })
                     })
                 })
@@ -293,31 +230,123 @@ Page({
         }
     },
 
+
+
+    // ———————————— 设备控制-加热 ————————————
+
+    // 开启加热
+    handleStartTemp: function () {
+        let that = this;
+        if (!this.data.tempPower) {
+            DeviceFunction.handleTemperature(AppData.connectingDeviceId, 60, 30).then(res => {
+                wx.hideLoading()
+                that.setData({
+                    tempPower: true,
+                    tempTiming: 30,
+                    temperature: 60
+                }, () => {
+                    wx.showToast({
+                        title: '开启成功',
+                    })
+                })
+            });
+        } else {
+            DeviceFunction.handleTemperature(AppData.connectingDeviceId, 0, 0).then(res => {
+                wx.hideLoading()
+                that.setData({
+                    tempPower: false,
+                    tempTiming: 0,
+                    temperature: 0
+                }, () => {
+                    wx.showToast({
+                        title: '关闭成功',
+                    })
+                })
+            });
+        }
+    },
+
+    // 控制温度
+    handleTemp: function (e) {
+        if (this.data.tempPower) {
+            let temp = Number(this.data.temperature),
+                flag = Number(e.currentTarget.dataset.flag),
+                that = this;
+            if ((temp > 40 && flag != 1) || (temp < 60 && flag == 1)) {
+                wx.showLoading({
+                    title: '控制中',
+                })
+                temp = flag == 1 ? (temp + 5) : (temp - 5)
+                let value = temp == 40 ? 40 : temp == 45 ? 50 : temp == 50 ? 60 : temp == 55 ? 80 : 100;
+                DeviceFunction.handleTemperature(AppData.connectingDeviceId, value, that.data.tempTiming).then(() => {
+                    that.setData({
+                        temperature: temp
+                    }, () => {
+                        wx.hideLoading();
+                        wx.showToast({
+                            title: '控制成功',
+                            mask: false
+                        })
+                    })
+                })
+            }
+        } else {
+            wx.showToast({
+                title: '加热未开启',
+                icon: 'none'
+            })
+        }
+    },
+
+    // ———————————— 监听数据 ————————————
+    handleNotify: function () {
+        let that = this;
+        wx.onBLECharacteristicValueChange((result) => {
+            that.handleDealNotify(result);
+        })
+        wx.notifyBLECharacteristicValueChange({
+            deviceId: AppData.connectingDeviceId,
+            serviceId: AppData.services.temp[0],
+            characteristicId: AppData.services.temp[1],
+            state: true,
+            success: () => {
+                wx.notifyBLECharacteristicValueChange({
+                    deviceId: AppData.connectingDeviceId,
+                    serviceId: AppData.services.knead[0],
+                    characteristicId: AppData.services.knead[1],
+                    state: true,
+                })
+            },
+        })
+    },
+
+    handleDealNotify: function (result) {
+        let value = Utils.ab2hex(result.value);
+        if (charId == AppData.services.temp[1]) {
+            let timeA = value.substring(4, 6),
+                timeB = value.substring(2, 4),
+                temp = value.substring(0, 2);
+            this.setData({
+                temperature: temp,
+                tempTiming: parseInt('0x' + timeA + timeB)
+            })
+        }
+        if (charId == AppData.services.knead[1]) {
+            let direction = Number(value.substring(0, 2)),
+                degree = Number(value.substring(2, 4));
+            this.setData({
+                kneadModel: direction,
+                kneadModel: degree
+            })
+        }
+    },
+
+    // —————————————— 其他 ———————————————
+
     // 前往介绍
     goInroduce: function () {
         wx.navigateTo({
             url: '../Introduce/Introduce',
         })
     },
-
-    handleStartTemp: function (params) {
-        this.setData({
-            tempPower: !this.data.tempPower,
-            temperature: this.data.tempPower ? 0 : 50,
-            tempTiminig: this.data.tempPower ? 0 : 30,
-        })
-    },
-    handleChoseTempTiming: function () {
-        this.setData({
-            showDialog: true
-        })
-    },
-    handleConfirm: function (val) {
-        this.setData({
-            tempPower: true,
-            temperature: this.data.tempPower ? this.data.temperature : 50,
-            tempTiminig: val.detail.value,
-            showDialog: false
-        })
-    }
 })

@@ -318,7 +318,7 @@
     top: 145rpx;
 }
 
-.tempPowerBtn {
+.tempPowerBtnDisable {
     position: absolute;
     font-family: SF Pro Display;
     font-size: 30rpx;
@@ -326,21 +326,35 @@
     font-stretch: normal;
     letter-spacing: 0rpx;
     color: #ffffff;
-    left: 300rpx;
+    left: 315rpx;
+    right: 0;
+    text-align: center;
+    top: 165rpx;
+    background-color: #484d66;
+    border-radius: 150rpx;
+    width: 120rpx;
+    height: 120rpx;
+    line-height: 150rpx !important;
+}
+
+.tempPowerBtnAble {
+    position: absolute;
+    font-family: SF Pro Display;
+    font-size: 30rpx;
+    font-weight: 600;
+    font-stretch: normal;
+    letter-spacing: 0rpx;
+    color: #ffffff;
+    left: 315rpx;
     right: 0;
     text-align: center;
     top: 165rpx;
     /* border: 4px solid #ff944d; */
     background-color: #ff944d;
     border-radius: 150rpx;
-    width: 150rpx;
-    height: 150rpx;
-
-}
-
-.tempPowerBtn .icon {
-    margin-top: 25rpx;
-    display: block;
+    width: 120rpx;
+    height: 120rpx;
+    text-align: center;
 }
 
 .unit {

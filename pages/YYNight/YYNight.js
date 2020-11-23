@@ -24,7 +24,8 @@ Page({
             objTi[i] = objTi[i] / AppData.widthProp;
         }
         this.setData({
-            bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
+            // bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
+            bodyHeight: AppData.windowHeight,
             scrollArrTiming: objTi
         })
     },

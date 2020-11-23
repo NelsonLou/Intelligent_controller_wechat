@@ -6,12 +6,17 @@ import BleTools from './bleTools';
 // 初始化长度 1 个字节，可读可写，当前可写最大值 100
 const handleTemperature = function (deviceId, temp, time) {
     return new Promise(function (resolve, reject) {
-        console.log('写入温度', temp);
-        let value = Utils.hex2ab(Utils.int2hex(temp));
+        console.log('写入温度', temp, '写入温度定时', time);
+        if (!time) {
+            time = 0
+        }
+        let timeHex = Utils.int2hex(time).padStart(4, '0'),
+            value = Utils.hex2ab(Utils.int2hex(temp) + timeHex);
         BleTools.handleWrite(deviceId, AppData.services.temp[0], AppData.services.temp[1], value).then(() => {
             resolve()
         }).catch(err => {
             wx.hideLoading();
+            console.log('异常', err)
             wx.showToast({
                 title: '设置失败',
                 icon: 'none',
@@ -40,11 +45,13 @@ const handleTimer = function (deviceId, time) {
         BleTools.handleWrite(deviceId, AppData.services.timing[0], AppData.services.timing[1], value).then(() => {
             resolve()
         }).catch(err => {
+            console.log('异常', err)
             wx.hideLoading()
             wx.showToast({
                 title: '设置失败',
                 icon: 'none',
             })
+            reject(err)
         })
     })
 }
@@ -53,19 +60,25 @@ const handleTimer = function (deviceId, time) {
 // 第 1 个字节:按摩模式，'01/'02/'03/'04/'05 代表模式 1-4 及默认模式 
 // 第 2 个字节:按摩力度，'01/'02/'03 代表按摩力度高、中、低
 const handleMassage = function (deviceId, model, degree, time) {
+    if (!time) {
+        time = 0
+    }
     let fir = '0' + model,
-        sec = '0' + degree;
-    console.log('写入按摩', fir, sec);
+        sec = '0' + degree,
+        timeHex = Utils.int2hex(time).padStart(4, '0');
+    console.log('写入按摩', fir, sec, '按摩定时', time);
     return new Promise(function (resolve, reject) {
-        let value = Utils.hex2ab(fir + sec)
+        let value = Utils.hex2ab(fir + sec + timeHex);
         BleTools.handleWrite(deviceId, AppData.services.massage[0], AppData.services.massage[1], value).then(() => {
             resolve()
         }).catch(err => {
+            console.log('异常', err)
             wx.hideLoading()
             wx.showToast({
                 title: '设置失败',
                 icon: 'none',
             })
+            reject(err)
         })
     })
 }
@@ -73,18 +86,24 @@ const handleMassage = function (deviceId, model, degree, time) {
 // 通风
 // 初始化长度 1 个字节，可读可写，'01/'02/'03 代表通风高、中、低
 const handleVentilation = function (deviceId, degree, time) {
-    degree = '0' + degree;
-    console.log('写入通风', degree)
+    if (!time) {
+        time = 0
+    }
+    console.log('写入通风', degree, '通风定时', time)
     return new Promise(function (resolve, reject) {
-        let value = Utils.hex2ab(degree)
+        let fir = Utils.hex2ab('0' + degree),
+            timeHex = Utils.int2hex(time).padStart(4, '0'),
+            value = Utils.hex2ab(fir + timeHex)
         BleTools.handleWrite(deviceId, AppData.services.ventilation[0], AppData.services.ventilation[1], value).then(() => {
             resolve()
         }).catch(err => {
+            console.log('异常', err)
             wx.hideLoading()
             wx.showToast({
                 title: '设置失败',
                 icon: 'none',
             })
+            reject(err)
         })
     })
 }
@@ -93,11 +112,15 @@ const handleVentilation = function (deviceId, degree, time) {
 // 第 1 个字节:揉捏方向，'01/'02/'03 代表正、反转、自动切换 
 // 第 2 个字节:揉捏力度，'01/'02/'03 代表高、中、低
 const handleKnead = function (deviceId, direction, degree, time) {
+    if (!time) {
+        time = 0
+    }
     direction = '0' + direction
     degree = '0' + degree
-    console.log('写入揉捏', direction, degree)
+    let timeHex = Utils.int2hex(time).padStart(4, '0');
+    console.log('写入揉捏', direction, degree, '揉捏定时', time)
     return new Promise(function (resolve, reject) {
-        let value = Utils.hex2ab(direction + degree)
+        let value = Utils.hex2ab(direction + degree + timeHex)
         BleTools.handleWrite(deviceId, AppData.services.knead[0], AppData.services.knead[1], value).then(() => {
             resolve();
         }).catch(err => {
@@ -114,14 +137,23 @@ const handleKnead = function (deviceId, direction, degree, time) {
 // 充放气
 // 初始化长度 1 个字节，可读可写，'01/'02/'03 代表充气、放气、自动充放气
 const handleGas = function (deviceId, model, time) {
+    if (!time) {
+        time = 0
+    }
     model = '0' + model;
-    console.log('写入充放气', model)
-    console.log('服务', AppData.services.gas[0], AppData.services.gas[1])
+    let timeHex = Utils.int2hex(time).padStart(4, '0');
+    console.log('写入充放气', model, '充放气定时', time)
     return new Promise(function (resolve, reject) {
-        let value = Utils.hex2ab(model);
+        let value = Utils.hex2ab(model + timeHex);
         BleTools.handleWrite(deviceId, AppData.services.gas[0], AppData.services.gas[1], value).then(() => {
             resolve()
         }).catch(err => {
+            console.log('异常', err)
+            wx.hideLoading()
+            wx.showToast({
+                title: '设置失败',
+                icon: 'none',
+            })
             reject(err)
         })
     })
