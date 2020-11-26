@@ -89,7 +89,6 @@ const getDeviceInfo = function (deviceId, callBack) {
 
 const handleWatchValue = function (deviceId, callBack) {
     wx.onBLECharacteristicValueChange((result) => {
-        console.log('获取返回值', result);
         BleTools.handleUnNotify(deviceId, result.serviceId, result.characteristicId);
         handleDealResult(deviceId, result, callBack);
     })
@@ -129,10 +128,8 @@ const handleDealResult = function (deviceId, result, callBack) {
     }
     // 通风
     else if (charId == AppData.services.ventilation[1]) {
-        let ventilation = Number(value.substring(0, 2)),
-            ventilationTiming = parseInt('0x' + value.substring(4, 6) + value.substring(2, 4));
+        let ventilation = Number(value.substring(0, 2));
         AppData.ventilation = ventilation
-        AppData.ventilationTiming = ventilationTiming
         getKnead(deviceId, callBack);
     }
     // 揉捏
@@ -147,10 +144,8 @@ const handleDealResult = function (deviceId, result, callBack) {
     }
     // 充放气
     else {
-        let gas = Number(value.substring(0, 2)),
-            gasTiming = parseInt('0x' + value.substring(4, 6) + value.substring(2, 4));
-        AppData.gas = Number(value)
-        AppData.gasTiming = gasTiming
+        let gas = Number(value.substring(0, 2));
+        AppData.gas = gas;
         finish(true, callBack);
     }
 }
@@ -166,21 +161,25 @@ const getTiming = function (deviceId, callBack) {
         finish(false, callBack)
     })
 }
+
 const getMassage = function (deviceId, callBack) {
     BleTools.handleRead(deviceId, AppData.services.massage[0], AppData.services.massage[1]).catch(err => {
         finish(false, callBack)
     })
 }
+
 const getVentilation = function (deviceId, callBack) {
     BleTools.handleRead(deviceId, AppData.services.ventilation[0], AppData.services.ventilation[1]).catch(err => {
         finish(false, callBack)
     })
 }
+
 const getKnead = function (deviceId, callBack) {
     BleTools.handleRead(deviceId, AppData.services.knead[0], AppData.services.knead[1]).catch(err => {
         finish(false, callBack)
     })
 }
+
 const getGas = function (deviceId, callBack) {
     BleTools.handleRead(deviceId, AppData.services.gas[0], AppData.services.gas[1]).catch(err => {
         finish(false, callBack)

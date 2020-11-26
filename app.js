@@ -4,6 +4,7 @@ App({
         // 获取系统信息
         wx.getSystemInfo({
             success: (res) => {
+                this.globalData.widthProp = (375 / res.windowWidth).toFixed(1);
                 this.globalData.systemType = res.platform
                 let proportion = 750 / res.windowWidth,
                     menuButtonObject = wx.getMenuButtonBoundingClientRect() // 获取胶囊按钮信息
@@ -16,6 +17,9 @@ App({
                 }
             }
         })
+    },
+    onHide: function (params) {
+        this.globalData.rateScreen = true
     },
 
     globalData: {
@@ -36,7 +40,7 @@ App({
         productType: null, // 产品属性
         deviceMac: '', // 设备MAC
         hasConnectList: [], // 已连接设备列表
-        connectingDeviceId: '',  // 当前已连接设备
+        connectingDeviceId: '', // 当前已连接设备
         deviceInfo: {}, // 当前已连接设备详情
 
         // 定时类
@@ -58,5 +62,12 @@ App({
         // 设备类
         writeService: [],
         readService: [],
+
+        // 方法类
+        bleWatchingFun: (para) => {
+            console.log('Ble连接状态修改', para)
+        },
+
+        rateScreen: false,
     }
 })

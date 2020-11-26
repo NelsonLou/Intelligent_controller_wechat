@@ -27,7 +27,6 @@ Page({
         }, () => {
             AppData.services = BleTools.serviceList;
         })
-        this.handleAuth()
     },
 
     onShow: function () {
@@ -114,7 +113,7 @@ Page({
                     });
                 }, 3000)
             },
-            fail: function (err) { }
+            fail: function (err) {}
         })
     },
 
@@ -238,9 +237,9 @@ Page({
         console.log('生成随机密钥', originPwd);
         console.log('生成随机密钥hex', Utils.string2hex(originPwd));
         console.log('生成加密密钥', pwd);
-        // BleTools.handleWrite(that.data.deviceId, AppData.services.access[0], AppData.services.access[1], Utils.hex2ab(pwd)).then(() => {
-        // 	BleTools.handleRead(that.data.deviceId, AppData.services.access[0], AppData.services.access[1])
-        // })
+        BleTools.handleWrite(that.data.deviceId, AppData.services.access[0], AppData.services.access[1], Utils.hex2ab(pwd)).then(() => {
+            BleTools.handleRead(that.data.deviceId, AppData.services.access[0], AppData.services.access[1])
+        })
     },
 
     // 处理读取结果
@@ -342,7 +341,6 @@ Page({
         this.setData({
             popup: true
         })
-
     },
 
     handleChosePt: function (e) {

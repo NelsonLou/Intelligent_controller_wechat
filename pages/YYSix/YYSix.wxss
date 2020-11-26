@@ -167,6 +167,38 @@
     position: relative;
 }
 
+.srollDegree {
+    height: 35rpx;
+    width: 313rpx;
+    position: absolute;
+    left: 16rpx;
+    bottom: 26rpx;
+}
+
+.inside {
+    width: 589rpx;
+}
+
+.showLine {
+    background-color: #65d9ff;
+    width: 298rpx;
+    height: 12rpx;
+    margin-top: 15rpx;
+    position: relative;
+    margin-right: 293rpx;
+}
+
+.degreeBoll {
+    width: 10rpx;
+    height: 10rpx;
+    background-color: #65d9ff;
+    border: solid 10rpx #ffffff;
+    border-radius: 20rpx;
+    position: absolute;
+    top: -10rpx;
+    right: -10rpx;
+}
+
 .line .showLine {
     background-color: #ff944d;
     border-radius: 6rpx;
@@ -373,39 +405,6 @@
 
 /* 拖拽 */
 
-.srollDegree {
-    height: 35rpx;
-    width: 313rpx;
-    /* background-color: rgba(255, 255, 255, 0.3); */
-    position: absolute;
-    left: 16rpx;
-    bottom: 26rpx;
-}
-
-.inside {
-    width: 589rpx;
-}
-
-.showLine {
-    background-color: #65d9ff;
-    width: 298rpx;
-    height: 12rpx;
-    margin-top: 12rpx;
-    position: relative;
-    margin-right: 293rpx;
-}
-
-.degreeBoll {
-    width: 10rpx;
-    height: 10rpx;
-    background-color: #65d9ff;
-    border: solid 10rpx #ffffff;
-    border-radius: 20rpx;
-    position: absolute;
-    top: -10rpx;
-    right: -10rpx;
-}
-
 .srollTemp {
     position: absolute;
     top: 60rpx;
@@ -416,8 +415,12 @@
 .bollTemp {
     width: 70rpx;
     height: 70rpx;
-    margin-left: 600rpx;
-    margin-right: 640rpx;
+    /* margin-left: 600rpx;
+    margin-right: 640rpx; */
+    z-index: 999;
+    position: absolute;
+    left: -11rpx;
+    top: 58rpx;
 }
 
 .dialogBox {

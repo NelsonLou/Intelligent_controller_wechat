@@ -6,12 +6,9 @@ import BleTools from './bleTools';
 // 初始化长度 1 个字节，可读可写，当前可写最大值 100
 const handleTemperature = function (deviceId, temp, time) {
     return new Promise(function (resolve, reject) {
-        console.log('写入温度', temp, '写入温度定时', time);
-        if (!time) {
-            time = 0
-        }
-        let timeHex = Utils.int2hex(time).padStart(4, '0'),
+        let timeHex = Number(time).toString(16).padStart(4, '0'),
             value = Utils.hex2ab(Utils.int2hex(temp) + timeHex);
+        console.log('写入温度', Utils.int2hex(temp), timeHex)
         BleTools.handleWrite(deviceId, AppData.services.temp[0], AppData.services.temp[1], value).then(() => {
             resolve()
         }).catch(err => {
@@ -33,13 +30,7 @@ const handleTimer = function (deviceId, time) {
         time = Number(time)
         console.log(time);
         let num = time.toString(16);
-        if (num.length == 1) {
-            num = '000' + num
-        } else if (num.length == 2) {
-            num = '00' + num
-        } else if (num.length == 3) {
-            num = '0' + num
-        }
+        num = num.padStart(4, '0')
         console.log('写入时间', time, '写入数值', num);
         let value = Utils.hex2ab(num);
         BleTools.handleWrite(deviceId, AppData.services.timing[0], AppData.services.timing[1], value).then(() => {
@@ -65,7 +56,7 @@ const handleMassage = function (deviceId, model, degree, time) {
     }
     let fir = '0' + model,
         sec = '0' + degree,
-        timeHex = Utils.int2hex(time).padStart(4, '0');
+        timeHex = Number(time).toString(16).padStart(4, '0');
     console.log('写入按摩', fir, sec, '按摩定时', time);
     return new Promise(function (resolve, reject) {
         let value = Utils.hex2ab(fir + sec + timeHex);
@@ -86,14 +77,9 @@ const handleMassage = function (deviceId, model, degree, time) {
 // 通风
 // 初始化长度 1 个字节，可读可写，'01/'02/'03 代表通风高、中、低
 const handleVentilation = function (deviceId, degree, time) {
-    if (!time) {
-        time = 0
-    }
-    console.log('写入通风', degree, '通风定时', time)
+    console.log('写入通风', degree)
     return new Promise(function (resolve, reject) {
-        let fir = Utils.hex2ab('0' + degree),
-            timeHex = Utils.int2hex(time).padStart(4, '0'),
-            value = Utils.hex2ab(fir + timeHex)
+        let value = Utils.hex2ab('0' + degree)
         BleTools.handleWrite(deviceId, AppData.services.ventilation[0], AppData.services.ventilation[1], value).then(() => {
             resolve()
         }).catch(err => {
@@ -117,7 +103,7 @@ const handleKnead = function (deviceId, direction, degree, time) {
     }
     direction = '0' + direction
     degree = '0' + degree
-    let timeHex = Utils.int2hex(time).padStart(4, '0');
+    let timeHex = Number(time).toString(16).padStart(4, '0');
     console.log('写入揉捏', direction, degree, '揉捏定时', time)
     return new Promise(function (resolve, reject) {
         let value = Utils.hex2ab(direction + degree + timeHex)
@@ -136,15 +122,11 @@ const handleKnead = function (deviceId, direction, degree, time) {
 
 // 充放气
 // 初始化长度 1 个字节，可读可写，'01/'02/'03 代表充气、放气、自动充放气
-const handleGas = function (deviceId, model, time) {
-    if (!time) {
-        time = 0
-    }
+const handleGas = function (deviceId, model) {
     model = '0' + model;
-    let timeHex = Utils.int2hex(time).padStart(4, '0');
-    console.log('写入充放气', model, '充放气定时', time)
+    console.log('写入充放气', model)
     return new Promise(function (resolve, reject) {
-        let value = Utils.hex2ab(model + timeHex);
+        let value = Utils.hex2ab(model);
         BleTools.handleWrite(deviceId, AppData.services.gas[0], AppData.services.gas[1], value).then(() => {
             resolve()
         }).catch(err => {

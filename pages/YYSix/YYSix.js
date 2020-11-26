@@ -1,10 +1,13 @@
 const AppData = getApp().globalData;
 const DeviceFunction = require('../../utils/BLE/deviceFuntion')
-import Dialog from 'vant-weapp/dialog/dialog';
+const Utils = require('../../utils/util');
+import BleReconnect from '../../utils/BLE/bleReconnect'
+const GetDeviceInfo = require('../../utils/BLE/getDeviceInfo');
 
 
 Page({
     data: {
+        bodyHeight: 0,
         // 滚动相关
         scrollArrTiming: {
             '10': 310,
@@ -19,12 +22,12 @@ Page({
             '2': 70,
             '3': 0
         },
-        kneadScrollNum: 0,
-        bodyHeight: 0,
-        temperature: 0,
+        prop: 0,
+        // 设备属性相关
         power: false,
+        temperature: 0,
         kneadModel: 0,
-        kneadDegree: 0, // 按摩登记
+        kneadDegree: 0, // 按摩等级
         tempList: [10, 20, 30, 40, 50, 60], // 温度列表
         tempTiming: 0, // 温度定时
         tempPower: false, // 加热开关
@@ -32,6 +35,7 @@ Page({
     },
 
     onLoad: function (options) {
+        AppData.rateScreen = false;
         let objD = Object.assign({}, this.data.scrollArrDegree),
             objTi = Object.assign({}, this.data.scrollArrTiming)
         for (let i in objD) {
@@ -49,54 +53,32 @@ Page({
     },
 
     onShow: function () {
-        this.handleGetValue();
+        let that = this;
+        if (!AppData.rateScreen) { // 息屏返回
+            this.handleGetValue();
+            this.handleDealBleBroke()
+        } else {
+            GetDeviceInfo.getDeviceInfo(AppData.connectingDeviceId, function (res) {
+                if (res) {
+                    that.handleGetValue();
+                    that.handleDealBleBroke()
+                }
+            })
+        }
     },
 
     handleGetValue() {
         this.setData({
             temperature: AppData.temperature,
-            tempTiming: AppData.tempTiming,
+            tempTiming: AppData.tempTiming.toString(),
             tempPower: AppData.tempTiming === 0 ? false : true,
             kneadModel: AppData.kneadDirection,
             kneadDegree: AppData.kneadDegree,
-            power: AppData.timing == 0 ? false : true,
+            power: (AppData.kneadDirection > 0 || AppData.tempTiming > 0) ? true : false
         }, () => {
             this.handleNotify()
         })
     },
-
-    // 拖拽加热定时控件
-    handleTouchEndTime: function (e) {
-        // 37 97 157 217 277 337
-        let num = e.changedTouches[0].clientX,
-            that = this,
-            tempTiming = 0;
-        if (num > 307) {
-            tempTiming = 60
-        } else if (num <= 307 && num > 247) {
-            tempTiming = 50
-        } else if (num <= 247 && num > 187) {
-            tempTiming = 40
-        } else if (num <= 187 && num > 127) {
-            tempTiming = 30
-        } else if (num <= 127 && num > 67) {
-            tempTiming = 20
-        } else if (num <= 67) {
-            tempTiming = 10
-        }
-        DeviceFunction.handleTemperature(AppData.connectingDeviceId, that.data.temperature, tempTiming).then(() => {
-            that.setData({
-                tempTiming: tempTiming
-            }, () => {
-                wx.hideLoading();
-                wx.showToast({
-                    title: '控制成功',
-                    mask: false
-                })
-            })
-        })
-    },
-
     // 拖拽揉捏控件
     handleTouchEndKnead: function (e) {
         let num = e.changedTouches[0].clientX,
@@ -117,7 +99,6 @@ Page({
     // 揉捏方向
     handleKneadModel: function () {
         let value = this.data.kneadModel == 1 ? 2 : this.data.kneadModel == 2 ? 3 : this.data.kneadModel == 3 ? 0 : 1;
-        console.log()
         if (value == 0) {
             this.handleKnead(0, 0)
         } else {
@@ -131,7 +112,6 @@ Page({
 
     // 揉捏力度
     handleKneadDegree: function (degree) {
-        console.log(degree);
         let value = this.data.kneadDegree;
         if (this.data.kneadModel == 0) {
             this.setData({
@@ -165,7 +145,7 @@ Page({
             wx.showLoading({
                 title: '控制中',
             })
-            DeviceFunction.handleKnead(AppData.connectingDeviceId, kneadModel, kneadDegree).then(() => {
+            DeviceFunction.handleKnead(AppData.connectingDeviceId, kneadModel, kneadDegree, 15).then(() => {
                 that.setData({
                     kneadModel: kneadModel,
                     kneadDegree: kneadDegree
@@ -196,28 +176,15 @@ Page({
         })
         let that = this;
         if (this.data.power) {
-            DeviceFunction.handleTimer(AppData.connectingDeviceId, 0).then(() => {
-                that.setData({
-                    timing: 0,
-                    power: false,
-                    kneadModel: 0,
-                    kneadDegree: 0,
-                }, () => {
-                    wx.hideLoading();
-                    wx.showToast({
-                        title: '控制成功',
-                        icon: 'none'
-                    })
-                })
-            })
-        } else {
-            DeviceFunction.handleTimer(AppData.connectingDeviceId, 30).then(() => {
-                DeviceFunction.handleKnead(AppData.connectingDeviceId, 3, 1).then(() => {
+            DeviceFunction.handleKnead(AppData.connectingDeviceId, 0, 0).then(() => {
+                DeviceFunction.handleTemperature(AppData.connectingDeviceId, 0, 0).then(() => {
                     that.setData({
-                        timing: 30,
-                        power: true,
-                        kneadModel: 3,
-                        kneadDegree: 1,
+                        power: false,
+                        temperature: 0,
+                        tempTiming: 0,
+                        tempPower: false,
+                        kneadModel: 0,
+                        kneadDegree: 0,
                     }, () => {
                         wx.hideLoading();
                         wx.showToast({
@@ -227,42 +194,80 @@ Page({
                     })
                 })
             })
+        } else {
+            DeviceFunction.handleKnead(AppData.connectingDeviceId, 3, 1, 15).then(() => {
+                that.setData({
+                    power: true,
+                    kneadModel: 3,
+                    kneadDegree: 1,
+                }, () => {
+                    wx.hideLoading();
+                    wx.showToast({
+                        title: '控制成功',
+                        mask: false
+                    })
+                })
+            })
         }
     },
 
-
-
     // ———————————— 设备控制-加热 ————————————
+
+    // 拖拽加热定时控件
+    handleTouchEndTime: function (e) {
+        let num = e.currentTarget.dataset.time,
+            that = this;
+        let temp = that.data.temperature,
+            value = temp == 40 ? 40 : temp == 45 ? 50 : temp == 50 ? 60 : temp == 55 ? 80 : 100;
+        DeviceFunction.handleTemperature(AppData.connectingDeviceId, value, num).then(() => {
+            that.setData({
+                tempTiming: num
+            }, () => {
+                wx.hideLoading();
+                wx.showToast({
+                    title: '控制成功',
+                    mask: false
+                })
+            })
+        })
+    },
 
     // 开启加热
     handleStartTemp: function () {
         let that = this;
-        if (!this.data.tempPower) {
-            DeviceFunction.handleTemperature(AppData.connectingDeviceId, 60, 30).then(res => {
-                wx.hideLoading()
-                that.setData({
-                    tempPower: true,
-                    tempTiming: 30,
-                    temperature: 60
-                }, () => {
-                    wx.showToast({
-                        title: '开启成功',
-                    })
-                })
-            });
+        if (!this.data.power) {
+            wx.showToast({
+                title: '设备未开启',
+                icon: 'none'
+            })
         } else {
-            DeviceFunction.handleTemperature(AppData.connectingDeviceId, 0, 0).then(res => {
-                wx.hideLoading()
-                that.setData({
-                    tempPower: false,
-                    tempTiming: 0,
-                    temperature: 0
-                }, () => {
-                    wx.showToast({
-                        title: '关闭成功',
+            if (!this.data.tempPower) {
+                DeviceFunction.handleTemperature(AppData.connectingDeviceId, 60, 30).then(res => {
+                    wx.hideLoading()
+                    that.setData({
+                        tempPower: true,
+                        tempTiming: 30,
+                        temperature: 50
+                    }, () => {
+                        wx.showToast({
+                            title: '开启成功',
+                        })
                     })
-                })
-            });
+                });
+            } else {
+                DeviceFunction.handleTemperature(AppData.connectingDeviceId, 0, 0).then(res => {
+                    wx.hideLoading()
+                    that.setData({
+                        tempPower: false,
+                        tempTiming: 0,
+                        temperature: 0
+                    }, () => {
+                        wx.showToast({
+                            title: '关闭成功',
+                        })
+                    })
+                });
+            }
         }
     },
 
@@ -280,7 +285,8 @@ Page({
                 let value = temp == 40 ? 40 : temp == 45 ? 50 : temp == 50 ? 60 : temp == 55 ? 80 : 100;
                 DeviceFunction.handleTemperature(AppData.connectingDeviceId, value, that.data.tempTiming).then(() => {
                     that.setData({
-                        temperature: temp
+                        temperature: temp,
+                        tempTiming: that.data.tempTiming
                     }, () => {
                         wx.hideLoading();
                         wx.showToast({
@@ -299,22 +305,24 @@ Page({
     },
 
     // ———————————— 监听数据 ————————————
+
     handleNotify: function () {
         let that = this;
         wx.onBLECharacteristicValueChange((result) => {
             that.handleDealNotify(result);
         })
-        wx.notifyBLECharacteristicValueChange({
+        wx.notifyBLECharacteristicValueChange({ // 监听温控
             deviceId: AppData.connectingDeviceId,
             serviceId: AppData.services.temp[0],
             characteristicId: AppData.services.temp[1],
             state: true,
             success: () => {
-                wx.notifyBLECharacteristicValueChange({
+                wx.notifyBLECharacteristicValueChange({ // 监听揉捏
                     deviceId: AppData.connectingDeviceId,
                     serviceId: AppData.services.knead[0],
                     characteristicId: AppData.services.knead[1],
                     state: true,
+                    success: () => {},
                 })
             },
         })
@@ -322,26 +330,62 @@ Page({
 
     handleDealNotify: function (result) {
         let value = Utils.ab2hex(result.value);
-        if (charId == AppData.services.temp[1]) {
+        if (result.characteristicId == AppData.services.temp[1]) {
             let timeA = value.substring(4, 6),
                 timeB = value.substring(2, 4),
                 temp = value.substring(0, 2);
+            let tempFlagList = {
+                '0': 0,
+                '40': 40,
+                '50': 45,
+                '60': 50,
+                '80': 55,
+                '100': 60,
+            }
+            console.log('收到设备温度变化', parseInt('0x' + temp), parseInt('0x' + timeA + timeB))
             this.setData({
-                temperature: temp,
-                tempTiming: parseInt('0x' + timeA + timeB)
-            })
+                temperature: tempFlagList[parseInt('0x' + temp).toString()],
+                tempTiming: parseInt('0x' + timeA + timeB).toString(),
+                tempPower: parseInt('0x' + timeA + timeB) > 0 ? true : false,
+                power: this.data.kneadModel > 0 || parseInt('0x' + timeA + timeB) > 0 ? true : false
+            });
         }
-        if (charId == AppData.services.knead[1]) {
+        if (result.characteristicId == AppData.services.knead[1]) {
             let direction = Number(value.substring(0, 2)),
                 degree = Number(value.substring(2, 4));
+            console.log('收到设备揉捏变化', direction, degree)
             this.setData({
                 kneadModel: direction,
-                kneadModel: degree
+                kneadDegree: degree,
+                power: direction > 0 || this.data.tempTiming > 0 ? true : false
             })
         }
     },
 
     // —————————————— 其他 ———————————————
+
+    // 断开连接处理
+    handleDealBleBroke: function () {
+        let that = this;
+        AppData.bleWatchingFun = () => {
+            wx.showModal({
+                content: '与蓝牙设备连接异常',
+                cancelText: '返回首页',
+                confirmText: '重新连接',
+                success: res => {
+                    if (res.confirm) {
+                        BleReconnect.reConnect(AppData.connectingDeviceId, () => {
+                            that.handleGetValue()
+                        })
+                    } else {
+                        wx.reLaunch({
+                            url: '../index/index',
+                        })
+                    }
+                }
+            })
+        };
+    },
 
     // 前往介绍
     goInroduce: function () {

@@ -22,7 +22,14 @@ const handleConnect = function (deviceId) {
 			time: 1500,
 			success: function (res) {
 				AppData.connectingDeviceId = deviceId;
-				GetServices.getServices(function(){
+				wx.onBLEConnectionStateChange((result) => {
+					AppData.isConnecting = result.connected;
+					if (!result.connected) {
+						console.log('蓝牙连接断开');
+						AppData.bleWatchingFun();
+					}
+				});
+				GetServices.getServices(function () {
 					resolve(deviceId)
 				})
 			},

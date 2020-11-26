@@ -1,5 +1,6 @@
 const AppData = getApp().globalData;
 const DeviceFunction = require('../../utils/BLE/deviceFuntion');
+import BleReconnect from '../../utils/BLE/bleReconnect'
 
 Page({
     data: {
@@ -22,6 +23,7 @@ Page({
 
     onShow: function () {
         this.handleGetValue()
+        this.handleDealBleBroke();
     },
 
     handleGetValue() {
@@ -163,5 +165,26 @@ Page({
                 icon: 'none',
             })
         });
+    },
+
+    // 断开连接处理
+    handleDealBleBroke: function () {
+        let that = this;
+        AppData.bleWatchingFun = () => {
+            wx.showModal({
+                content: '与蓝牙设备连接异常',
+                cancelText: '返回首页',
+                confirmText: '重新连接',
+                success: res => {
+                    if (res.confirm) {
+                        BleReconnect.reConnect(AppData.connectingDeviceId, () => {})
+                    } else {
+                        wx.reLaunch({
+                            url: '../index/index',
+                        })
+                    }
+                }
+            })
+        };
     },
 })
