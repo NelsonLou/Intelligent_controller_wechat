@@ -80,12 +80,12 @@
                     <view class="boll"></view>
                     <image wx:if="{{tempTiming==40}}" class="bollTemp" src="../../assets/yy06_timing.png"></image>
                 </view>
-                <view class='timerItem left marginleft' data-time="50">
+                <view class='timerItem left marginleft' data-time="50" bindtap="handleTouchEndTime">
                     <text style="opacity: {{tempTiming==50?1:0.5}}">50</text>
                     <view class="boll"></view>
                     <image wx:if="{{tempTiming==50}}" class="bollTemp" src="../../assets/yy06_timing.png"></image>
                 </view>
-                <view class='timerItem left marginleft' data-time="60">
+                <view class='timerItem left marginleft' data-time="60" bindtap="handleTouchEndTime">
                     <text style="opacity: {{tempTiming==60?1:0.5}}">60</text>
                     <view class="boll"></view>
                     <image wx:if="{{tempTiming==60}}" class="bollTemp" src="../../assets/yy06_timing.png"></image>
