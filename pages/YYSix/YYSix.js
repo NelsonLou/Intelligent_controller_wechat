@@ -45,8 +45,8 @@ Page({
             objTi[i] = objTi[i] / AppData.widthProp;
         }
         this.setData({
-            // bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
-            bodyHeight: AppData.windowHeight,
+            bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight - 12,
+            // bodyHeight: AppData.windowHeight,
             scrollArrTiming: objTi,
             scrollArrDegree: objD,
         })
@@ -66,6 +66,11 @@ Page({
             })
         }
     },
+    onUnload: function (params) {
+        AppData.bleWatchingFun = () => {
+            console.log('连接状态修改')
+        };
+    },
 
     handleGetValue() {
         this.setData({
@@ -79,18 +84,17 @@ Page({
             this.handleNotify()
         })
     },
+
     // 拖拽揉捏控件
     handleTouchEndKnead: function (e) {
-        let num = e.changedTouches[0].clientX,
-            degree = 0;
-        // 206 276 346 
-        if (num <= 241) {
-            degree = 1
-        } else if (num > 241 && num <= 311) {
-            degree = 2
-        } else if (num > 311) {
-            degree = 3
-        }
+        let degree = e.detail == 0 ? 1 :
+            e.detail == 50 ? 2 : 3;
+        this.handleKneadDegree(degree)
+    },
+
+    // 点击力度
+    handleTouchKnead: function (e) {
+        let degree = Number(e.currentTarget.dataset.degree)
         this.handleKneadDegree(degree)
     },
 
@@ -213,9 +217,8 @@ Page({
 
     // ———————————— 设备控制-加热 ————————————
 
-    // 拖拽加热定时控件
-    handleTouchEndTime: function (e) {
-        let num = e.currentTarget.dataset.time,
+    handleSliderTiming: function (e) {
+        let num = e.detail == 0 ? 10 : e.detail == 20 ? 20 : e.detail == 40 ? 30 : e.detail == 60 ? 40 : e.detail == 80 ? 50 : 60,
             that = this;
         let temp = that.data.temperature,
             value = temp == 40 ? 40 : temp == 45 ? 50 : temp == 50 ? 60 : temp == 55 ? 80 : 100;
@@ -230,6 +233,31 @@ Page({
                 })
             })
         })
+    },
+
+    // 点击加热定时控件
+    handleTouchEndTime: function (e) {
+        if (this.data.tempPower) {
+            let num = e.currentTarget.dataset.time,
+                that = this;
+            let temp = that.data.temperature,
+                value = temp == 40 ? 40 : temp == 45 ? 50 : temp == 50 ? 60 : temp == 55 ? 80 : 100;
+            DeviceFunction.handleTemperature(AppData.connectingDeviceId, value, num).then(() => {
+                that.setData({
+                    tempTiming: num
+                }, () => {
+                    wx.hideLoading();
+                    wx.showToast({
+                        title: '控制成功'
+                    })
+                })
+            })
+        } else {
+            wx.showToast({
+                icon: 'none',
+                title: '温控未开启',
+            })
+        }
     },
 
     // 开启加热

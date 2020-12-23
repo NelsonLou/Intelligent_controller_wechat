@@ -23,13 +23,14 @@ Page({
     onLoad: function () {
         this.setData({
             bodyHeight: AppData.windowHeight - AppData.menuButtonTop - AppData.menuBtnHeight,
-            historyList: AppData.historyList || []
+            historyList: wx.getStorageSync('historyList') || []
         }, () => {
             AppData.services = BleTools.serviceList;
         })
     },
 
     onShow: function () {
+        wx.hideLoading();
         if (AppData.connectingDeviceId) {
             wx.closeBLEConnection({
                 deviceId: AppData.connectingDeviceId,
@@ -160,7 +161,6 @@ Page({
         let reference = flag == 1 ? this.data.productType : 'YouYuan',
             list = Object.assign([], this.data.deviceList),
             count = true;
-        console.log('已经搜索到的符合的设备', list);
         for (let item in list) {
             if (list[item].name == reference) {
                 count = false
@@ -206,8 +206,9 @@ Page({
     handleSaveHistory: function (device) {
         let obj = Object.assign({}, device),
             list = Object.assign([], this.data.historyList) || [];
-        obj.connectDate = this.getDateNow()
-        list.push(obj)
+        obj.connectDate = this.getDateNow();
+        obj.productType = this.data.productType;
+        list.unshift(obj);
         this.setData({
             historyList: list
         }, () => {
@@ -319,11 +320,36 @@ Page({
     // 连接历史记录中的设备
     handleConnectHistory: function (e) {
         let device = this.data.historyList[e.currentTarget.dataset.idx],
-            list = [device];
+            that = this;
         this.setData({
             productType: device.productType
         }, () => {
-            this.handleConnect(device)
+            wx.closeBluetoothAdapter({
+                fail(err) {
+                    console.log('关闭蓝牙适配器异常', err)
+                },
+                complete() {
+                    wx.openBluetoothAdapter({ // 检测当前是否已经处于蓝牙匹配
+                        success: function (res) {
+                            wx.getBluetoothAdapterState({
+                                success: function (res) {
+                                    if (res.available) {
+                                        that.handleConnect(device)
+                                    } else {
+                                        that.BleError()
+                                    }
+                                },
+                                fail(err) {
+                                    that.BleError()
+                                }
+                            })
+                        },
+                        fail: function (err) {
+                            that.BleError()
+                        }
+                    })
+                }
+            })
         })
     },
 

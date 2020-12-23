@@ -18,6 +18,7 @@
         "van-popup": "vant-weapp/popup",
         "van-picker": "vant-weapp/picker",
         "van-icon": "vant-weapp/icon",
+        "van-slider": "vant-weapp/slider",
         "navBar": "./components/navBar/navBar"
     },
     "window": {
