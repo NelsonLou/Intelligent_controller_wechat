@@ -325,7 +325,7 @@ Page({
         }
     },
 
-    handleSwichPower: function (e) {
+    handleSwichPower: function () {
         wx.showLoading({
             title: '控制中',
         })
